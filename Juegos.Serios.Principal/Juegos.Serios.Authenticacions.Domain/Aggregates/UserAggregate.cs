@@ -11,11 +11,10 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System;
-using System.Collections.Generic;
+
 using Dawn;
 using Juegos.Serios.Authenticacions.Domain.Entities;
-
+using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 namespace Juegos.Serios.Authenticacions.Domain.Aggregates;
 
 public class UserAggregate
@@ -38,7 +37,7 @@ public class UserAggregate
 
     // Propiedades de navegación
     public virtual DocumentType DocumentType { get; set; }
-    public virtual Role Role { get; set; }
+    public virtual RolEntity Role { get; set; }
     public virtual UserAggregate CreatedByUser { get; set; }
     public virtual UserAggregate UpdatedByUser { get; set; }
     public virtual ICollection<SessionLog> SessionLogs { get; set; }

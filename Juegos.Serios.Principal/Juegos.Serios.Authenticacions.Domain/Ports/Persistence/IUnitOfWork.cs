@@ -1,25 +1,24 @@
 ﻿// ***********************************************************************
 // Assembly         : Juegos.Serios.Authenticacions.Domain
 // Author           : diego diaz
-// Created          : 16-04-2024
+// Created          : 17-04-2024
 //
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="DocumentType.cs" company="Universidad Javeriana">
+// <copyright file="IUnitOfWork.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
-using Juegos.Serios.Authenticacions.Domain.Aggregates;
-using Juegos.Serios.Authenticacions.Domain.Common;
-
-public partial class DocumentType : BaseDomainModel
-{
-    public int DocumentTypeId { get; set; }
-
-    public string TypeName { get; set; } = null!;
-
-    public virtual ICollection<UserAggregate> Users { get; set; } = new List<UserAggregate>();
+namespace Juegos.Serios.Authenticacions.Domain.Ports.Persistence
+{ 
+    using Juegos.Serios.Authenticacions.Domain.Common;
+    using System;
+    public interface IUnitOfWork : IDisposable
+    {        
+        IAsyncRepository<TEntity> Repository<TEntity>() where TEntity : BaseDomainModel;
+        Task<int> Complete();
+    }
 }

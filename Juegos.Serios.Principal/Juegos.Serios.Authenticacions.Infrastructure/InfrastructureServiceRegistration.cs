@@ -1,0 +1,37 @@
+﻿// ***********************************************************************
+// Assembly         : Juegos.Serios.Authenticacions.Infrasturcture
+// Author           : diego diaz
+// Created          : 17-04-2024
+//
+// Last Modified By : 
+// Last Modified On : 
+// ***********************************************************************
+// <copyright file="InfrastructureServiceRegistration.cs" company="Universidad Javeriana">
+//     Copyright (c) Universidad Javeriana All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
+namespace Juegos.Serios.Authenticacions.Infrastructure;
+
+using Juegos.Serios.Authenticacions.Domain.Ports.Persistence;
+using Juegos.Serios.Authenticacions.Infrastructure.Persistence;
+using Juegos.Serios.Authenticacions.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+public static class InfrastructureServiceRegistration
+{
+    public static IServiceCollection AddInfrastuctureServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<BdSqlAuthenticationContext>(options =>
+         options.UseSqlServer(configuration.GetConnectionString("DefaultSqlDbConnection"))
+         );
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
+        return services;
+
+    }
+}
+

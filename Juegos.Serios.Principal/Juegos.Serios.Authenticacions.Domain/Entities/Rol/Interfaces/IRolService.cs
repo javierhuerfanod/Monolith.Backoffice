@@ -6,20 +6,19 @@
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="DocumentType.cs" company="Universidad Javeriana">
+// <copyright file="IRoleFinder.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-
-using Juegos.Serios.Authenticacions.Domain.Aggregates;
-using Juegos.Serios.Authenticacions.Domain.Common;
-
-public partial class DocumentType : BaseDomainModel
+namespace Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces
 {
-    public int DocumentTypeId { get; set; }
+    public interface IRolService<T>
+    {
+        Task<List<T>> SelectAsync();
 
-    public string TypeName { get; set; } = null!;
+        public Task<T> GetById(int id);
 
-    public virtual ICollection<UserAggregate> Users { get; set; } = new List<UserAggregate>();
+        public Task<T> GetByName(string rolename);
+    }
 }

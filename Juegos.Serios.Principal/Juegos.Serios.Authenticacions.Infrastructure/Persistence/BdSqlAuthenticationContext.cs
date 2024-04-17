@@ -1,5 +1,5 @@
 ﻿// ***********************************************************************
-// Assembly         : Juegos.Serios.Authenticacions.Domain
+// Assembly         : Juegos.Serios.Authenticacions.Infrasturcture
 // Author           : diego diaz
 // Created          : 16-04-2024
 //
@@ -12,18 +12,20 @@
 // <summary></summary>
 // ***********************************************************************
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
+using Juegos.Serios.Authenticacions.Domain.Common;
 using Juegos.Serios.Authenticacions.Domain.Entities;
+using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Microsoft.EntityFrameworkCore;
 
-namespace Juegos.Serios.Authenticacions.Infrastructure;
+namespace Juegos.Serios.Authenticacions.Infrastructure.Persistence;
 
-public partial class BdSqlJuegosSeriosContext : DbContext
+public partial class BdSqlAuthenticationContext : DbContext
 {
-    public BdSqlJuegosSeriosContext()
+    public BdSqlAuthenticationContext()
     {
     }
 
-    public BdSqlJuegosSeriosContext(DbContextOptions<BdSqlJuegosSeriosContext> options)
+    public BdSqlAuthenticationContext(DbContextOptions<BdSqlAuthenticationContext> options)
         : base(options)
     {
     }
@@ -32,16 +34,31 @@ public partial class BdSqlJuegosSeriosContext : DbContext
 
     public virtual DbSet<PasswordRecovery> PasswordRecoveries { get; set; }
 
-    public virtual DbSet<Role> Roles { get; set; }
+    public virtual DbSet<RolEntity> Roles { get; set; }
 
     public virtual DbSet<SessionLog> SessionLogs { get; set; }
 
     public virtual DbSet<UserAggregate> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=tcp:serversqljuegosserios.database.windows.net,1433;Initial Catalog=BD-Sql-Juegos-Serios;Persist Security Info=False;User ID=su;Password=Colombia123*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        foreach (var entry in ChangeTracker.Entries<BaseDomainModel>())
+        {
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    entry.Entity.CreatedAt = DateTime.UtcNow;
+                    entry.Entity.CreatedBy = 3;
+                    break;
 
+                case EntityState.Modified:
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                    entry.Entity.UpdatedBy = 3;
+                    break;
+            }
+        }
+        return base.SaveChangesAsync(cancellationToken);
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<DocumentType>(entity =>
@@ -81,7 +98,7 @@ public partial class BdSqlJuegosSeriosContext : DbContext
             entity.Property(e => e.UserId).HasColumnName("UserID");
         });
 
-        modelBuilder.Entity<Role>(entity =>
+        modelBuilder.Entity<RolEntity>(entity =>
         {
             entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A1A328D66");
 

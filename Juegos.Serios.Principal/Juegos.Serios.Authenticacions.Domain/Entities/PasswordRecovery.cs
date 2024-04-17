@@ -13,10 +13,11 @@
 // ***********************************************************************
 
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
+using Juegos.Serios.Authenticacions.Domain.Common;
 
 namespace Juegos.Serios.Authenticacions.Domain.Entities;
 
-public partial class PasswordRecovery
+public partial class PasswordRecovery : BaseDomainModel
 {
     public int RecoveryId { get; set; }
 
@@ -25,14 +26,6 @@ public partial class PasswordRecovery
     public byte[] RecoveryPassword { get; set; } = null!;
 
     public DateTime RecoveryPasswordExpiration { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdatedAt { get; set; }
-
-    public int? CreatedBy { get; set; }
-
-    public int? UpdatedBy { get; set; }
 
     public virtual UserAggregate? CreatedByNavigation { get; set; }
 
