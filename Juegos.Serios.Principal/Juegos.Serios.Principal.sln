@@ -1,0 +1,97 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Principal", "Juegos.Serios.Principal\Juegos.Serios.Principal.csproj", "{A0D206CA-67FA-47BB-AA95-90F63185B94A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juegos.Serios.Notifications", "Juegos.Serios.Notifications", "{6F0B0DB2-BB32-4119-B901-00C64F48B40B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juegos.Serios.Authentications", "Juegos.Serios.Authentications", "{107EFFA6-E7A0-40CB-A180-6C258123AF16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juegos.Serios.Shared", "Juegos.Serios.Shared", "{A43A662C-2500-458A-ACFC-E28FB8561D05}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Authentications.Api", "Juegos.Serios.Authentications.Api\Juegos.Serios.Authentications.Api.csproj", "{16B4C3DE-8E08-4BD2-B333-DA181DBD4479}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Notifications.Api", "Juegos.Serios.Notifications\Juegos.Serios.Notifications.Api.csproj", "{250B5303-C80B-4B46-99C1-BEE7BA41696D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Authenticacions.Domain", "Juegos.Serios.Authenticacions.Domain\Juegos.Serios.Authenticacions.Domain.csproj", "{C8D314B4-AB6D-4C7E-95F1-9AD45A441E17}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Authenticacions.Application", "Juegos.Serios.Authenticacions.Application\Juegos.Serios.Authenticacions.Application.csproj", "{6B22DC24-A6FB-42A8-87A6-445DA836B372}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Authenticacions.Infrastructure", "Juegos.Serios.Authenticacions.Infrastructure\Juegos.Serios.Authenticacions.Infrastructure.csproj", "{56CE821D-FC33-487A-A6E4-3AFB49E71A25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Notifications.Application", "Juegos.Serios.Notifications.Application\Juegos.Serios.Notifications.Application.csproj", "{366E419B-BE85-47F3-9E69-B0EBCDAD7DB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Notifications.Domain", "Juegos.Serios.Notifications.Domain\Juegos.Serios.Notifications.Domain.csproj", "{5EEA64B5-B9FF-477B-9899-C16A2ACACD02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Notifications.Infrastructure", "Juegos.Serios.Notifications.Infrastructure\Juegos.Serios.Notifications.Infrastructure.csproj", "{D5C6FB30-B24A-4726-9A93-B5284C4EC928}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BD3923E0-02BC-498F-997D-8BE7CF8E4736}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juegos.Serios.Authentications.Tests", "Juegos.Serios.Authentications.Tests", "{9191DDF5-D048-4E8C-A5D9-B30CCB528A1C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juegos.Serios.Notifications.Tests", "Juegos.Serios.Notifications.Tests", "{EF4F21D5-6D4F-445D-92BF-A44AB38977B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0D206CA-67FA-47BB-AA95-90F63185B94A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0D206CA-67FA-47BB-AA95-90F63185B94A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0D206CA-67FA-47BB-AA95-90F63185B94A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0D206CA-67FA-47BB-AA95-90F63185B94A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16B4C3DE-8E08-4BD2-B333-DA181DBD4479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B4C3DE-8E08-4BD2-B333-DA181DBD4479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B4C3DE-8E08-4BD2-B333-DA181DBD4479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B4C3DE-8E08-4BD2-B333-DA181DBD4479}.Release|Any CPU.Build.0 = Release|Any CPU
+		{250B5303-C80B-4B46-99C1-BEE7BA41696D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{250B5303-C80B-4B46-99C1-BEE7BA41696D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{250B5303-C80B-4B46-99C1-BEE7BA41696D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{250B5303-C80B-4B46-99C1-BEE7BA41696D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8D314B4-AB6D-4C7E-95F1-9AD45A441E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8D314B4-AB6D-4C7E-95F1-9AD45A441E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8D314B4-AB6D-4C7E-95F1-9AD45A441E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8D314B4-AB6D-4C7E-95F1-9AD45A441E17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B22DC24-A6FB-42A8-87A6-445DA836B372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B22DC24-A6FB-42A8-87A6-445DA836B372}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B22DC24-A6FB-42A8-87A6-445DA836B372}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B22DC24-A6FB-42A8-87A6-445DA836B372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56CE821D-FC33-487A-A6E4-3AFB49E71A25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56CE821D-FC33-487A-A6E4-3AFB49E71A25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56CE821D-FC33-487A-A6E4-3AFB49E71A25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56CE821D-FC33-487A-A6E4-3AFB49E71A25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{366E419B-BE85-47F3-9E69-B0EBCDAD7DB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{366E419B-BE85-47F3-9E69-B0EBCDAD7DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{366E419B-BE85-47F3-9E69-B0EBCDAD7DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{366E419B-BE85-47F3-9E69-B0EBCDAD7DB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EEA64B5-B9FF-477B-9899-C16A2ACACD02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EEA64B5-B9FF-477B-9899-C16A2ACACD02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EEA64B5-B9FF-477B-9899-C16A2ACACD02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EEA64B5-B9FF-477B-9899-C16A2ACACD02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5C6FB30-B24A-4726-9A93-B5284C4EC928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5C6FB30-B24A-4726-9A93-B5284C4EC928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5C6FB30-B24A-4726-9A93-B5284C4EC928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5C6FB30-B24A-4726-9A93-B5284C4EC928}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{16B4C3DE-8E08-4BD2-B333-DA181DBD4479} = {107EFFA6-E7A0-40CB-A180-6C258123AF16}
+		{250B5303-C80B-4B46-99C1-BEE7BA41696D} = {6F0B0DB2-BB32-4119-B901-00C64F48B40B}
+		{C8D314B4-AB6D-4C7E-95F1-9AD45A441E17} = {107EFFA6-E7A0-40CB-A180-6C258123AF16}
+		{6B22DC24-A6FB-42A8-87A6-445DA836B372} = {107EFFA6-E7A0-40CB-A180-6C258123AF16}
+		{56CE821D-FC33-487A-A6E4-3AFB49E71A25} = {107EFFA6-E7A0-40CB-A180-6C258123AF16}
+		{366E419B-BE85-47F3-9E69-B0EBCDAD7DB0} = {6F0B0DB2-BB32-4119-B901-00C64F48B40B}
+		{5EEA64B5-B9FF-477B-9899-C16A2ACACD02} = {6F0B0DB2-BB32-4119-B901-00C64F48B40B}
+		{D5C6FB30-B24A-4726-9A93-B5284C4EC928} = {6F0B0DB2-BB32-4119-B901-00C64F48B40B}
+		{9191DDF5-D048-4E8C-A5D9-B30CCB528A1C} = {BD3923E0-02BC-498F-997D-8BE7CF8E4736}
+		{EF4F21D5-6D4F-445D-92BF-A44AB38977B7} = {BD3923E0-02BC-498F-997D-8BE7CF8E4736}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {112391B1-D8D7-4940-AD6D-DE1E7A2FE530}
+	EndGlobalSection
+EndGlobal

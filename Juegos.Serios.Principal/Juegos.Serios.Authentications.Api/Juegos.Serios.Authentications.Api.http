@@ -1,0 +1,6 @@
+@Juegos.Serios.Authentications.Api_HostAddress = http://localhost:5195
+
+GET {{Juegos.Serios.Authentications.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
