@@ -21,17 +21,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Authenticacio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Authenticacions.Infrastructure", "Juegos.Serios.Authenticacions.Infrastructure\Juegos.Serios.Authenticacions.Infrastructure.csproj", "{56CE821D-FC33-487A-A6E4-3AFB49E71A25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Notifications.Application", "Juegos.Serios.Notifications.Application\Juegos.Serios.Notifications.Application.csproj", "{366E419B-BE85-47F3-9E69-B0EBCDAD7DB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Notifications.Application", "Juegos.Serios.Notifications.Application\Juegos.Serios.Notifications.Application.csproj", "{366E419B-BE85-47F3-9E69-B0EBCDAD7DB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Notifications.Domain", "Juegos.Serios.Notifications.Domain\Juegos.Serios.Notifications.Domain.csproj", "{5EEA64B5-B9FF-477B-9899-C16A2ACACD02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Notifications.Domain", "Juegos.Serios.Notifications.Domain\Juegos.Serios.Notifications.Domain.csproj", "{5EEA64B5-B9FF-477B-9899-C16A2ACACD02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Notifications.Infrastructure", "Juegos.Serios.Notifications.Infrastructure\Juegos.Serios.Notifications.Infrastructure.csproj", "{D5C6FB30-B24A-4726-9A93-B5284C4EC928}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Notifications.Infrastructure", "Juegos.Serios.Notifications.Infrastructure\Juegos.Serios.Notifications.Infrastructure.csproj", "{D5C6FB30-B24A-4726-9A93-B5284C4EC928}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BD3923E0-02BC-498F-997D-8BE7CF8E4736}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juegos.Serios.Authentications.Tests", "Juegos.Serios.Authentications.Tests", "{9191DDF5-D048-4E8C-A5D9-B30CCB528A1C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juegos.Serios.Notifications.Tests", "Juegos.Serios.Notifications.Tests", "{EF4F21D5-6D4F-445D-92BF-A44AB38977B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Shared.Domain", "Juegos.Serios.Domain\Juegos.Serios.Shared.Domain.csproj", "{EC68E691-F6E2-4238-A858-DC5216EF7012}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Shared.Application", "Juegos.Serios.Shared.Application\Juegos.Serios.Shared.Application.csproj", "{79E3228F-AD06-4D8D-978F-6EE5FE71B68C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Shared.RedisCache", "Juegos.Serios.RedisCache\Juegos.Serios.Shared.RedisCache.csproj", "{13B7B0AD-434C-4C4B-8747-C4542F2BC0BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Shared.AzureQueue", "Juegos.Serios.Shared.AzureQueue\Juegos.Serios.Shared.AzureQueue.csproj", "{316A81DC-D84C-466F-9815-915EB22349B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +83,22 @@ Global
 		{D5C6FB30-B24A-4726-9A93-B5284C4EC928}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5C6FB30-B24A-4726-9A93-B5284C4EC928}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5C6FB30-B24A-4726-9A93-B5284C4EC928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC68E691-F6E2-4238-A858-DC5216EF7012}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC68E691-F6E2-4238-A858-DC5216EF7012}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC68E691-F6E2-4238-A858-DC5216EF7012}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC68E691-F6E2-4238-A858-DC5216EF7012}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79E3228F-AD06-4D8D-978F-6EE5FE71B68C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79E3228F-AD06-4D8D-978F-6EE5FE71B68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79E3228F-AD06-4D8D-978F-6EE5FE71B68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79E3228F-AD06-4D8D-978F-6EE5FE71B68C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13B7B0AD-434C-4C4B-8747-C4542F2BC0BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13B7B0AD-434C-4C4B-8747-C4542F2BC0BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13B7B0AD-434C-4C4B-8747-C4542F2BC0BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13B7B0AD-434C-4C4B-8747-C4542F2BC0BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{316A81DC-D84C-466F-9815-915EB22349B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{316A81DC-D84C-466F-9815-915EB22349B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{316A81DC-D84C-466F-9815-915EB22349B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{316A81DC-D84C-466F-9815-915EB22349B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +114,10 @@ Global
 		{D5C6FB30-B24A-4726-9A93-B5284C4EC928} = {6F0B0DB2-BB32-4119-B901-00C64F48B40B}
 		{9191DDF5-D048-4E8C-A5D9-B30CCB528A1C} = {BD3923E0-02BC-498F-997D-8BE7CF8E4736}
 		{EF4F21D5-6D4F-445D-92BF-A44AB38977B7} = {BD3923E0-02BC-498F-997D-8BE7CF8E4736}
+		{EC68E691-F6E2-4238-A858-DC5216EF7012} = {A43A662C-2500-458A-ACFC-E28FB8561D05}
+		{79E3228F-AD06-4D8D-978F-6EE5FE71B68C} = {A43A662C-2500-458A-ACFC-E28FB8561D05}
+		{13B7B0AD-434C-4C4B-8747-C4542F2BC0BA} = {A43A662C-2500-458A-ACFC-E28FB8561D05}
+		{316A81DC-D84C-466F-9815-915EB22349B8} = {A43A662C-2500-458A-ACFC-E28FB8561D05}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {112391B1-D8D7-4940-AD6D-DE1E7A2FE530}

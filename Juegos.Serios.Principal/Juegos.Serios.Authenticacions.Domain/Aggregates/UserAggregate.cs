@@ -15,6 +15,8 @@
 using Dawn;
 using Juegos.Serios.Authenticacions.Domain.Entities;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
+using System.Data;
+using System.Xml.Linq;
 namespace Juegos.Serios.Authenticacions.Domain.Aggregates;
 
 public class UserAggregate
@@ -36,12 +38,29 @@ public class UserAggregate
     private int _updatedBy;
 
     // Propiedades de navegación
-    public virtual DocumentType DocumentType { get; set; }
-    public virtual RolEntity Role { get; set; }
-    public virtual UserAggregate CreatedByUser { get; set; }
-    public virtual UserAggregate UpdatedByUser { get; set; }
-    public virtual ICollection<SessionLog> SessionLogs { get; set; }
-    public virtual ICollection<PasswordRecovery> PasswordRecoveries { get; set; }
+    public virtual UserAggregate? CreatedByNavigation { get; set; }
+
+    public virtual DocumentTypeEntity DocumentType { get; set; } = null!;
+
+    public virtual ICollection<UserAggregate> InverseCreatedByNavigation { get; set; } = new List<UserAggregate>();
+
+    public virtual ICollection<UserAggregate> InverseUpdatedByNavigation { get; set; } = new List<UserAggregate>();
+
+    public virtual ICollection<PasswordRecoveryEntity> PasswordRecoveryCreatedByNavigations { get; set; } = new List<PasswordRecoveryEntity>();
+
+    public virtual ICollection<PasswordRecoveryEntity> PasswordRecoveryUpdatedByNavigations { get; set; } = new List<PasswordRecoveryEntity>();
+
+    public virtual ICollection<PasswordRecoveryEntity> PasswordRecoveryUsers { get; set; } = new List<PasswordRecoveryEntity>();
+
+    public virtual RolEntity Rol { get; set; } = null!;
+
+    public virtual ICollection<SessionLogEntity> SessionLogCreatedByNavigations { get; set; } = new List<SessionLogEntity>();
+
+    public virtual ICollection<SessionLogEntity> SessionLogUpdatedByNavigations { get; set; } = new List<SessionLogEntity>();
+
+    public virtual ICollection<SessionLogEntity> SessionLogUsers { get; set; } = new List<SessionLogEntity>();
+
+    public virtual UserAggregate? UpdatedByNavigation { get; set; }
 
     public UserAggregate(int userId) => _userId = userId;
 

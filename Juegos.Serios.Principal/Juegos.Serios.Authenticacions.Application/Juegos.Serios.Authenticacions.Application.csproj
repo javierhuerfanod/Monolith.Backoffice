@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Juegos.Serios.Authenticacions.Domain\Juegos.Serios.Authenticacions.Domain.csproj" />
+    <ProjectReference Include="..\Juegos.Serios.RedisCache\Juegos.Serios.Shared.RedisCache.csproj" />
+    <ProjectReference Include="..\Juegos.Serios.Shared.Application\Juegos.Serios.Shared.Application.csproj" />
+    <ProjectReference Include="..\Juegos.Serios.Shared.AzureQueue\Juegos.Serios.Shared.AzureQueue.csproj" />
   </ItemGroup>
 
 </Project>

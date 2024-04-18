@@ -1,0 +1,27 @@
+﻿// ***********************************************************************
+// Assembly         : Juegos.Serios.Authenticacions.Application
+// Author           : diego diaz
+// Created          : 18-04-2024
+//
+// Last Modified By : 
+// Last Modified On : 
+// ***********************************************************************
+// <copyright file="MapperProfile.cs" company="Universidad Javeriana">
+//     Copyright (c) Universidad Javeriana All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace Aurora.Backend.Baseline.Application.Features.ConceptoBase.Commands
+{
+    using AutoMapper;
+    using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+    using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
+
+    public class MapperProfile : Profile
+    {
+        public MapperProfile()
+        {
+            CreateMap<RolEntity, RolDto>();
+        }
+    }
+}

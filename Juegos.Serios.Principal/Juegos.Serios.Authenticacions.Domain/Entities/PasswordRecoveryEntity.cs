@@ -6,7 +6,7 @@
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="DocumentType.cs" company="Universidad Javeriana">
+// <copyright file="PasswordRecovery.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
@@ -15,11 +15,22 @@
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Common;
 
-public partial class DocumentType : BaseDomainModel
+namespace Juegos.Serios.Authenticacions.Domain.Entities;
+
+public partial class PasswordRecoveryEntity : BaseDomainModel
 {
-    public int DocumentTypeId { get; set; }
+    public int RecoveryId { get; set; }
 
-    public string TypeName { get; set; } = null!;
+    public int UserId { get; set; }
 
-    public virtual ICollection<UserAggregate> Users { get; set; } = new List<UserAggregate>();
+    public byte[] RecoveryPassword { get; set; } = null!;
+
+    public DateTime RecoveryPasswordExpiration { get; set; }
+
+    public virtual UserAggregate? CreatedByNavigation { get; set; }
+
+    public virtual UserAggregate? UpdatedByNavigation { get; set; }
+
+    public virtual UserAggregate User { get; set; } = null!;
+
 }

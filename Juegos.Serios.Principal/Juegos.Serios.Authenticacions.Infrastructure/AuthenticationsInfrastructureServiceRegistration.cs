@@ -14,24 +14,26 @@
 
 namespace Juegos.Serios.Authenticacions.Infrastructure;
 
+using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Ports.Persistence;
 using Juegos.Serios.Authenticacions.Infrastructure.Persistence;
 using Juegos.Serios.Authenticacions.Infrastructure.Repositories;
+using Juegos.Serios.Authenticacions.Infrastructure.Repositories.Role;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-public static class InfrastructureServiceRegistration
+public static class AuthenticationsInfrastructureServiceRegistration
 {
-    public static IServiceCollection AddInfrastuctureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAuthenticationsInfrastuctureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<BdSqlAuthenticationContext>(options =>
-         options.UseSqlServer(configuration.GetConnectionString("DefaultSqlDbConnection"))
+         options.UseSqlServer(configuration.GetConnectionString("AuthenticationsSqlDbConnection"))
          );
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
+        services.AddScoped<IRolRepository, RoleRepository>(); 
         return services;
-
     }
 }
 

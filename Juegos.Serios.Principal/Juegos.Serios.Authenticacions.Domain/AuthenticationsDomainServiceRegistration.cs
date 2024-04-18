@@ -6,27 +6,25 @@
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="RoleRepository.cs" company="Universidad Javeriana">
+// <copyright file="InfrastructureServiceRegistration.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
+namespace Juegos.Serios.Authenticacions.Domain;
 
-using Juegos.Serios.Authenticacions.Application.Models.Dtos;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
-using Juegos.Serios.Authenticacions.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+using Juegos.Serios.Authenticacions.Domain.Services;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Juegos.Serios.Authenticacions.Infrastructure.Repositories.Role
+public static class AuthenticationsDomainServiceRegistration
 {
-
-    public class RoleRepository : RepositoryBase<RolEntity>, IRolRepository
+    public static IServiceCollection AddAuthenticationsDomainServices(this IServiceCollection services)
     {
-        public RoleRepository(BdSqlAuthenticationContext context) : base(context)
-        {
-
-        }    
+        services.AddScoped<IRolService<RolEntity>, RolService>();
+        return services;
     }
 }
+

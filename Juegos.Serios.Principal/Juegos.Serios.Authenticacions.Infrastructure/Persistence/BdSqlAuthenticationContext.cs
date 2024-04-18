@@ -30,13 +30,13 @@ public partial class BdSqlAuthenticationContext : DbContext
     {
     }
 
-    public virtual DbSet<DocumentType> DocumentTypes { get; set; }
+    public virtual DbSet<DocumentTypeEntity> DocumentTypes { get; set; }
 
-    public virtual DbSet<PasswordRecovery> PasswordRecoveries { get; set; }
+    public virtual DbSet<PasswordRecoveryEntity> PasswordRecoveries { get; set; }
 
     public virtual DbSet<RolEntity> Roles { get; set; }
 
-    public virtual DbSet<SessionLog> SessionLogs { get; set; }
+    public virtual DbSet<SessionLogEntity> SessionLogs { get; set; }
 
     public virtual DbSet<UserAggregate> Users { get; set; }
 
@@ -61,7 +61,7 @@ public partial class BdSqlAuthenticationContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<DocumentType>(entity =>
+        modelBuilder.Entity<DocumentTypeEntity>(entity =>
         {
             entity.HasKey(e => e.DocumentTypeId).HasName("PK__Document__DBA390C13F5FB552");
 
@@ -81,7 +81,7 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<PasswordRecovery>(entity =>
+        modelBuilder.Entity<PasswordRecoveryEntity>(entity =>
         {
             entity.HasKey(e => e.RecoveryId).HasName("PK__Password__EE4C844C3A185030");
 
@@ -96,6 +96,19 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PasswordRecoveryCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("FK__PasswordR__Creat__19DFD96B");
+
+            entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.PasswordRecoveryUpdatedByNavigations)
+                .HasForeignKey(d => d.UpdatedBy)
+                .HasConstraintName("FK__PasswordR__Updat__1AD3FDA4");
+
+            entity.HasOne(d => d.User).WithMany(p => p.PasswordRecoveryUsers)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__PasswordR__UserI__18EBB532");
         });
 
         modelBuilder.Entity<RolEntity>(entity =>
@@ -118,7 +131,7 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<SessionLog>(entity =>
+        modelBuilder.Entity<SessionLogEntity>(entity =>
         {
             entity.HasKey(e => e.LogId).HasName("PK__SessionL__5E5499A88726928B");
 
@@ -128,6 +141,9 @@ public partial class BdSqlAuthenticationContext : DbContext
             entity.Property(e => e.Action)
                 .HasMaxLength(10)
                 .IsUnicode(false);
+            entity.Property(e => e.CreatedAt)
+                 .HasDefaultValueSql("(getdate())")
+                 .HasColumnType("datetime");
             entity.Property(e => e.Ipaddress)
                 .HasMaxLength(15)
                 .IsUnicode(false)
@@ -135,9 +151,23 @@ public partial class BdSqlAuthenticationContext : DbContext
             entity.Property(e => e.Timestamp)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.SessionLogCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("FK_SessionLogs_CreatedBy");
 
+            entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.SessionLogUpdatedByNavigations)
+                .HasForeignKey(d => d.UpdatedBy)
+                .HasConstraintName("FK_SessionLogs_UpdatedBy");
+
+            entity.HasOne(d => d.User).WithMany(p => p.SessionLogUsers)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__SessionLo__UserI__1F98B2C1");
         });
 
         modelBuilder.Entity<UserAggregate>(entity =>
@@ -179,17 +209,23 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InverseCreatedByNavigation)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("FK__Users__CreatedBy__1332DBDC");
 
             entity.HasOne(d => d.DocumentType).WithMany(p => p.Users)
                 .HasForeignKey(d => d.DocumentTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Users__DocumentT__123EB7A3");
 
-            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+            entity.HasOne(d => d.Rol).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Users__RoleID__114A936A");
 
+            entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.InverseUpdatedByNavigation)
+                .HasForeignKey(d => d.UpdatedBy)
+                .HasConstraintName("FK__Users__UpdatedBy__14270015");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -6,26 +6,20 @@
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="SessionLog.cs" company="Universidad Javeriana">
+// <copyright file="DocumentType.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
+using Juegos.Serios.Authenticacions.Domain.Common;
 
-namespace Juegos.Serios.Authenticacions.Domain.Entities;
-public partial class SessionLog
+public partial class DocumentTypeEntity : BaseDomainModel
 {
-    public int LogId { get; set; }
+    public int DocumentTypeId { get; set; }
 
-    public int UserId { get; set; }
+    public string TypeName { get; set; } = null!;
 
-    public string? Action { get; set; }
-
-    public string? Ipaddress { get; set; }
-
-    public DateTime? Timestamp { get; set; }
-
-    public virtual UserAggregate User { get; set; } = null!;
+    public virtual ICollection<UserAggregate> Users { get; set; } = new List<UserAggregate>();
 }

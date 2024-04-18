@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Juegos.Serios.Authenticacions.Application\Juegos.Serios.Authenticacions.Application.csproj" />
     <ProjectReference Include="..\Juegos.Serios.Authenticacions.Infrastructure\Juegos.Serios.Authenticacions.Infrastructure.csproj" />
   </ItemGroup>
 
