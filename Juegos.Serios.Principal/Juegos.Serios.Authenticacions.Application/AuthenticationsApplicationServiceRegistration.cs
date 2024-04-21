@@ -13,19 +13,23 @@
 // ***********************************************************************
 namespace Juegos.Serios.Authenticacions.Application
 {
-    using Juegos.Serios.Authenticacions.Application.Features.Role.Interfaces;
-    using Juegos.Serios.Authenticacions.Application.Features.Role;
+    using Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces;
+    using Juegos.Serios.Authenticacions.Application.Features.Rol;
     using Microsoft.Extensions.DependencyInjection;
     using System.Reflection;
     using Juegos.Serios.Shared.AzureQueue;
     using Juegos.Serios.Shared.RedisCache;
     using Microsoft.Extensions.Configuration;
+    using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
+    using Juegos.Serios.Authenticacions.Application.Features.Login;
 
     public static class AuthenticationsApplicationServiceRegistration
     {
         public static IServiceCollection AddAuthenticationsApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IRoleApplication, RoleApplication>();
+            services.AddScoped<ILoginApplication, LoginApplication>();
+            services.AddScoped<IUserApplication, UserApplication>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddRedisCacheServiceRegistration(configuration);
             services.AddAzureQueueServiceRegistration(configuration);

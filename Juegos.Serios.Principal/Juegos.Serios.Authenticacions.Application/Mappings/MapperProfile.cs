@@ -16,12 +16,14 @@ namespace Aurora.Backend.Baseline.Application.Features.ConceptoBase.Commands
     using AutoMapper;
     using Juegos.Serios.Authenticacions.Application.Models.Dtos;
     using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
+    using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 
     public class MapperProfile : Profile
     {
         public MapperProfile()
         {
-            CreateMap<RolEntity, RolDto>();
+            CreateMap<Role, RolDto>();
+            CreateMap<UserCreateRequest, UserAggregateModel>();
         }
     }
 }

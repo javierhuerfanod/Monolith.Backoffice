@@ -6,27 +6,30 @@
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="ApiResponse.cs" company="Universidad Javeriana">
+// <copyright file="ErrorResponse.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 namespace Juegos.Serios.Shared.Application.Response
 {
-    public class ApiResponse<T>
+    public class ErrorResponse
     {
-        public int ResponseCode { get; set; }
-        public string Message { get; set; }
-        public bool Status { get; set; }
-        public T? Data { get; set; }
+        public List<string> Errors { get; set; } = new List<string>();
 
-        public ApiResponse(int responseCode, string message, bool status, T? data = default)
+        public ErrorResponse()
         {
-            ResponseCode = responseCode;
-            Message = message;
-            Status = status;
-            Data = data;
-        }          
+        }
 
+        public ErrorResponse(string error)
+        {
+            Errors.Add(error);
+        }
+
+        public ErrorResponse(IEnumerable<string> errors)
+        {
+            Errors.AddRange(errors);
+        }
     }
+
 }

@@ -76,11 +76,76 @@ namespace Juegos.Serios.Authenticacions.Domain.Resources
                 return ResourceManager.GetString("Api_Get_Rol_Response", resourceCulture);
             }
         }
+        public static string Api_User_GetLogin_Invalid
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_User_GetLogin_Invalid", resourceCulture);
+            }
+        }
+        public static string Api_Successful
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Successful", resourceCulture);
+            }
+        }
+
+
+        public static string Api_DocumentType_GetById_NotFound
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_DocumentType_GetById_NotFound", resourceCulture);
+            }
+        }
+        public static string Api_Get_User_Duplicated_Response
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Get_User_Duplicated_Response", resourceCulture);
+            }
+        }
+        public static string Api_Servererror
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Servererror", resourceCulture);
+            }
+        }
+        public static string Api_Get_Rol_Created_Response
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Get_Rol_Created_Response", resourceCulture);
+            }
+        }
+        public static string Api_Get_User_Created_Response
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Get_User_Created_Response", resourceCulture);
+            }
+        }
+        public static string Api_Get_Rol_Duplicated_Response
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Get_Rol_Duplicated_Response", resourceCulture);
+            }
+        }
         public static string Api_Rol_GetById_Error
         {
             get
             {
                 return ResourceManager.GetString("Api_Rol_GetById_Error", resourceCulture);
+            }
+        }
+        public static string Api_Rol_GetById_NotFound
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Rol_GetById_NotFound", resourceCulture);
             }
         }
         public static string Api_Rol_GetByName_Error
@@ -97,5 +162,13 @@ namespace Juegos.Serios.Authenticacions.Domain.Resources
                 return ResourceManager.GetString("Api_Rol_Select_Error", resourceCulture);
             }
         }
+        public static string Api_Badrequest
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Badrequest", resourceCulture);
+            }
+        }
+
     }
 }

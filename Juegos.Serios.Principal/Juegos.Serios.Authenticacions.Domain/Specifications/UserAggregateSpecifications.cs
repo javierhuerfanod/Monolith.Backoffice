@@ -1,30 +1,33 @@
 ﻿// ***********************************************************************
 // Assembly         : Juegos.Serios.Authenticacions.Domain
 // Author           : diego diaz
-// Created          : 16-04-2024
+// Created          : 20-04-2024
 //
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="RolSpecifications.cs" company="Universidad Javeriana">
+// <copyright file="UserAggregateSpecifications.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 using System.Linq.Expressions;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
+using System.Text;
+using Juegos.Serios.Authenticacions.Domain.Aggregates;
 
 namespace Juegos.Serios.Authenticacions.Domain.Specifications
 {
-    public class RolSpecifications
+    public class UserAggregateSpecifications
     {
-        public static Expression<Func<Role, bool>> ById(int roleId)
+
+        public static Expression<Func<User, bool>> ByUsernameDocumentNumberOrEmail(string username, string documentNumber, string email)
         {
-            return r => r.RoleId == roleId;
+            return user => user.Username == username || user.DocumentNumber == documentNumber || user.Email == email;
         }
-        public static Expression<Func<Role, bool>> ByName(string roleName)
+        public static Expression<Func<User, bool>> ByEmail(string email)
         {
-            return r => r.RoleName == roleName;
+            return user => user.Email == email;
         }
+
     }
 }

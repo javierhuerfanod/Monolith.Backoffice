@@ -1,25 +1,23 @@
 ﻿// ***********************************************************************
 // Assembly         : Juegos.Serios.Authenticacions.Domain
 // Author           : diego diaz
-// Created          : 16-04-2024
+// Created          : 20-04-2024
 //
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="DocumentType.cs" company="Universidad Javeriana">
+// <copyright file="IUserAggregateService.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 
-using Juegos.Serios.Authenticacions.Domain.Aggregates;
-using Juegos.Serios.Authenticacions.Domain.Common;
-
-public partial class DocumentTypeEntity : BaseDomainModel
+namespace Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces
 {
-    public int DocumentTypeId { get; set; }
-
-    public string TypeName { get; set; } = null!;
-
-    public virtual ICollection<UserAggregate> Users { get; set; } = new List<UserAggregate>();
+    public interface IUserAggregateService<T>
+    {
+        public Task<T> GetByEmailAndPassword(string email, string password);
+        public Task<User> RegisterUser(UserAggregateModel userAggregateModel);
+    }
 }

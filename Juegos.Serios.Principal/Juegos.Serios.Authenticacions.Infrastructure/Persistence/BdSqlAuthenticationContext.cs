@@ -11,9 +11,11 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Common;
 using Juegos.Serios.Authenticacions.Domain.Entities;
+using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,16 +32,16 @@ public partial class BdSqlAuthenticationContext : DbContext
     {
     }
 
-    public virtual DbSet<DocumentTypeEntity> DocumentTypes { get; set; }
+    public virtual DbSet<DocumentType> DocumentTypes { get; set; }
 
-    public virtual DbSet<PasswordRecoveryEntity> PasswordRecoveries { get; set; }
+    public virtual DbSet<PasswordRecovery> PasswordRecoveries { get; set; }
 
-    public virtual DbSet<RolEntity> Roles { get; set; }
+    public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<SessionLogEntity> SessionLogs { get; set; }
+    public virtual DbSet<SessionLog> SessionLogs { get; set; }
 
-    public virtual DbSet<UserAggregate> Users { get; set; }
-
+    public virtual DbSet<User> Users { get; set; }
+    
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         foreach (var entry in ChangeTracker.Entries<BaseDomainModel>())
@@ -61,7 +63,7 @@ public partial class BdSqlAuthenticationContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<DocumentTypeEntity>(entity =>
+        modelBuilder.Entity<DocumentType>(entity =>
         {
             entity.HasKey(e => e.DocumentTypeId).HasName("PK__Document__DBA390C13F5FB552");
 
@@ -81,7 +83,7 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<PasswordRecoveryEntity>(entity =>
+        modelBuilder.Entity<PasswordRecovery>(entity =>
         {
             entity.HasKey(e => e.RecoveryId).HasName("PK__Password__EE4C844C3A185030");
 
@@ -111,7 +113,7 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .HasConstraintName("FK__PasswordR__UserI__18EBB532");
         });
 
-        modelBuilder.Entity<RolEntity>(entity =>
+        modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A1A328D66");
 
@@ -131,7 +133,7 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<SessionLogEntity>(entity =>
+        modelBuilder.Entity<SessionLog>(entity =>
         {
             entity.HasKey(e => e.LogId).HasName("PK__SessionL__5E5499A88726928B");
 
@@ -142,8 +144,8 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false);
             entity.Property(e => e.CreatedAt)
-                 .HasDefaultValueSql("(getdate())")
-                 .HasColumnType("datetime");
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.Ipaddress)
                 .HasMaxLength(15)
                 .IsUnicode(false)
@@ -170,7 +172,7 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .HasConstraintName("FK__SessionLo__UserI__1F98B2C1");
         });
 
-        modelBuilder.Entity<UserAggregate>(entity =>
+        modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC07E7D606");
 
@@ -218,7 +220,7 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Users__DocumentT__123EB7A3");
 
-            entity.HasOne(d => d.Rol).WithMany(p => p.Users)
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Users__RoleID__114A936A");

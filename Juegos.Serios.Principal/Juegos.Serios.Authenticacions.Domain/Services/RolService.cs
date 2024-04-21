@@ -12,15 +12,16 @@
 // <summary>Implements the role service.</summary>
 // ***********************************************************************
 
+
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Specifications.Rol;
+using Juegos.Serios.Authenticacions.Domain.Specifications;
 using Juegos.Serios.Domain.Shared.Exceptions;
 
 
 namespace Juegos.Serios.Authenticacions.Domain.Services
 {
-    public sealed class RolService : IRolService<RolEntity>
+    public sealed class RolService : IRolService<Role>
     {
         private readonly IRolRepository _roleRepository;
 
@@ -29,7 +30,7 @@ namespace Juegos.Serios.Authenticacions.Domain.Services
             _roleRepository = roleRepository;
         }
 
-        public async Task<RolEntity> GetById(int id)
+        public async Task<Role> GetById(int id)
         {
             try
             {
@@ -40,35 +41,38 @@ namespace Juegos.Serios.Authenticacions.Domain.Services
                 throw new DomainException("Error retrieving role by ID.", ex);
             }
         }
-
-        public async Task<RolEntity> GetByName(string rolename)
+        public async Task<Role> GetByName(string rolename)
         {
             try
             {
-                return (RolEntity)await DomainExceptionHandler.HandleAsync(() =>
-                    _roleRepository.GetAsync(RolSpecifications.ByName(rolename)));
-            }
-            catch (NotFoundException)
-            {                
-                throw;
+                return await _roleRepository.GetOneAsync(RolSpecifications.ByName(rolename));             
             }
             catch (Exception ex)
-            {               
-                throw new DomainException($"Error retrieving role by name: {rolename}", ex);
+            {
+                throw new DomainException("Error retrieving role by Name.", ex);
             }
         }
 
-        public async Task<List<RolEntity>> SelectAsync()
+        public async Task<List<Role>> SelectAsync()
         {
             try
             {
-                return (List<RolEntity>)await DomainExceptionHandler.HandleAsync(() =>
-                    _roleRepository.GetAllAsync());
+                return (List<Role>)await DomainExceptionHandler.HandleAsync(() =>
+                    _roleRepository.ListAllAsync());
             }
             catch (Exception ex)
             {
                 throw new DomainException("Error retrieving all roles.", ex);
             }
+        }
+        public async Task<Role> CreateRoleAsync(string roleName)
+        {
+            Role newRole = new()
+            {
+                RoleName = roleName
+            };
+
+            return await _roleRepository.AddAsync(newRole);
         }
     }
 }

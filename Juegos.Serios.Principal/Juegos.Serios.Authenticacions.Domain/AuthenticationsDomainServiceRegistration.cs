@@ -3,8 +3,8 @@
 // Author           : diego diaz
 // Created          : 17-04-2024
 //
-// Last Modified By : 
-// Last Modified On : 
+// Last Modified By : 20-04-2024
+// Last Modified On : diego diaz
 // ***********************************************************************
 // <copyright file="InfrastructureServiceRegistration.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
@@ -14,6 +14,8 @@
 
 namespace Juegos.Serios.Authenticacions.Domain;
 
+using Juegos.Serios.Authenticacions.Domain.Aggregates;
+using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Services;
@@ -23,7 +25,8 @@ public static class AuthenticationsDomainServiceRegistration
 {
     public static IServiceCollection AddAuthenticationsDomainServices(this IServiceCollection services)
     {
-        services.AddScoped<IRolService<RolEntity>, RolService>();
+        services.AddScoped<IRolService<Role>, RolService>();
+        services.AddScoped<IUserAggregateService<User>, UserAggregateService>();
         return services;
     }
 }

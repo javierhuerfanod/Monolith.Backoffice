@@ -1,22 +1,22 @@
 ﻿// ***********************************************************************
 // Assembly         : Juegos.Serios.Authenticacions.Domain
 // Author           : diego diaz
-// Created          : 16-04-2024
+// Created          : 20-04-2024
 //
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="IRoleFinder.cs" company="Universidad Javeriana">
+// <copyright file="IDocumentTypeRepository.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
 using Juegos.Serios.Authenticacions.Domain.Ports.Persistence;
-namespace Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces
+namespace Juegos.Serios.Authenticacions.Domain.Entities.DocumentType.Interfaces
 {
-    public interface IRolRepository : IAsyncRepository<Role>
+    public interface IDocumentTypeRepository : IAsyncRepository<DocumentType>
     {
-        
+
     }
 }

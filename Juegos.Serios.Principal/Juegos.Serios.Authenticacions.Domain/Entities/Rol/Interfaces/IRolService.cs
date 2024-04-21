@@ -16,9 +16,10 @@ namespace Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces
     public interface IRolService<T>
     {
         Task<List<T>> SelectAsync();
+        Task<Role> GetByName(string rolename);
 
         public Task<T> GetById(int id);
+        Task<Role> CreateRoleAsync(string roleName);
 
-        public Task<T> GetByName(string rolename);
     }
 }

@@ -6,22 +6,21 @@
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="Role.cs" company="Universidad Javeriana">
+// <copyright file="RolSpecifications.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using System.Linq.Expressions;
+using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
 
-using Juegos.Serios.Authenticacions.Domain.Aggregates;
-using Juegos.Serios.Authenticacions.Domain.Common;
-
-namespace Juegos.Serios.Authenticacions.Domain.Entities.Rol;
-
-public partial class RolEntity : BaseDomainModel
+namespace Juegos.Serios.Authenticacions.Domain.Specifications
 {
-    public int RoleId { get; set; }
-
-    public string RoleName { get; set; } = null!;
-
-    public virtual ICollection<UserAggregate> Users { get; set; } = new List<UserAggregate>();
+    public class DocumentTypeSpecifications
+    {
+        public static Expression<Func<DocumentType, bool>> ById(int documentTypeId)
+        {
+            return r => r.DocumentTypeId == documentTypeId;
+        }
+    }
 }

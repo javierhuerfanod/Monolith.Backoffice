@@ -19,22 +19,21 @@ using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
 using Juegos.Serios.Shared.Application.Response;
 using Juegos.Serios.Authenticacions.Domain.Resources;
-using Juegos.Serios.Authenticacions.Application.Features.Role.Interfaces;
 using Juegos.Serios.Shared.RedisCache.Interfaces;
 using Juegos.Serios.Shared.AzureQueue.Interfaces;
-using Juegos.Serios.Shared.AzureQueue;
 using Newtonsoft.Json;
+using Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces;
 
-namespace Juegos.Serios.Authenticacions.Application.Features.Role
+namespace Juegos.Serios.Authenticacions.Application.Features.Rol
 {
     public class RoleApplication : IRoleApplication
     {
-        private readonly IRolService<RolEntity> _rolService;
+        private readonly IRolService<Role> _rolService;
         private readonly IMapper _mapper;
         private readonly IRedisCache _redisCache;
         private readonly IAzureQueue _azureQueue;
 
-        public RoleApplication(IRolService<RolEntity> rolService, IMapper mapper, IRedisCache redisCache, IAzureQueue azureQueue)
+        public RoleApplication(IRolService<Role> rolService, IMapper mapper, IRedisCache redisCache, IAzureQueue azureQueue)
         {
             _rolService = rolService ?? throw new ArgumentNullException(nameof(rolService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -54,6 +53,10 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Role
                 }
 
                 var roleEntity = await _rolService.GetById(id);
+                if (roleEntity == null)
+                {
+                    return new ApiResponse<RolDto>(204, AppMessages.Api_Get_Rol_Response, true, null);
+                }
                 var roleDto = _mapper.Map<RolDto>(roleEntity);
                 var apiresponse = new ApiResponse<RolDto>(200, AppMessages.Api_Get_Rol_Response, true, roleDto);
                 await _azureQueue.EnqueueMessageAsync("emails", JsonConvert.SerializeObject(responseApiCache, Formatting.Indented));
@@ -66,17 +69,23 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Role
             }
         }
 
-        public async Task<ApiResponse<RolDto>> GetByName(string roleName)
+        public async Task<ApiResponse<RolDto>> CreateRol(string rolename)
         {
             try
             {
-                var roleEntity = await _rolService.GetByName(roleName);
+                var roleFindEntity = await _rolService.GetByName(rolename);
+                if (roleFindEntity != null)
+                {
+                    return new ApiResponse<RolDto>(400, AppMessages.Api_Get_Rol_Duplicated_Response, false, null);
+                }
+                var roleEntity = await _rolService.CreateRoleAsync(rolename);
                 var roleDto = _mapper.Map<RolDto>(roleEntity);
-                return new ApiResponse<RolDto>(200, AppMessages.Api_Get_Rol_Response, true, roleDto);
+                var apiresponse = new ApiResponse<RolDto>(200, AppMessages.Api_Get_Rol_Created_Response, true, roleDto);
+                return apiresponse;
             }
             catch (Exception ex)
             {
-                throw new RoleApplicationException(AppMessages.Api_Rol_GetByName_Error, ex);
+                throw new RoleApplicationException(AppMessages.Api_Rol_GetById_Error, ex);
             }
         }
 

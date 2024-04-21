@@ -1,0 +1,29 @@
+﻿// ***********************************************************************
+// Assembly         : Juegos.Serios.Authenticacions.Application
+// Author           : diego diaz
+// Created          : 18-04-2024
+//
+// Last Modified By : 
+// Last Modified On : 
+// ***********************************************************************
+// <copyright file="LoginRequest.cs" company="Universidad Javeriana">
+//     Copyright (c) Universidad Javeriana All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
+using System.ComponentModel.DataAnnotations;
+
+namespace Juegos.Serios.Authenticacions.Application.Models.Request
+{
+    public class LoginRequest
+    {
+        [Required(ErrorMessage = "El campo de correo electrónico es obligatorio.")]
+        [EmailAddress(ErrorMessage = "El formato del correo electrónico no es válido.")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "El campo de contraseña es obligatorio.")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+    }
+}
