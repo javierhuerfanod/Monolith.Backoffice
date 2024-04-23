@@ -18,7 +18,7 @@ using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Services;
+using Juegos.Serios.Authentications.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 public static class AuthenticationsDomainServiceRegistration

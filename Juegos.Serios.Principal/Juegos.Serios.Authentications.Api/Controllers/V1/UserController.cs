@@ -23,17 +23,22 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
     using Juegos.Serios.Authenticacions.Domain.Resources;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.Extensions.Logging;
+    using Juegos.Serios.Shared.Api.Controllers;
 
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : BaseApiController
     {
         private readonly IUserApplication _userApplication;
+        private new readonly ILogger<UserController> _logger; 
 
-        public UserController(IUserApplication userApplication)
+        public UserController(ILogger<UserController> logger, IUserApplication userApplication) : base(logger)
         {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _userApplication = userApplication ?? throw new ArgumentNullException(nameof(userApplication));
-        }
+        } 
+
         /// <summary>
         /// Registra un nuevo usuario en el sistema.
         /// </summary>
@@ -48,25 +53,27 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         [Authorize]
         [HttpPost()]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ApiResponse<ErrorResponse>), (int)HttpStatusCode.BadRequest)]     
+        [ProducesResponseType(typeof(ApiResponse<ErrorResponse>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
-
         public async Task<ActionResult<ApiResponse<object>>> RegisterUser([FromBody] UserCreateRequest userCreateRequest)
         {
+            _logger.LogInformation("Attempting to register new user");
+
             if (!ModelState.IsValid)
             {
-                var errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                var errorMessages = ModelState.GetAllErrorMessages();
                 var errorResponse = new ErrorResponse(errorMessages.ToList());
                 return BadRequest(new ApiResponse<ErrorResponse>(400, AppMessages.Api_Badrequest, false, errorResponse));
             }
             var response = await _userApplication.CreateUser(userCreateRequest);
             return response.ResponseCode switch
             {
-                (int)GenericEnumerator.ResponseCode.Ok => Ok(response),
-                (int)GenericEnumerator.ResponseCode.BadRequest => BadRequest(response),
-                (int)GenericEnumerator.ResponseCode.InternalError => StatusCode((int)HttpStatusCode.InternalServerError, response),
+                (int)GenericEnumerator.ResponseCode.Ok => LogAndReturnOk(response),
+                (int)GenericEnumerator.ResponseCode.BadRequest => LogAndReturnBadRequest(response),
+                (int)GenericEnumerator.ResponseCode.InternalError => LogAndReturnInternalError(response),
                 _ => throw new NotImplementedException()
             };
         }
     }
 }
+

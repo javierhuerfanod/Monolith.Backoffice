@@ -20,6 +20,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Juegos.Serios.Authenticacions.Application\Juegos.Serios.Authenticacions.Application.csproj" />
 		<ProjectReference Include="..\Juegos.Serios.Authenticacions.Infrastructure\Juegos.Serios.Authenticacions.Infrastructure.csproj" />
+		<ProjectReference Include="..\Juegos.Serios.Shared.Api\Juegos.Serios.Shared.Api.csproj" />
 	</ItemGroup>
 
 </Project>

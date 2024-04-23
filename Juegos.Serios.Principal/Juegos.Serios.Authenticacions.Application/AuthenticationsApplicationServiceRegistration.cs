@@ -3,10 +3,10 @@
 // Author           : diego diaz
 // Created          : 18-04-2024
 //
-// Last Modified By : 
-// Last Modified On : 
+// Last Modified By : diego diaz
+// Last Modified On : 22-04-2024
 // ***********************************************************************
-// <copyright file="RolDto.cs" company="Universidad Javeriana">
+// <copyright file="AuthenticationsApplicationServiceRegistration.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
@@ -21,7 +21,7 @@ namespace Juegos.Serios.Authenticacions.Application
     using Juegos.Serios.Shared.RedisCache;
     using Microsoft.Extensions.Configuration;
     using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
-    using Juegos.Serios.Authenticacions.Application.Features.Login;
+    using Juegos.Serios.Authentications.Application.Features.Login;    
 
     public static class AuthenticationsApplicationServiceRegistration
     {

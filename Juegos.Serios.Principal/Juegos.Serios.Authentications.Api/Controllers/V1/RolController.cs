@@ -20,20 +20,27 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Microsoft.AspNetCore.Mvc;
     using System.Net;
     using Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces;
-    using Aurora.Backend.Baseline.Application.Constants; 
+    using Aurora.Backend.Baseline.Application.Constants;
     using Juegos.Serios.Authenticacions.Domain.Resources;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.Extensions.Logging;
+    using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
+    using Juegos.Serios.Shared.Api.Controllers;
 
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class RolController : ControllerBase
+    public class RolController : BaseApiController
     {
         private readonly IRoleApplication _roleApplication;
+        private new readonly ILogger<RolController> _logger; 
 
-        public RolController(IRoleApplication roleApplication)
+        public RolController(ILogger<RolController> logger, IRoleApplication roleApplication) : base(logger)
         {
-            _roleApplication = roleApplication;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _roleApplication = roleApplication ?? throw new ArgumentNullException(nameof(roleApplication));
         }
+
+
         /// <summary>
         /// Obtiene los detalles de un rol específico por su ID.
         /// </summary>
@@ -51,6 +58,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<ApiResponse<RolDto>>> GetRolById(int id)
         {
+            _logger.LogInformation("Attempting to fetch role with ID: {RoleId}", id);
 
             var response = await _roleApplication.GetById(id);
             return response.ResponseCode switch
@@ -62,6 +70,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
                 _ => throw new NotImplementedException()
             };
         }
+
         /// <summary>
         /// Crea un nuevo rol en el sistema.
         /// </summary>
@@ -75,19 +84,22 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<RolDto>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.BadRequest)]       
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<ApiResponse<RolDto>>> CreateRol(string roleName)
         {
+            _logger.LogInformation("Attempting to create role with name: {RoleName}", roleName);
 
             var response = await _roleApplication.CreateRol(roleName);
             return response.ResponseCode switch
             {
-                (int)GenericEnumerator.ResponseCode.Ok => Ok(response),               
-                (int)GenericEnumerator.ResponseCode.BadRequest => BadRequest(response),
-                (int)GenericEnumerator.ResponseCode.InternalError => StatusCode((int)HttpStatusCode.InternalServerError, response),
+                (int)GenericEnumerator.ResponseCode.Ok => LogAndReturnOk(response),
+                (int)GenericEnumerator.ResponseCode.BadRequest => LogAndReturnBadRequest(response),
+                (int)GenericEnumerator.ResponseCode.InternalError => LogAndReturnInternalError(response),
                 _ => throw new NotImplementedException()
             };
         }
     }
 }
+
+

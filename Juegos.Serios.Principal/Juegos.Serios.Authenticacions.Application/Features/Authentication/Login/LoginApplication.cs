@@ -24,22 +24,27 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging; 
 
-
-namespace Juegos.Serios.Authenticacions.Application.Features.Login
+namespace Juegos.Serios.Authentications.Application.Features.Login
 {
     public class LoginApplication : ILoginApplication
     {
         private readonly IUserAggregateService<User> _userAggregateService;
         private readonly IConfiguration _configuration;
-        public LoginApplication(IUserAggregateService<User> userAggregateService, IConfiguration configuration)
+        private readonly ILogger<LoginApplication> _logger; // Instancia del logger
+
+        public LoginApplication(ILogger<LoginApplication> logger, IUserAggregateService<User> userAggregateService, IConfiguration configuration)
         {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _userAggregateService = userAggregateService ?? throw new ArgumentNullException(nameof(userAggregateService));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public async Task<ApiResponse<string>> GetLogin(LoginRequest loginRequest)
         {
+            _logger.LogInformation("Attempting login for user: {Email}", loginRequest.Email);
+
             try
             {
                 var user = await _userAggregateService.GetByEmailAndPassword(loginRequest.Email, loginRequest.Password);
@@ -48,10 +53,12 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Login
             }
             catch (DomainException dex)
             {
+                _logger.LogWarning("Login failed: {ExceptionMessage}", dex.Message);
                 return new ApiResponse<string>(400, dex.Message, false, null);
             }
             catch (Exception ex)
             {
+                _logger.LogError("Internal server error occurred: {ExceptionMessage}", ex.Message);
                 return new ApiResponse<string>(500, AppMessages.Api_Servererror, false, null);
             }
         }
@@ -63,9 +70,9 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Login
 
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email)
-        };
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email)
+            };
 
             var token = new JwtSecurityToken(
                 claims: claims,
@@ -74,6 +81,6 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Login
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }
+

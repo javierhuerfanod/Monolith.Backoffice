@@ -6,37 +6,40 @@
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="DomainException.cs" company="Universidad Javeriana">
+// <copyright file="DomainExceptionHandler.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using Juegos.Serios.Domain.Shared.Exceptions;
 
-namespace Juegos.Serios.Domain.Shared.Exceptions
+public static class DomainExceptionHandler
 {
-    public class DomainException : Exception
+    public static async Task<T> HandleAsync<T>(Func<Task<T>> func)
     {
-        public DomainException(string message) : base(message)
+        try
         {
+            return await func();
         }
-
-        public DomainException(string message, Exception innerException) : base(message, innerException)
+        catch (NotFoundException ex)
+        {            
+            Log(ex);
+            throw new Exception("Resource not found.", ex);
+        }
+        catch (ValidationException ex)
         {
+            Log(ex);
+            throw new Exception("Validation failed.", ex);
+        }
+        catch (Exception ex)
+        {
+            Log(ex);
+            throw new Exception("An unexpected error occurred.", ex);
         }
     }
 
-    public class NotFoundException : DomainException
-    {
-        public NotFoundException(string name, object key)
-            : base($"Entity \"{name}\" ({key}) was not found.")
-        {
-        }
-    }
-
-    public class ValidationException : DomainException
-    {
-        public ValidationException(string message) : base(message)
-        {
-        }
+    private static void Log(Exception ex)
+    {        
+        Console.WriteLine(ex.ToString()); 
     }
 }
