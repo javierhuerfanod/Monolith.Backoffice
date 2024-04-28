@@ -19,4 +19,19 @@
     <ProjectReference Include="..\Juegos.Serios.Shared.AzureQueue\Juegos.Serios.Shared.AzureQueue.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\EmailsHtml\AppEmailsMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AppEmailsMessages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\EmailsHtml\AppEmailsMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AppEmailsMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

@@ -26,6 +26,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Microsoft.Extensions.Logging;
     using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
     using Juegos.Serios.Shared.Api.Controllers;
+    using Juegos.Serios.Authenticacions.Application.Constants;
 
     [ApiController]
     [Route("api/v1/[controller]")]

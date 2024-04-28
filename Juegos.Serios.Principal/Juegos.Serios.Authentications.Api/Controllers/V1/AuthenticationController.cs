@@ -27,6 +27,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Juegos.Serios.Authenticacions.Application.Models.Dtos;
     using Juegos.Serios.Authentications.Application.Features.Login;
     using Microsoft.AspNetCore.Authorization;
+    using Juegos.Serios.Authenticacions.Application.Constants;
 
     [ApiController]
     [Route("api/v1/[controller]")]

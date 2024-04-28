@@ -19,6 +19,7 @@ using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword;
+using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword.Response;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 using Juegos.Serios.Authenticacions.Domain.Ports.Persistence;
 using Juegos.Serios.Authenticacions.Domain.Resources;
@@ -87,7 +88,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
                         {
                             _logger.LogWarning("Invalid email or password: {Email}", email);
                             throw new DomainException(AppMessages.Api_User_GetLogin_Invalid);
-                        }                       
+                        }
                     }
                     else
                     {
@@ -158,7 +159,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
             }
         }
 
-        public async Task<PasswordRecovery> RegisterRecoveryPassword(string email)
+        public async Task<PasswordRecoveryResponse> RegisterRecoveryPassword(string email)
         {
             try
             {
@@ -191,7 +192,12 @@ namespace Juegos.Serios.Authentications.Domain.Services
                         await _userAggregateRepository.UpdateAsync(user);
                         _logger.LogInformation("New recovery password registered successfully for user ID: {UserId}", user.UserId);
                         await _unitOfWork.Complete();
-                        return recoveryPassword;
+                        return new PasswordRecoveryResponse
+                        {
+                            LastName = user.LastName,
+                            Name = user.FirstName,
+                            Password = recoveryPasswordData.Password
+                        };
                     }
                     else
                     {
@@ -215,7 +221,12 @@ namespace Juegos.Serios.Authentications.Domain.Services
                         await _userAggregateRepository.UpdateAsync(user);
                         _logger.LogInformation("Old recovery password deleted and new one registered successfully for user ID: {UserId}", user.UserId);
                         await _unitOfWork.Complete();
-                        return recoveryPassword;
+                        return new PasswordRecoveryResponse
+                        {
+                            LastName = user.LastName,
+                            Name = user.FirstName,
+                            Password = recoveryPasswordData.Password
+                        };
                     }
                 }
             }
@@ -239,7 +250,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
             return BCrypt.Net.BCrypt.Verify(plainTextPassword, hashAsString);
         }
 
-        private static PasswordRecoveryData CreateNewPasswordRecovery()
+        private static PasswordRecoveryModel CreateNewPasswordRecovery()
         {
             string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             string numbers = "0123456789";
@@ -265,7 +276,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
             }
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(new string(passwordArray));
 
-            return new PasswordRecoveryData
+            return new PasswordRecoveryModel
             {
                 PasswordHash = Encoding.UTF8.GetBytes(passwordHash),
                 Password = new string(passwordArray),
