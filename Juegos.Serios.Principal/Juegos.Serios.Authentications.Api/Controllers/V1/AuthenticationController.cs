@@ -24,18 +24,24 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Juegos.Serios.Authenticacions.Domain.Resources;
     using Microsoft.Extensions.Logging;
     using Juegos.Serios.Shared.Api.Controllers;
+    using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+    using Juegos.Serios.Authentications.Application.Features.Login;
+    using Microsoft.AspNetCore.Authorization;
 
     [ApiController]
     [Route("api/v1/[controller]")]
     public class AuthenticationController : BaseApiController
     {
         private readonly ILoginApplication _loginApplication;
+        public readonly IRecoveryPasswordAuthenticationApplication _recoveryPasswordAuthenticationApplication;
+
         private new readonly ILogger<AuthenticationController> _logger; // Instancia del logger
 
-        public AuthenticationController(ILogger<AuthenticationController> logger, ILoginApplication loginApplication) : base(logger)
+        public AuthenticationController(ILogger<AuthenticationController> logger, ILoginApplication loginApplication, IRecoveryPasswordAuthenticationApplication recoveryPasswordAuthenticationApplication) : base(logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _loginApplication = loginApplication ?? throw new ArgumentNullException(nameof(loginApplication));
+            _recoveryPasswordAuthenticationApplication = recoveryPasswordAuthenticationApplication ?? throw new ArgumentNullException(nameof(recoveryPasswordAuthenticationApplication));
         }
 
         /// <summary>
@@ -56,11 +62,11 @@ namespace Juegos.Serios.Authenticacions.Api.V1
             {
                 var errorMessages = ModelState.GetAllErrorMessages();
                 var errorResponse = new ErrorResponse(errorMessages.ToList());
-                _logger.LogWarning("Bad request on login: {ErrorMessages}", errorMessages); 
+                _logger.LogWarning("Bad request on login: {ErrorMessages}", errorMessages);
                 return BadRequest(new ApiResponse<ErrorResponse>(400, AppMessages.Api_Badrequest, false, errorResponse));
             }
 
-            _logger.LogInformation("Attempting login for user: {Email}", loginRequest.Email); 
+            _logger.LogInformation("Attempting login for user: {Email}", loginRequest.Email);
             var response = await _loginApplication.GetLogin(loginRequest);
 
             return response.ResponseCode switch
@@ -72,6 +78,37 @@ namespace Juegos.Serios.Authenticacions.Api.V1
             };
         }
 
+        /// <summary>
+        /// Inicia un proceso de recuperación de contraseña para un usuario.
+        /// </summary>
+        /// <param name="recoveryPasswordRequest">Datos que contienen la dirección de correo electrónico del usuario para la recuperación de contraseña.</param>
+        /// <returns>Una respuesta API que indica el resultado de la solicitud de recuperación de contraseña.</returns>
+        /// <response code="200">Devuelve el código 200 si la solicitud de recuperación de contraseña se realizó correctamente.</response>
+        /// <response code="400">Devuelve el código 400 si se proporcionaron datos de solicitud no válidos. Consulte el mensaje de error para obtener más detalles.</response>
+        /// <response code="500">Devuelve el código 500 en caso de un error interno del servidor.</response>
+        [HttpPost("RecoveryPassword")]
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResponse<ErrorResponse>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<ApiResponse<object>>> RecoveryPassword([FromBody] RecoveryPasswordRequest recoveryPasswordRequest)
+        {
+            _logger.LogInformation("Attempting to register new recovery password");
+
+            if (!ModelState.IsValid)
+            {
+                var errorMessages = ModelState.GetAllErrorMessages();
+                var errorResponse = new ErrorResponse(errorMessages.ToList());
+                return BadRequest(new ApiResponse<ErrorResponse>(400, AppMessages.Api_Badrequest, false, errorResponse));
+            }
+            var response = await _recoveryPasswordAuthenticationApplication.CreateRecoveryPassword(recoveryPasswordRequest.Email);
+            return response.ResponseCode switch
+            {
+                (int)GenericEnumerator.ResponseCode.Ok => LogAndReturnOk(response),
+                (int)GenericEnumerator.ResponseCode.BadRequest => LogAndReturnBadRequest(response),
+                (int)GenericEnumerator.ResponseCode.InternalError => LogAndReturnInternalError(response),
+                _ => throw new NotImplementedException()
+            };
+        }
     }
 }
 

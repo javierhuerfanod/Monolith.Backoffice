@@ -1,6 +1,7 @@
 ﻿using Juegos.Serios.Authenticacions.Domain.Common;
 using Juegos.Serios.Authenticacions.Domain.Entities;
 using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
+using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 using System.Text;

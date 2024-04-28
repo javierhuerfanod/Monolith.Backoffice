@@ -1,7 +1,7 @@
 ﻿using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Common;
 
-namespace Juegos.Serios.Authenticacions.Domain.Entities;
+namespace Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
 
 public partial class PasswordRecovery : BaseDomainModel
 {
@@ -11,7 +11,7 @@ public partial class PasswordRecovery : BaseDomainModel
 
     public byte[] RecoveryPassword { get; set; } = null!;
 
-    public DateTime RecoveryPasswordExpiration { get; set; }  
+    public DateTime RecoveryPasswordExpiration { get; set; }
 
     public virtual User? CreatedByNavigation { get; set; }
 

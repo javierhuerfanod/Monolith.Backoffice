@@ -41,15 +41,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Shared.RedisC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Shared.AzureQueue", "Juegos.Serios.Shared.AzureQueue\Juegos.Serios.Shared.AzureQueue.csproj", "{316A81DC-D84C-466F-9815-915EB22349B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Shared.Api", "Juegos.Serios.Shared.Api\Juegos.Serios.Shared.Api.csproj", "{E9EB38CD-E890-46CE-BB63-BCE8D23267E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Shared.Api", "Juegos.Serios.Shared.Api\Juegos.Serios.Shared.Api.csproj", "{E9EB38CD-E890-46CE-BB63-BCE8D23267E0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juegos.Serios.Shared.Tests", "Juegos.Serios.Shared.Tests", "{9A95766C-4F3F-407B-B7DE-E89DEE0189AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Shared.RedisCache.Tests", "Juegos.Serios.Shared.RedisCache.Tests\Juegos.Serios.Shared.RedisCache.Tests.csproj", "{9725D7E1-CEF8-41E7-872D-5E57DF94739D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Shared.RedisCache.Tests", "Juegos.Serios.Shared.RedisCache.Tests\Juegos.Serios.Shared.RedisCache.Tests.csproj", "{9725D7E1-CEF8-41E7-872D-5E57DF94739D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Shared.RedisCache.Domain.Tests", "Juegos.Serios.Shared.RedisCache.Domain\Juegos.Serios.Shared.RedisCache.Domain.Tests.csproj", "{B43C6AFE-2420-46BD-B56D-6FF7ED19F72A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Shared.RedisCache.Domain.Tests", "Juegos.Serios.Shared.RedisCache.Domain\Juegos.Serios.Shared.RedisCache.Domain.Tests.csproj", "{B43C6AFE-2420-46BD-B56D-6FF7ED19F72A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Shared.AzureQueue.Tests", "Juegos.Serios.Shared.RedisCache.AzureQueue\Juegos.Serios.Shared.AzureQueue.Tests.csproj", "{2EBEA1C6-01AD-41FB-8A90-AE8594BD1CA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juegos.Serios.Shared.AzureQueue.Tests", "Juegos.Serios.Shared.RedisCache.AzureQueue\Juegos.Serios.Shared.AzureQueue.Tests.csproj", "{2EBEA1C6-01AD-41FB-8A90-AE8594BD1CA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juegos.Serios.Shared.Application.Tests", "Juegos.Serios.Shared.Application.Tests\Juegos.Serios.Shared.Application.Tests.csproj", "{35084547-27CA-4A03-9082-D00932E09D6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +127,10 @@ Global
 		{2EBEA1C6-01AD-41FB-8A90-AE8594BD1CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EBEA1C6-01AD-41FB-8A90-AE8594BD1CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EBEA1C6-01AD-41FB-8A90-AE8594BD1CA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35084547-27CA-4A03-9082-D00932E09D6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35084547-27CA-4A03-9082-D00932E09D6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35084547-27CA-4A03-9082-D00932E09D6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35084547-27CA-4A03-9082-D00932E09D6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +155,7 @@ Global
 		{9725D7E1-CEF8-41E7-872D-5E57DF94739D} = {9A95766C-4F3F-407B-B7DE-E89DEE0189AC}
 		{B43C6AFE-2420-46BD-B56D-6FF7ED19F72A} = {9A95766C-4F3F-407B-B7DE-E89DEE0189AC}
 		{2EBEA1C6-01AD-41FB-8A90-AE8594BD1CA3} = {9A95766C-4F3F-407B-B7DE-E89DEE0189AC}
+		{35084547-27CA-4A03-9082-D00932E09D6C} = {9A95766C-4F3F-407B-B7DE-E89DEE0189AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {112391B1-D8D7-4940-AD6D-DE1E7A2FE530}

@@ -21,7 +21,8 @@ namespace Juegos.Serios.Authenticacions.Application
     using Juegos.Serios.Shared.RedisCache;
     using Microsoft.Extensions.Configuration;
     using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
-    using Juegos.Serios.Authentications.Application.Features.Login;    
+    using Juegos.Serios.Authentications.Application.Features.Login;
+    using Juegos.Serios.Authenticacions.Application.Features.Authentication.RecoveryPassword;
 
     public static class AuthenticationsApplicationServiceRegistration
     {
@@ -29,6 +30,7 @@ namespace Juegos.Serios.Authenticacions.Application
         {
             services.AddScoped<IRoleApplication, RoleApplication>();
             services.AddScoped<ILoginApplication, LoginApplication>();
+            services.AddScoped<IRecoveryPasswordAuthenticationApplication, RecoveryPasswordAuthenticationApplication>();
             services.AddScoped<IUserApplication, UserApplication>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddRedisCacheServiceRegistration(configuration);

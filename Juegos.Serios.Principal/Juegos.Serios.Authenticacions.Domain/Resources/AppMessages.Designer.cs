@@ -83,6 +83,13 @@ namespace Juegos.Serios.Authenticacions.Domain.Resources
                 return ResourceManager.GetString("Api_User_GetLogin_Invalid", resourceCulture);
             }
         }
+        public static string Api_User_GetEmail_Invalid
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_User_GetEmail_Invalid", resourceCulture);
+            }
+        }
         public static string Api_Successful
         {
             get
@@ -90,7 +97,13 @@ namespace Juegos.Serios.Authenticacions.Domain.Resources
                 return ResourceManager.GetString("Api_Successful", resourceCulture);
             }
         }
-
+        public static string Api_Get_RecoveryPassword_Created_Response
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Get_RecoveryPassword_Created_Response", resourceCulture);
+            }
+        }
 
         public static string Api_DocumentType_GetById_NotFound
         {

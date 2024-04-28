@@ -11,13 +11,15 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 
 namespace Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces
 {
     public interface IUserAggregateService<T>
     {
-        public Task<T> GetByEmailAndPassword(string email, string password);
-        public Task<User> RegisterUser(UserAggregateModel userAggregateModel);
+        Task<T> GetByEmailAndPassword(string email, string password);
+        Task<User> RegisterUser(UserAggregateModel userAggregateModel);
+        Task<PasswordRecovery> RegisterRecoveryPassword(string email);
     }
 }
