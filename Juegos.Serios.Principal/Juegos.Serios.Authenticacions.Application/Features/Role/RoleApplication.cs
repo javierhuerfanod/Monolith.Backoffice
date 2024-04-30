@@ -58,8 +58,7 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Rol
                     return new ApiResponse<RolDto>(204, AppMessages.Api_Get_Rol_Response, true, null);
                 }
                 var roleDto = _mapper.Map<RolDto>(roleEntity);
-                var apiresponse = new ApiResponse<RolDto>(200, AppMessages.Api_Get_Rol_Response, true, roleDto);
-                await _azureQueue.EnqueueMessageAsync("emails", JsonConvert.SerializeObject(responseApiCache, Formatting.Indented));
+                var apiresponse = new ApiResponse<RolDto>(200, AppMessages.Api_Get_Rol_Response, true, roleDto);               
                 await _redisCache.SetCacheData($"{nameof(GetById)}{id}", apiresponse, DateTimeOffset.Now.AddMinutes(5.0));
                 return apiresponse;
             }
