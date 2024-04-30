@@ -14,7 +14,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Juegos.Serios.Authenticacions.Application.Models.Dtos;
+namespace Juegos.Serios.Authenticacions.Application.Models.Request;
 
 public class UserCreateRequest
 {
@@ -34,6 +34,8 @@ public class UserCreateRequest
     public string Username { get; set; }
 
     [Required(ErrorMessage = "La contraseña es obligatoria.")]
+    [StringLength(100, ErrorMessage = "La contraseña debe tener al menos 5 caracteres de longitud.", MinimumLength = 5)]
+    [RegularExpression(@"^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,100}$", ErrorMessage = "La contraseña debe contener al menos un número y un carácter especial.")]   
     public string Password { get; set; }
 
     [Required(ErrorMessage = "El correo electrónico es obligatorio.")]
@@ -42,4 +44,6 @@ public class UserCreateRequest
 
     [Required(ErrorMessage = "El identificador de rol es obligatorio.")]
     public int RoleId { get; set; }
+    [Required(ErrorMessage = "El estado del consentimiento es obligatorio.")]
+    public bool IsConsentGranted { get; set; }
 }

@@ -1,38 +1,21 @@
-﻿// ***********************************************************************
-// Assembly         : Juegos.Serios.Authenticacions.Infrasturcture
-// Author           : diego diaz
-// Created          : 16-04-2024
-//
-// Last Modified By : 
-// Last Modified On : 
-// ***********************************************************************
-// <copyright file="BdSqlJuegosSeriosContext.cs" company="Universidad Javeriana">
-//     Copyright (c) Universidad Javeriana All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-
-using Juegos.Serios.Authenticacions.Domain.Aggregates;
-using Juegos.Serios.Authenticacions.Domain.Common;
-using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent;
-using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
-using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
-using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Juegos.Serios.Authenticacions.Infrastructure.Persistence;
+namespace Juegos.Serios.Principal.A;
 
-public partial class BdSqlAuthenticationContext : DbContext
+public partial class BdSqlJuegosSeriosContext : DbContext
 {
-    public BdSqlAuthenticationContext()
+    public BdSqlJuegosSeriosContext()
     {
     }
 
-    public BdSqlAuthenticationContext(DbContextOptions<BdSqlAuthenticationContext> options)
+    public BdSqlJuegosSeriosContext(DbContextOptions<BdSqlJuegosSeriosContext> options)
         : base(options)
     {
     }
+
+    public virtual DbSet<DataConsent> DataConsents { get; set; }
 
     public virtual DbSet<DocumentType> DocumentTypes { get; set; }
 
@@ -44,27 +27,10 @@ public partial class BdSqlAuthenticationContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<DataConsent> DataConsents { get; set; }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=tcp:serversqljuegosserios.database.windows.net,1433;Initial Catalog=BD-Sql-Juegos-Serios;Persist Security Info=False;User ID=su;Password=Colombia123*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        foreach (var entry in ChangeTracker.Entries<BaseDomainModel>())
-        {
-            switch (entry.State)
-            {
-                case EntityState.Added:
-                    entry.Entity.CreatedAt = DateTime.UtcNow;
-                    entry.Entity.CreatedBy = 3;
-                    break;
-
-                case EntityState.Modified:
-                    entry.Entity.UpdatedAt = DateTime.UtcNow;
-                    entry.Entity.UpdatedBy = 3;
-                    break;
-            }
-        }
-        return base.SaveChangesAsync(cancellationToken);
-    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<DataConsent>(entity =>

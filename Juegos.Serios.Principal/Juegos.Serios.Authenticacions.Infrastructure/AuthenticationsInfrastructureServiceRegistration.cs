@@ -15,9 +15,11 @@
 namespace Juegos.Serios.Authenticacions.Infrastructure;
 
 using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Ports.Persistence;
 using Juegos.Serios.Authenticacions.Infrastructure.Persistence;
 using Juegos.Serios.Authenticacions.Infrastructure.Repositories;
@@ -40,6 +42,8 @@ public static class AuthenticationsInfrastructureServiceRegistration
         services.AddScoped<IUserAggregateRepository, UserRepository>();
         services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
         services.AddScoped<IPasswordRecoveryRepository, PasswordRecoveryRepository>();
+        services.AddScoped<IDataConsentRepository, DataConsentRepository>();
+        services.AddScoped<ISessionLogRepository, SessionLogRepository>();
         return services;
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -25,10 +25,6 @@
 		<ProjectReference Include="..\Juegos.Serios.Authenticacions.Domain\Juegos.Serios.Authenticacions.Domain.csproj" />
 		<ProjectReference Include="..\Juegos.Serios.Authenticacions.Infrastructure\Juegos.Serios.Authenticacions.Infrastructure.csproj" />
 		<ProjectReference Include="..\Juegos.Serios.Authentications.Api\Juegos.Serios.Authentications.Api.csproj" />
-		<ProjectReference Include="..\Juegos.Serios.Notifications.Application\Juegos.Serios.Notifications.Application.csproj" />
-		<ProjectReference Include="..\Juegos.Serios.Notifications.Domain\Juegos.Serios.Notifications.Domain.csproj" />
-		<ProjectReference Include="..\Juegos.Serios.Notifications.Infrastructure\Juegos.Serios.Notifications.Infrastructure.csproj" />
-		<ProjectReference Include="..\Juegos.Serios.Notifications\Juegos.Serios.Notifications.Api.csproj" />
 	</ItemGroup>
 
 </Project>

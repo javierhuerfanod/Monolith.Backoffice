@@ -1,17 +1,9 @@
-﻿using Juegos.Serios.Authenticacions.Domain.Common;
-using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent;
-using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
-using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
-using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog;
-using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
-using Juegos.Serios.Authenticacions.Domain.Resources;
-using Juegos.Serios.Domain.Shared.Exceptions;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Juegos.Serios.Authenticacions.Domain.Aggregates;
+namespace Juegos.Serios.Principal.A;
 
-public partial class User : BaseDomainModel
+public partial class User
 {
     public int UserId { get; set; }
 
@@ -66,32 +58,4 @@ public partial class User : BaseDomainModel
     public virtual Role Role { get; set; } = null!;
 
     public virtual User? UpdatedByNavigation { get; set; }
-
-    public static User CreateNewUser(UserAggregateModel userModel)
-    {
-        var passwordHash = BCrypt.Net.BCrypt.HashPassword(userModel.Password);
-        var passwordHashBytes = Encoding.UTF8.GetBytes(passwordHash);
-
-        return new User
-        {
-            IsActive = true,
-            DocumentNumber = userModel.DocumentNumber,
-            FirstName = userModel.FirstName,
-            Email = userModel.Email,
-            DocumentTypeId = userModel.DocumentTypeId,
-            LastName = userModel.LastName,
-            RoleId = userModel.RoleId,
-            Username = userModel.Username,
-            PasswordHash = passwordHashBytes
-        };
-    }
-    public void UpdatePassword(UpdatePasswordModel updatePasswordModel)
-    {
-        if (string.IsNullOrWhiteSpace(updatePasswordModel.NewPassword))
-            throw new DomainException(AppMessages.Domain_User_Password_Empty);
-
-        var passwordHash = BCrypt.Net.BCrypt.HashPassword(updatePasswordModel.NewPassword);
-        this.PasswordHash = Encoding.UTF8.GetBytes(passwordHash);
-        this.IsTemporaryPassword = false;
-    }
 }

@@ -14,10 +14,15 @@
 
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Constants;
+using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent;
+using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog;
+using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword;
 using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword.Response;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
@@ -35,17 +40,21 @@ namespace Juegos.Serios.Authentications.Domain.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserAggregateRepository _userAggregateRepository;
+        private readonly ISessionLogRepository _sessionLogRepository;
         private readonly IRolRepository _rolRepository;
+        private readonly IDataConsentRepository _dataConsentRepository;
         private readonly IPasswordRecoveryRepository _passwordRecoveryRepository;
         private readonly IDocumentTypeRepository _documentTypeRepository;
         private readonly ILogger<UserAggregateService> _logger;
 
-        public UserAggregateService(IUnitOfWork unitOfWork, IUserAggregateRepository userAggregateRepository, IPasswordRecoveryRepository passwordRecoveryRepository, IRolRepository rolRepository, IDocumentTypeRepository documentTypeRepository, ILogger<UserAggregateService> logger)
+        public UserAggregateService(IUnitOfWork unitOfWork, IUserAggregateRepository userAggregateRepository, IPasswordRecoveryRepository passwordRecoveryRepository, ISessionLogRepository sessionLogRepository, IRolRepository rolRepository, IDataConsentRepository dataConsentRepository, IDocumentTypeRepository documentTypeRepository, ILogger<UserAggregateService> logger)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _userAggregateRepository = userAggregateRepository ?? throw new ArgumentNullException(nameof(userAggregateRepository));
+            _sessionLogRepository = sessionLogRepository ?? throw new ArgumentNullException(nameof(sessionLogRepository));
             _passwordRecoveryRepository = passwordRecoveryRepository ?? throw new ArgumentNullException(nameof(passwordRecoveryRepository));
             _rolRepository = rolRepository ?? throw new ArgumentNullException(nameof(rolRepository));
+            _dataConsentRepository = dataConsentRepository ?? throw new ArgumentNullException(nameof(dataConsentRepository));
             _documentTypeRepository = documentTypeRepository ?? throw new ArgumentNullException(nameof(documentTypeRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -69,6 +78,8 @@ namespace Juegos.Serios.Authentications.Domain.Services
                         await _userAggregateRepository.UpdateAsync(user);
                     }
                     _logger.LogInformation("User logged in successfully: {Email}", email);
+                    SessionLog sessionLog = SessionLog.CreateNewSessionLog(user.UserId, DomainEnumerator.ActionSessionLog.Login.ToString(), DomainEnumerator.IpConfig.NO_APLICA.ToString(), DateTime.Now);
+                    await _sessionLogRepository.AddAsync(sessionLog);
                     return user;
                 }
                 else if (user != null && VerifyPasswordHash(password, user.PasswordHash) == false && user.IsTemporaryPassword == true)
@@ -81,6 +92,8 @@ namespace Juegos.Serios.Authentications.Domain.Services
                             user.IsTemporaryPassword = false;
                             await _passwordRecoveryRepository.DeleteAsync(existingRecoveryPassword);
                             await _userAggregateRepository.UpdateAsync(user);
+                            SessionLog sessionLog = SessionLog.CreateNewSessionLog(user.UserId, DomainEnumerator.ActionSessionLog.RePswdLgn.ToString(), DomainEnumerator.IpConfig.NO_APLICA.ToString(), DateTime.Now);
+                            await _sessionLogRepository.AddAsync(sessionLog);
                             _logger.LogInformation("User logged in successfully with temporary password: {Email}", email);
                             return user;
                         }
@@ -111,7 +124,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error during login");
-                throw new DomainException("Unexpected error during login", ex);
+                throw new DomainException(AppMessages.Api_Servererror, ex);
             }
         }
 
@@ -119,33 +132,54 @@ namespace Juegos.Serios.Authentications.Domain.Services
         {
             try
             {
-                if (await _rolRepository.GetByIdAsync(userAggregateModel.RoleId) == null)
+                using (_unitOfWork)
                 {
-                    throw new DomainException(AppMessages.Api_Rol_GetById_NotFound);
+                    if (!userAggregateModel.IsConsentGranted)
+                    {
+                        _logger.LogWarning("User registration failed: data consent not granted.");
+                        throw new DomainException(AppMessages.Api_Created_User_IsConsentendIsfalse_Response);
+                    }
+
+                    var role = await _rolRepository.GetByIdAsync(userAggregateModel.RoleId);
+                    if (role == null)
+                    {
+                        _logger.LogWarning("User registration failed: Role with ID {RoleId} not found.", userAggregateModel.RoleId);
+                        throw new DomainException(AppMessages.Api_Rol_GetById_NotFound);
+                    }
+
+                    var documentType = await _documentTypeRepository.GetByIdAsync(userAggregateModel.DocumentTypeId);
+                    if (documentType == null)
+                    {
+                        _logger.LogWarning("User registration failed: Document type with ID {DocumentTypeId} not found.", userAggregateModel.DocumentTypeId);
+                        throw new DomainException(AppMessages.Api_DocumentType_GetById_NotFound);
+                    }
+
+                    var existingUser = await _userAggregateRepository.GetManyAsync(
+                        UserAggregateSpecifications.ByUsernameDocumentNumberOrEmail(
+                            userAggregateModel.Username,
+                            userAggregateModel.DocumentNumber,
+                            userAggregateModel.Email)
+                    );
+
+                    if (existingUser.Any())
+                    {
+                        _logger.LogWarning("User registration failed: user already exists");
+                        throw new DomainException(AppMessages.Api_Get_User_Duplicated_Response);
+                    }
+
+                    User user = User.CreateNewUser(userAggregateModel);
+                    var userCreated = await _userAggregateRepository.AddAsync(user);
+                    var dataConsented = await _dataConsentRepository.AddAsync(new DataConsent
+                    {
+                        UserId = userCreated.UserId,
+                        ConsentStatus = userAggregateModel.IsConsentGranted,
+                        ConsentDate = DateTime.Now
+                    });
+                    _logger.LogInformation("DataConsent registered successfully: {DataConsentId}", dataConsented.ConsentId);
+                    await _unitOfWork.Complete();
+                    _logger.LogInformation("User registered successfully: {Username}", user.Username);
+                    return user;
                 }
-
-                if (await _documentTypeRepository.GetByIdAsync(userAggregateModel.DocumentTypeId) == null)
-                {
-                    throw new DomainException(AppMessages.Api_DocumentType_GetById_NotFound);
-                }
-
-                var existingUser = await _userAggregateRepository.GetManyAsync(
-                    UserAggregateSpecifications.ByUsernameDocumentNumberOrEmail(
-                        userAggregateModel.Username,
-                        userAggregateModel.DocumentNumber,
-                        userAggregateModel.Email)
-                );
-
-                if (existingUser.Any())
-                {
-                    _logger.LogWarning("User registration failed: user already exists");
-                    throw new DomainException(AppMessages.Api_Get_User_Duplicated_Response);
-                }
-
-                User user = User.CreateNewUser(userAggregateModel);
-                await _userAggregateRepository.AddAsync(user);
-                _logger.LogInformation("User registered successfully: {Username}", user.Username);
-                return user;
             }
             catch (DomainException ex)
             {
@@ -238,11 +272,25 @@ namespace Juegos.Serios.Authentications.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error during recovery password");
-                throw new DomainException("Unexpected error recovery password", ex);
+                throw new DomainException(AppMessages.Api_Servererror, ex);
             }
         }
+        public async Task UpdateUserPassword(UpdatePasswordModel updatePasswordModel)
+        {
+            try
+            {
+                var user = await _userAggregateRepository.GetOneAsync(UserAggregateSpecifications.ById(updatePasswordModel.UserId))
+                       ?? throw new DomainException(AppMessages.Api_User_GetEmail_Invalid);
 
-
+                user.UpdatePassword(updatePasswordModel);
+                await _userAggregateRepository.UpdateAsync(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during update password");
+                throw new DomainException(AppMessages.Api_Servererror, ex);
+            }
+        }
 
         private static bool VerifyPasswordHash(string plainTextPassword, byte[] storedHash)
         {

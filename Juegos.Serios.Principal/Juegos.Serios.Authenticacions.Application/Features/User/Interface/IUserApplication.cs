@@ -12,14 +12,15 @@
 // <summary></summary>
 // ***********************************************************************
 
-using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+using Juegos.Serios.Authenticacions.Application.Models.Request;
 using Juegos.Serios.Shared.Application.Response;
 
 namespace Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces
 {
     public interface IUserApplication
-    {    
+    {
         Task<ApiResponse<object>> CreateUser(UserCreateRequest userCreateRequest);
+        Task<ApiResponse<object>> UpdateUserPassword(UpdatePasswordRequest updatePasswordRequest, int userId);
     }
 }
 

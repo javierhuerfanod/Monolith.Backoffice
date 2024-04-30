@@ -12,7 +12,6 @@
 // <summary></summary>
 // ***********************************************************************
 using System.Linq.Expressions;
-using System.Text;
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
 
 namespace Juegos.Serios.Authenticacions.Domain.Specifications
@@ -27,6 +26,10 @@ namespace Juegos.Serios.Authenticacions.Domain.Specifications
         public static Expression<Func<User, bool>> ByEmail(string email)
         {
             return user => user.Email == email;
+        }
+        public static Expression<Func<User, bool>> ById(int userId)
+        {
+            return user => user.UserId == userId;
         }
 
     }

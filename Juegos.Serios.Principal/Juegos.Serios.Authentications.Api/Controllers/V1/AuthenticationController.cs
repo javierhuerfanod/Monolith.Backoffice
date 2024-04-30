@@ -24,10 +24,8 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Juegos.Serios.Authenticacions.Domain.Resources;
     using Microsoft.Extensions.Logging;
     using Juegos.Serios.Shared.Api.Controllers;
-    using Juegos.Serios.Authenticacions.Application.Models.Dtos;
-    using Juegos.Serios.Authentications.Application.Features.Login;
-    using Microsoft.AspNetCore.Authorization;
-    using Juegos.Serios.Authenticacions.Application.Constants;
+    using Microsoft.Extensions.Configuration;
+    using Juegos.Serios.Shared.Api.UtilCross.Swagger;
 
     [ApiController]
     [Route("api/v1/[controller]")]
@@ -35,14 +33,16 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     {
         private readonly ILoginApplication _loginApplication;
         public readonly IRecoveryPasswordAuthenticationApplication _recoveryPasswordAuthenticationApplication;
+        private readonly IConfiguration _configuration;
 
         private new readonly ILogger<AuthenticationController> _logger; // Instancia del logger
 
-        public AuthenticationController(ILogger<AuthenticationController> logger, ILoginApplication loginApplication, IRecoveryPasswordAuthenticationApplication recoveryPasswordAuthenticationApplication) : base(logger)
+        public AuthenticationController(ILogger<AuthenticationController> logger, ILoginApplication loginApplication, IRecoveryPasswordAuthenticationApplication recoveryPasswordAuthenticationApplication, IConfiguration configuration) : base(logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _loginApplication = loginApplication ?? throw new ArgumentNullException(nameof(loginApplication));
             _recoveryPasswordAuthenticationApplication = recoveryPasswordAuthenticationApplication ?? throw new ArgumentNullException(nameof(recoveryPasswordAuthenticationApplication));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));        
         }
 
         /// <summary>
@@ -51,14 +51,29 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         /// <param name="loginRequest">Los datos de autenticación que incluyen el correo electrónico y la contraseña.</param>
         /// <returns>Una respuesta que contiene los detalles del rol del usuario si el inicio de sesión es exitoso.</returns>
         /// <response code="200">Devuelve el código 200 junto con los detalles del rol del usuario si el inicio de sesión es exitoso.</response>
-        /// <response code="400">Devuelve el código 400 si los datos de la solicitud no son válidos.</response>      
+        /// <response code="400">Devuelve el código 400 si los datos de la solicitud no son válidos o el token de la aplicación no es válido.</response>
+        /// <response code="401">Devuelve el código 401 si no se proporciona un token válido en la solicitud.</response>
         /// <response code="500">Devuelve el código 500 en caso de un error interno del servidor.</response>
         [HttpPost("login")]
+        [IncludeApplicationTokenHeader]
         [ProducesResponseType(typeof(ApiResponse<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiResponse<ErrorResponse>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<ApiResponse<string>>> Login([FromBody] LoginRequest loginRequest)
-        {
+        {            
+            var validApplicationToken = _configuration["ApplicationToken"]!.ToString();
+
+            var incomingToken = Request.Headers["Application-Token"].FirstOrDefault();
+
+            _logger.LogInformation("Attempting to register new user with token validation");
+
+            if (incomingToken != validApplicationToken)
+            {
+                _logger.LogWarning("Unauthorized access attempt with invalid token");
+                return Unauthorized(AppMessages.Api_TokenApplication_Invalid);
+            }
+
             if (!ModelState.IsValid)
             {
                 var errorMessages = ModelState.GetAllErrorMessages();
@@ -88,11 +103,23 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         /// <response code="400">Devuelve el código 400 si se proporcionaron datos de solicitud no válidos. Consulte el mensaje de error para obtener más detalles.</response>
         /// <response code="500">Devuelve el código 500 en caso de un error interno del servidor.</response>
         [HttpPost("RecoveryPassword")]
+        [IncludeApplicationTokenHeader]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiResponse<ErrorResponse>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<ApiResponse<object>>> RecoveryPassword([FromBody] RecoveryPasswordRequest recoveryPasswordRequest)
         {
+            var validApplicationToken = _configuration["ApplicationToken"]!.ToString();
+
+            var incomingToken = Request.Headers["Application-Token"].FirstOrDefault();
+
+            _logger.LogInformation("Attempting to register new user with token validation");
+
+            if (incomingToken != validApplicationToken)
+            {
+                _logger.LogWarning("Unauthorized access attempt with invalid token");
+                return Unauthorized(AppMessages.Api_TokenApplication_Invalid);
+            }
             _logger.LogInformation("Attempting to register new recovery password");
 
             if (!ModelState.IsValid)

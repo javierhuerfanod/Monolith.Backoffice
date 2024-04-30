@@ -24,7 +24,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging; 
+using Microsoft.Extensions.Logging;
 
 namespace Juegos.Serios.Authentications.Application.Features.Login
 {
@@ -69,10 +69,12 @@ namespace Juegos.Serios.Authentications.Application.Features.Login
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email)
-            };
+      {
+        new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
+        new Claim(JwtRegisteredClaimNames.UniqueName, user.Username), 
+        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+        new Claim("user_id", user.UserId.ToString()) 
+    };
 
             var token = new JwtSecurityToken(
                 claims: claims,

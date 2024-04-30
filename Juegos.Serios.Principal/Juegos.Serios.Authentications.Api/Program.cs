@@ -1,6 +1,7 @@
 using Juegos.Serios.Authenticacions.Application;
 using Juegos.Serios.Authenticacions.Domain;
 using Juegos.Serios.Authenticacions.Infrastructure;
+using Juegos.Serios.Shared.Api.UtilCross.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -22,6 +23,7 @@ builder.Services.AddSwaggerGen(options =>
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
+    options.OperationFilter<ApplicationTokenHeaderParameter>();
 
     // Configure Swagger to include JWT Authentication
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

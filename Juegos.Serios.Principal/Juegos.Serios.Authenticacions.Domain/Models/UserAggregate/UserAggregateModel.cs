@@ -15,8 +15,8 @@
 namespace Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 
 public class UserAggregateModel
-{ 
-    public string FirstName { get; set; }   
+{
+    public string FirstName { get; set; }
     public string LastName { get; set; }
     public int DocumentTypeId { get; set; }
     public string DocumentNumber { get; set; }
@@ -24,4 +24,5 @@ public class UserAggregateModel
     public string Password { get; set; }
     public string Email { get; set; }
     public int RoleId { get; set; }
+    public bool IsConsentGranted { get; set; }
 }

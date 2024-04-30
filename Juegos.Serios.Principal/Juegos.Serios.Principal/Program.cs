@@ -1,5 +1,4 @@
 using Juegos.Serios.Authenticacions.Api.V1;
-using Juegos.Serios.Notifications.Api.Controllers;
 using Juegos.Serios.Authenticacions.Application;
 using Juegos.Serios.Authenticacions.Domain;
 using Juegos.Serios.Authenticacions.Infrastructure;
@@ -8,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Juegos.Serios.Shared.Api.UtilCross.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(RolController).Assembly)
     .AddApplicationPart(typeof(AuthenticationController).Assembly)
-    .AddApplicationPart(typeof(UserController).Assembly)
-    .AddApplicationPart(typeof(NotificationsController).Assembly)
+    .AddApplicationPart(typeof(UserController).Assembly)   
     .ConfigureApiBehaviorOptions(options =>
     {
         options.SuppressModelStateInvalidFilter = true;
@@ -52,7 +51,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         options.IncludeXmlComments(xmlPathAuth, true);
     }
-
+    options.OperationFilter<ApplicationTokenHeaderParameter>();
     // Ensure JWT Security Definitions are correctly set up
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
