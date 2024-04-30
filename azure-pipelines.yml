@@ -13,7 +13,7 @@ variables:
   dockerRegistryServiceConnection: '0cc7a828-33e5-4d2b-a154-2bca0976abf9'
   imageRepository: 'juegosseriosmonolithbackoffice'
   containerRegistry: 'containerjuegosseriosjaveriana.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Juegos.Serios.Principal/Juegos.Serios.Authentications.Api/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
