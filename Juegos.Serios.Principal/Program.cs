@@ -107,7 +107,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Juegos Serios Backoffice Api V1");
+        options.OAuthClientId("swagger-ui");
+        options.OAuthAppName("Swagger UI");
+    });
 }
 
 app.UseHttpsRedirection();
