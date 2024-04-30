@@ -22,6 +22,8 @@ WORKDIR /app
 # Copia los archivos compilados de la etapa de construcción anterior
 COPY --from=build /app/build .
 # Expone el puerto 80
+EXPOSE 8080
+EXPOSE 443
 EXPOSE 80
 # Configura el punto de entrada de la aplicación
 ENTRYPOINT ["dotnet", "Juegos.Serios.Principal.dll"]
