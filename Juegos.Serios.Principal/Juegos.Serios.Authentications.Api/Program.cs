@@ -1,3 +1,6 @@
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Juegos.Serios.Authenticacions.Application;
 using Juegos.Serios.Authenticacions.Domain;
 using Juegos.Serios.Authenticacions.Infrastructure;
@@ -9,7 +12,19 @@ using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+string kvUrl = builder.Configuration.GetSection("KeyVaultConfig:KVUrl").Value!;
+string tenantId = builder.Configuration.GetSection("KeyVaultConfig:TenantId").Value!;
+string clientId = builder.Configuration.GetSection("KeyVaultConfig:ClientId").Value!;
+string clientSecret = builder.Configuration.GetSection("KeyVaultConfig:ClientSecret").Value!;
+string simulatedJuegosSeriosMonolithBackofficeSecrets = builder.Configuration.GetSection("Secrets:BackOffice").Value!;
+ClientSecretCredential credential = new(tenantId, clientId, clientSecret);
+SecretClient client = new(new Uri(kvUrl), credential);
+builder.Configuration.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
+var simulatedJuegosSeriosMonolithBackofficeJson = client.GetSecret(simulatedJuegosSeriosMonolithBackofficeSecrets).Value.Value;
+if (!string.IsNullOrEmpty(simulatedJuegosSeriosMonolithBackofficeJson))
+{
+    builder.Configuration.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(simulatedJuegosSeriosMonolithBackofficeJson)));
+}
 // Add services to the container.
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
