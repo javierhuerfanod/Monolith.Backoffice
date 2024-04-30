@@ -10,7 +10,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Juegos.Serios.Principal/Juegos.Serios.Principal.csproj", "Juegos.Serios.Principal/"]
-RUN dotnet restore "./Juegos.Serios.Principal/./Juegos.Serios.Principal.csproj"
+RUN dotnet restore "/Juegos.Serios.Principal/Juegos.Serios.Principal.csproj"
 COPY . .
 WORKDIR "/src/Juegos.Serios.Principal"
 RUN dotnet build "./Juegos.Serios.Principal.csproj" -c $BUILD_CONFIGURATION -o /app/build
