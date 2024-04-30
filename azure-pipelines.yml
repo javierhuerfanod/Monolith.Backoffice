@@ -37,3 +37,12 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+       ConnectionType: 'AzureRM'
+       azureSubscription: 'Service Connection Juegos Serios Javeriana'
+       appType: 'webAppContainer'
+       WebAppName: 'App-Juegos-Serios-Javeriana-Backoffice'
+       DockerNamespace: $(dockerRegistryServiceConnection)
+       DockerRepository: $(dockerfilePath)
+       DockerImageTag: $(tag)
