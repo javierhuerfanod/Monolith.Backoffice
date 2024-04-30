@@ -12,11 +12,11 @@ using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-string kvUrl = builder.Configuration.GetSection("KeyVaultConfig:KVUrl").Value!;
-string tenantId = builder.Configuration.GetSection("KeyVaultConfig:TenantId").Value!;
-string clientId = builder.Configuration.GetSection("KeyVaultConfig:ClientId").Value!;
-string clientSecret = builder.Configuration.GetSection("KeyVaultConfig:ClientSecret").Value!;
-string simulatedJuegosSeriosMonolithBackofficeSecrets = builder.Configuration.GetSection("Secrets:BackOffice").Value!;
+string kvUrl = builder.Configuration.GetSection("KVUrl").Value!;
+string tenantId = builder.Configuration.GetSection("TenantId").Value!;
+string clientId = builder.Configuration.GetSection("ClientId").Value!;
+string clientSecret = builder.Configuration.GetSection("ClientSecret").Value!;
+string simulatedJuegosSeriosMonolithBackofficeSecrets = builder.Configuration.GetSection("BackOffice").Value!;
 ClientSecretCredential credential = new(tenantId, clientId, clientSecret);
 SecretClient client = new(new Uri(kvUrl), credential);
 builder.Configuration.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
