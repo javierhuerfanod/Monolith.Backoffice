@@ -7,7 +7,7 @@ EXPOSE 8080
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Development
 WORKDIR /src
 COPY ["Juegos.Serios.Principal/Juegos.Serios.Principal.csproj", "Juegos.Serios.Principal/"]
 RUN dotnet restore "Juegos.Serios.Principal/Juegos.Serios.Principal.csproj"
@@ -16,7 +16,7 @@ WORKDIR "/src/Juegos.Serios.Principal"
 RUN dotnet build "Juegos.Serios.Principal.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Development
 RUN dotnet publish "./Juegos.Serios.Principal.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
