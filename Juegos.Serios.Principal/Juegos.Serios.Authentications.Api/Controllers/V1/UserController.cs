@@ -134,9 +134,9 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         /// <description>Debe contener al menos un carácter especial (ej. !@#$%^&amp;*).</description>
         /// </item>
         /// </list>
-        /// POST: /api/users/UpdatePassword
+        /// PATCH: /api/users/UpdatePassword
         /// </remarks>
-        [HttpPost("UpdatePassword")]
+        [HttpPatch("UpdatePassword")]
         [Authorize]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiResponse<ErrorResponse>), (int)HttpStatusCode.BadRequest)]
