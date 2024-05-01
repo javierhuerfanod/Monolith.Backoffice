@@ -4,6 +4,7 @@ using Azure.Security.KeyVault.Secrets;
 using Juegos.Serios.Authenticacions.Application;
 using Juegos.Serios.Authenticacions.Domain;
 using Juegos.Serios.Authenticacions.Infrastructure;
+using Juegos.Serios.Shared.Api.UtilCross;
 using Juegos.Serios.Shared.Api.UtilCross.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +28,10 @@ if (!string.IsNullOrEmpty(simulatedJuegosSeriosMonolithBackofficeJson))
 }
 // Add services to the container.
 builder.Services.AddControllers()
+      .AddJsonOptions(options =>
+      {
+          options.JsonSerializerOptions.Converters.Add(new NullableDateTimeConverter());
+      })
     .ConfigureApiBehaviorOptions(options =>
     {
         options.SuppressModelStateInvalidFilter = true;

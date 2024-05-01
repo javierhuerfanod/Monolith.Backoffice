@@ -26,6 +26,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Juegos.Serios.Shared.Api.Controllers;
     using Microsoft.Extensions.Configuration;
     using Juegos.Serios.Shared.Api.UtilCross.Swagger;
+    using System.Security.Claims;
 
     [ApiController]
     [Route("api/v1/[controller]")]
@@ -33,16 +34,16 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     {
         private readonly ILoginApplication _loginApplication;
         public readonly IRecoveryPasswordAuthenticationApplication _recoveryPasswordAuthenticationApplication;
-        private readonly IConfiguration _configuration;
 
-        private new readonly ILogger<AuthenticationController> _logger; // Instancia del logger
-
-        public AuthenticationController(ILogger<AuthenticationController> logger, ILoginApplication loginApplication, IRecoveryPasswordAuthenticationApplication recoveryPasswordAuthenticationApplication, IConfiguration configuration) : base(logger)
+        public AuthenticationController(
+            ILogger<AuthenticationController> logger,
+            ILoginApplication loginApplication,
+            IRecoveryPasswordAuthenticationApplication recoveryPasswordAuthenticationApplication,
+            IConfiguration configuration)
+            : base(logger, configuration)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _loginApplication = loginApplication ?? throw new ArgumentNullException(nameof(loginApplication));
             _recoveryPasswordAuthenticationApplication = recoveryPasswordAuthenticationApplication ?? throw new ArgumentNullException(nameof(recoveryPasswordAuthenticationApplication));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));        
         }
 
         /// <summary>
@@ -61,17 +62,10 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<ApiResponse<string>>> Login([FromBody] LoginRequest loginRequest)
-        {            
-            var validApplicationToken = _configuration["ApplicationToken"]!.ToString();
-
-            var incomingToken = Request.Headers["Application-Token"].FirstOrDefault();
-
-            _logger.LogInformation("Attempting to register new user with token validation");
-
-            if (incomingToken != validApplicationToken)
+        {
+            if (!ValidateTokenApplication())
             {
-                _logger.LogWarning("Unauthorized access attempt with invalid token");
-                return Unauthorized(AppMessages.Api_TokenApplication_Invalid);
+                return Unauthorized(new ApiResponse<object>(401, AppMessages.Api_TokenApplication_Invalid, false));
             }
 
             if (!ModelState.IsValid)
@@ -109,16 +103,9 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<ApiResponse<object>>> RecoveryPassword([FromBody] RecoveryPasswordRequest recoveryPasswordRequest)
         {
-            var validApplicationToken = _configuration["ApplicationToken"]!.ToString();
-
-            var incomingToken = Request.Headers["Application-Token"].FirstOrDefault();
-
-            _logger.LogInformation("Attempting to register new user with token validation");
-
-            if (incomingToken != validApplicationToken)
+            if (!ValidateTokenApplication())
             {
-                _logger.LogWarning("Unauthorized access attempt with invalid token");
-                return Unauthorized(AppMessages.Api_TokenApplication_Invalid);
+                return Unauthorized(new ApiResponse<object>(401, AppMessages.Api_TokenApplication_Invalid, false));
             }
             _logger.LogInformation("Attempting to register new recovery password");
 
@@ -129,6 +116,42 @@ namespace Juegos.Serios.Authenticacions.Api.V1
                 return BadRequest(new ApiResponse<ErrorResponse>(400, AppMessages.Api_Badrequest, false, errorResponse));
             }
             var response = await _recoveryPasswordAuthenticationApplication.CreateRecoveryPassword(recoveryPasswordRequest.Email);
+            return response.ResponseCode switch
+            {
+                (int)GenericEnumerator.ResponseCode.Ok => LogAndReturnOk(response),
+                (int)GenericEnumerator.ResponseCode.BadRequest => LogAndReturnBadRequest(response),
+                (int)GenericEnumerator.ResponseCode.InternalError => LogAndReturnInternalError(response),
+                _ => throw new NotImplementedException()
+            };
+        }
+
+        /// <summary>
+        /// Refresca el token JWT de un usuario basado en el token de acceso actual.
+        /// </summary>
+        /// <returns>Una respuesta API que indica el resultado del refresco del token.</returns>
+        /// <response code="200">Devuelve el código 200 junto con el nuevo token si el refresco se realizó correctamente.</response>
+        /// <response code="401">Devuelve el código 401 si los datos del token son inválidos o si el token ha expirado.</response>
+        /// <response code="500">Devuelve el código 500 en caso de un error interno del servidor.</response>
+        [HttpPost("RefreshToken")]
+        [IncludeApplicationTokenHeader]
+        [ProducesResponseType(typeof(ApiResponse<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResponse<ErrorResponse>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<ApiResponse<string>>> RefreshToken()
+        {
+            _logger.LogInformation("Attempting to get new toke by jwt access token");
+            if (!ValidateTokenApplication())
+            {
+                return Unauthorized(new ApiResponse<object>(401, AppMessages.Api_TokenApplication_Invalid, false));
+            }
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return Unauthorized("Token invalido, ingrese el token a refrescar");
+            }
+            int userId = int.Parse(userIdClaim);
+            var response = await _loginApplication.GetRefreshToken(userId);
             return response.ResponseCode switch
             {
                 (int)GenericEnumerator.ResponseCode.Ok => LogAndReturnOk(response),

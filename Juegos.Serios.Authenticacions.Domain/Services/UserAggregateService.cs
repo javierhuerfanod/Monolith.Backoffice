@@ -15,6 +15,7 @@
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Constants;
+using Juegos.Serios.Authenticacions.Domain.Entities.City.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent;
 using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType.Interfaces;
@@ -40,6 +41,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserAggregateRepository _userAggregateRepository;
+        private readonly ICityRepository _cityRepository;
         private readonly ISessionLogRepository _sessionLogRepository;
         private readonly IRolRepository _rolRepository;
         private readonly IDataConsentRepository _dataConsentRepository;
@@ -47,10 +49,11 @@ namespace Juegos.Serios.Authentications.Domain.Services
         private readonly IDocumentTypeRepository _documentTypeRepository;
         private readonly ILogger<UserAggregateService> _logger;
 
-        public UserAggregateService(IUnitOfWork unitOfWork, IUserAggregateRepository userAggregateRepository, IPasswordRecoveryRepository passwordRecoveryRepository, ISessionLogRepository sessionLogRepository, IRolRepository rolRepository, IDataConsentRepository dataConsentRepository, IDocumentTypeRepository documentTypeRepository, ILogger<UserAggregateService> logger)
+        public UserAggregateService(IUnitOfWork unitOfWork, IUserAggregateRepository userAggregateRepository, ICityRepository cityRepository, IPasswordRecoveryRepository passwordRecoveryRepository, ISessionLogRepository sessionLogRepository, IRolRepository rolRepository, IDataConsentRepository dataConsentRepository, IDocumentTypeRepository documentTypeRepository, ILogger<UserAggregateService> logger)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _userAggregateRepository = userAggregateRepository ?? throw new ArgumentNullException(nameof(userAggregateRepository));
+            _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(userAggregateRepository));
             _sessionLogRepository = sessionLogRepository ?? throw new ArgumentNullException(nameof(sessionLogRepository));
             _passwordRecoveryRepository = passwordRecoveryRepository ?? throw new ArgumentNullException(nameof(passwordRecoveryRepository));
             _rolRepository = rolRepository ?? throw new ArgumentNullException(nameof(rolRepository));
@@ -58,7 +61,25 @@ namespace Juegos.Serios.Authentications.Domain.Services
             _documentTypeRepository = documentTypeRepository ?? throw new ArgumentNullException(nameof(documentTypeRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
+        public async Task<User> GetById(int id)
+        {
+            try
+            {            
+                var user = await _userAggregateRepository.GetByIdAsync(id);
+            
+                if (user == null)
+                {                
+                    _logger.LogWarning("User not found with ID: {UserId}", id);                   
+                    throw new DomainException(AppMessages.Api_User_GetById_NotFound);
+                }
+                return user;
+            }          
+            catch (Exception ex)
+            {              
+                _logger.LogError(ex, "Unexpected error during retrieval of user by ID: {UserId}", id);               
+                throw new DomainException(AppMessages.Api_Servererror, ex);
+            }
+        }
         public async Task<User> GetByEmailAndPassword(string email, string password)
         {
             try
@@ -138,6 +159,19 @@ namespace Juegos.Serios.Authentications.Domain.Services
                     {
                         _logger.LogWarning("User registration failed: data consent not granted.");
                         throw new DomainException(AppMessages.Api_Created_User_IsConsentendIsfalse_Response);
+                    }
+                    var city = await _cityRepository.GetByIdAsync(userAggregateModel.CityId);
+                    if (city == null)
+                    {
+                        _logger.LogWarning("User registration failed: City with ID {CityId} not found.", userAggregateModel.CityId);
+                        throw new DomainException(AppMessages.Api_City_GetById_NotFound);
+                    }
+
+                    var homeCity = await _cityRepository.GetByIdAsync(userAggregateModel.CityHomeId);
+                    if (homeCity == null)
+                    {
+                        _logger.LogWarning("User registration failed: Home city with ID {CityHomeId} not found.", userAggregateModel.CityHomeId);
+                        throw new DomainException(AppMessages.Api_City_GetById_NotFound);
                     }
 
                     var role = await _rolRepository.GetByIdAsync(userAggregateModel.RoleId);

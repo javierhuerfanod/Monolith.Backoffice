@@ -69,6 +69,42 @@ namespace Juegos.Serios.Authenticacions.Domain.Resources
             }
         }
 
+        public static string Api_User_GetById_NotFound
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_User_GetById_NotFound", resourceCulture);
+            }
+        }
+        public static string Api_City_GetCities_NotFound
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_City_GetCities_NotFound", resourceCulture);
+            }
+        }
+        public static string Api_Get_citis_Response
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Get_citis_Response", resourceCulture);
+            }
+        }
+        public static string Api_City_Select_Error
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_City_Select_Error", resourceCulture);
+            }
+        }
+
+        public static string Api_City_GetById_NotFound
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_City_GetById_NotFound", resourceCulture);
+            }
+        }
         public static string Api_Get_User_UpdatedPassword_Response
         {
             get

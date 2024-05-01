@@ -23,5 +23,6 @@ namespace Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces
         Task<User> RegisterUser(UserAggregateModel userAggregateModel);
         Task<PasswordRecoveryResponse> RegisterRecoveryPassword(string email);
         Task UpdateUserPassword(UpdatePasswordModel updatePasswordModel);
+        Task<User> GetById(int id);
     }
 }

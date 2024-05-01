@@ -35,7 +35,7 @@ public class UserCreateRequest
 
     [Required(ErrorMessage = "La contraseña es obligatoria.")]
     [StringLength(100, ErrorMessage = "La contraseña debe tener al menos 5 caracteres de longitud.", MinimumLength = 5)]
-    [RegularExpression(@"^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,100}$", ErrorMessage = "La contraseña debe contener al menos un número y un carácter especial.")]   
+    [RegularExpression(@"^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,100}$", ErrorMessage = "La contraseña debe contener al menos un número y un carácter especial.")]
     public string Password { get; set; }
 
     [Required(ErrorMessage = "El correo electrónico es obligatorio.")]
@@ -46,4 +46,16 @@ public class UserCreateRequest
     public int RoleId { get; set; }
     [Required(ErrorMessage = "El estado del consentimiento es obligatorio.")]
     public bool IsConsentGranted { get; set; }
+
+    [Required(ErrorMessage = "la ciudad es obligatorio.")]
+    public int CityId { get; set; }
+
+    [Required(ErrorMessage = "la ciudad de origen es obligatorio.")]
+    public int CityHomeId { get; set; }
+
+    [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
+    public DateTime? BirthdayDate { get; set; }
+
+    [Required(ErrorMessage = "El peso es obligatorio.")]
+    public int Weight { get; set; }
 }

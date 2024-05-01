@@ -11,6 +11,7 @@ using Juegos.Serios.Shared.Api.UtilCross.Swagger;
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using Juegos.Serios.Shared.Api.UtilCross;
 
 var builder = WebApplication.CreateBuilder(args);
 string kvUrl = builder.Configuration.GetSection("KVUrl").Value!;
@@ -26,15 +27,23 @@ if (!string.IsNullOrEmpty(simulatedJuegosSeriosMonolithBackofficeJson))
 {
     builder.Configuration.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(simulatedJuegosSeriosMonolithBackofficeJson)));
 }
+
 // Add services to the container.
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(RolController).Assembly)
     .AddApplicationPart(typeof(AuthenticationController).Assembly)
-    .AddApplicationPart(typeof(UserController).Assembly)   
+    .AddApplicationPart(typeof(UserController).Assembly)
+    .AddApplicationPart(typeof(CityController).Assembly)
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new NullableDateTimeConverter());
+    })
     .ConfigureApiBehaviorOptions(options =>
     {
         options.SuppressModelStateInvalidFilter = true;
-    });
+    }
+
+    );
 
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -107,12 +116,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Juegos Serios Backoffice Api V1");
-        options.OAuthClientId("swagger-ui");
-        options.OAuthAppName("Swagger UI");
-    });
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
@@ -128,4 +132,5 @@ app.UseEndpoints(endpoints =>
 });
 
 app.Run();
+
 

@@ -23,11 +23,14 @@ namespace Juegos.Serios.Authenticacions.Application
     using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
     using Juegos.Serios.Authentications.Application.Features.Login;
     using Juegos.Serios.Authenticacions.Application.Features.Authentication.RecoveryPassword;
+    using Juegos.Serios.Authenticacions.Application.Features.CityApplication.Interfaces;
+    using Juegos.Serios.Authenticacions.Application.Features.CityApplication;
 
     public static class AuthenticationsApplicationServiceRegistration
     {
         public static IServiceCollection AddAuthenticationsApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<ICityApplication, CityApplication>();
             services.AddScoped<IRoleApplication, RoleApplication>();
             services.AddScoped<ILoginApplication, LoginApplication>();
             services.AddScoped<IRecoveryPasswordAuthenticationApplication, RecoveryPasswordAuthenticationApplication>();

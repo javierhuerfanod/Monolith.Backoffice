@@ -16,6 +16,8 @@ namespace Juegos.Serios.Authenticacions.Domain;
 
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities.City;
+using Juegos.Serios.Authenticacions.Domain.Entities.City.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
 using Juegos.Serios.Authentications.Domain.Services;
@@ -27,6 +29,7 @@ public static class AuthenticationsDomainServiceRegistration
     {
         services.AddScoped<IRolService<Role>, RolService>();
         services.AddScoped<IUserAggregateService<User>, UserAggregateService>();
+        services.AddScoped<ICityService<City>, CityService>();
         return services;
     }
 }

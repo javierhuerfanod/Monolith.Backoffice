@@ -14,6 +14,7 @@
 
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Domain.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
 
@@ -39,7 +40,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving PasswordRecovery by ID");
-                throw new DomainException("Error retrieving PasswordRecovery by ID.", ex);
+                throw new DomainException(AppMessages.Api_Servererror, ex);
             }
         }    
 
@@ -53,7 +54,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all PasswordRecovery");
-                throw new DomainException("Error retrieving all PasswordRecovery.", ex);
+                throw new DomainException(AppMessages.Api_Servererror, ex);
             }
         }
     }

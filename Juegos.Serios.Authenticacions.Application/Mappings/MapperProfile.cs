@@ -16,6 +16,7 @@ namespace Aurora.Backend.Baseline.Application.Features.ConceptoBase.Commands
     using AutoMapper;
     using Juegos.Serios.Authenticacions.Application.Models.Dtos;
     using Juegos.Serios.Authenticacions.Application.Models.Request;
+    using Juegos.Serios.Authenticacions.Domain.Entities.City;
     using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
     using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 
@@ -24,11 +25,12 @@ namespace Aurora.Backend.Baseline.Application.Features.ConceptoBase.Commands
         public MapperProfile()
         {
             CreateMap<Role, RolDto>();
+            CreateMap<City, CityDto>();
             CreateMap<UserCreateRequest, UserAggregateModel>();
             CreateMap<UpdatePasswordRequest, UpdatePasswordModel>()
-               .ForMember(dest => dest.UserId, opt => opt.Ignore()) 
+               .ForMember(dest => dest.UserId, opt => opt.Ignore())
                .AfterMap((src, dest, context) =>
-               {                   
+               {
                    if (context.Items.ContainsKey("userId"))
                    {
                        dest.UserId = (int)context.Items["userId"];
