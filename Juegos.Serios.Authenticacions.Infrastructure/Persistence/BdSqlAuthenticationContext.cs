@@ -14,6 +14,7 @@
 
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Common;
+using Juegos.Serios.Authenticacions.Domain.Entities.City;
 using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent;
 using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
@@ -45,6 +46,7 @@ public partial class BdSqlAuthenticationContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<DataConsent> DataConsents { get; set; }
+    public virtual DbSet<City> Cities { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -67,6 +69,20 @@ public partial class BdSqlAuthenticationContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<City>(entity =>
+        {
+            entity.HasKey(e => e.CityId).HasName("PK__Cities__F2D21A96CF316140");
+
+            entity.ToTable("Cities", "Authentication");
+
+            entity.Property(e => e.CityId).HasColumnName("CityID");
+            entity.Property(e => e.CityName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<DataConsent>(entity =>
         {
             entity.HasKey(e => e.ConsentId).HasName("PK__DataCons__374AB0A6F5077AE6");
@@ -203,6 +219,9 @@ public partial class BdSqlAuthenticationContext : DbContext
             entity.HasIndex(e => e.Email, "UQ__Users__A9D105343696D236").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.BirthdayDate).HasColumnType("datetime");
+            entity.Property(e => e.CityHomeId).HasColumnName("CityHomeID");
+            entity.Property(e => e.CityId).HasColumnName("CityID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -229,6 +248,14 @@ public partial class BdSqlAuthenticationContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
 
+            entity.HasOne(d => d.CityHome).WithMany(p => p.UserCityHomes)
+                .HasForeignKey(d => d.CityHomeId)
+                .HasConstraintName("FK_Users_CityHomeID");
+
+            entity.HasOne(d => d.City).WithMany(p => p.UserCities)
+                .HasForeignKey(d => d.CityId)
+                .HasConstraintName("FK_Users_CityID");
+
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InverseCreatedByNavigation)
                 .HasForeignKey(d => d.CreatedBy)
                 .HasConstraintName("FK__Users__CreatedBy__1332DBDC");
@@ -250,6 +277,5 @@ public partial class BdSqlAuthenticationContext : DbContext
 
         OnModelCreatingPartial(modelBuilder);
     }
-
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

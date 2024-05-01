@@ -13,8 +13,8 @@
 // ***********************************************************************
 
 namespace Juegos.Serios.Authenticacions.Infrastructure;
-
 using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities.City.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery.Interfaces;
@@ -23,6 +23,7 @@ using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Ports.Persistence;
 using Juegos.Serios.Authenticacions.Infrastructure.Persistence;
 using Juegos.Serios.Authenticacions.Infrastructure.Repositories;
+using Juegos.Serios.Authenticacions.Infrastructure.Repositories.CityRepository;
 using Juegos.Serios.Authenticacions.Infrastructure.Repositories.Rol;
 using Juegos.Serios.Authenticacions.Infrastructure.Repositories.UserRepository;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,7 @@ public static class AuthenticationsInfrastructureServiceRegistration
          );
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
+        services.AddScoped<ICityRepository, CityRepository>();
         services.AddScoped<IRolRepository, RoleRepository>();
         services.AddScoped<IUserAggregateRepository, UserRepository>();
         services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();

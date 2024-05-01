@@ -32,7 +32,7 @@ namespace Juegos.Serios.Authentications.Application.Features.Login
     {
         private readonly IUserAggregateService<User> _userAggregateService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<LoginApplication> _logger; // Instancia del logger
+        private readonly ILogger<LoginApplication> _logger;
 
         public LoginApplication(ILogger<LoginApplication> logger, IUserAggregateService<User> userAggregateService, IConfiguration configuration)
         {
@@ -62,6 +62,27 @@ namespace Juegos.Serios.Authentications.Application.Features.Login
                 return new ApiResponse<string>(500, AppMessages.Api_Servererror, false, null);
             }
         }
+        public async Task<ApiResponse<string>> GetRefreshToken(int userId)
+        {
+            _logger.LogInformation("Attempting refresh token for user: {UserId}", userId);
+
+            try
+            {
+                var user = await _userAggregateService.GetById(userId);
+                var token = GenerateJwtToken(user);
+                return new ApiResponse<string>(200, AppMessages.Api_Successful, true, token);
+            }
+            catch (DomainException dex)
+            {
+                _logger.LogWarning("Login failed: {ExceptionMessage}", dex.Message);
+                return new ApiResponse<string>(400, dex.Message, false, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Internal server error occurred: {ExceptionMessage}", ex.Message);
+                return new ApiResponse<string>(500, AppMessages.Api_Servererror, false, null);
+            }
+        }
 
         private string GenerateJwtToken(User user)
         {
@@ -71,9 +92,9 @@ namespace Juegos.Serios.Authentications.Application.Features.Login
             var claims = new[]
       {
         new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
-        new Claim(JwtRegisteredClaimNames.UniqueName, user.Username), 
+        new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
         new Claim(JwtRegisteredClaimNames.Email, user.Email),
-        new Claim("user_id", user.UserId.ToString()) 
+        new Claim("user_id", user.UserId.ToString())
     };
 
             var token = new JwtSecurityToken(

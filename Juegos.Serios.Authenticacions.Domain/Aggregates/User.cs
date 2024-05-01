@@ -1,9 +1,9 @@
 ﻿using Juegos.Serios.Authenticacions.Domain.Common;
+using Juegos.Serios.Authenticacions.Domain.Entities.City;
 using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent;
 using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
-using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Domain.Shared.Exceptions;
@@ -35,13 +35,17 @@ public partial class User : BaseDomainModel
 
     public bool? IsTemporaryPassword { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public int? CityId { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public int? CityHomeId { get; set; }
 
-    public int? CreatedBy { get; set; }
+    public DateTime? BirthdayDate { get; set; }
 
-    public int? UpdatedBy { get; set; }
+    public int? Weight { get; set; }
+
+    public virtual City? City { get; set; }
+
+    public virtual City? CityHome { get; set; }
 
     public virtual User? CreatedByNavigation { get; set; }
 
@@ -82,7 +86,11 @@ public partial class User : BaseDomainModel
             LastName = userModel.LastName,
             RoleId = userModel.RoleId,
             Username = userModel.Username,
-            PasswordHash = passwordHashBytes
+            PasswordHash = passwordHashBytes,
+            CityId = userModel.CityId,
+            CityHomeId = userModel.CityHomeId,
+            BirthdayDate = userModel.BirthdayDate,
+            Weight = userModel.Weight,
         };
     }
     public void UpdatePassword(UpdatePasswordModel updatePasswordModel)

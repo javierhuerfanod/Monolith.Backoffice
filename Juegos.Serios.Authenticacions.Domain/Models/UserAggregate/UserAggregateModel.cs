@@ -24,5 +24,9 @@ public class UserAggregateModel
     public string Password { get; set; }
     public string Email { get; set; }
     public int RoleId { get; set; }
+    public int Weight { get; set; }
+    public int CityId { get; set; }
+    public int CityHomeId { get; set; }
+    public DateTime? BirthdayDate { get; set; }
     public bool IsConsentGranted { get; set; }
 }

@@ -34,14 +34,14 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     public class UserController : BaseApiController
     {
         private readonly IUserApplication _userApplication;
-        private new readonly ILogger<UserController> _logger;
-        private readonly IConfiguration _configuration;
 
-        public UserController(ILogger<UserController> logger, IUserApplication userApplication, IConfiguration configuration) : base(logger)
+        public UserController(
+            ILogger<UserController> logger,
+            IUserApplication userApplication,
+            IConfiguration configuration)
+            : base(logger, configuration)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _userApplication = userApplication ?? throw new ArgumentNullException(nameof(userApplication));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         /// <summary>

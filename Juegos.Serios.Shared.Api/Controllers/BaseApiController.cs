@@ -16,15 +16,41 @@ namespace Juegos.Serios.Shared.Api.Controllers
 {
     using Juegos.Serios.Shared.Application.Response;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using System.Net;
     public abstract class BaseApiController : ControllerBase
     {
         protected readonly ILogger<BaseApiController> _logger;
-
+        protected readonly IConfiguration _configuration; 
+    
+        protected BaseApiController(ILogger<BaseApiController> logger, IConfiguration configuration)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _configuration = configuration;
+        }
+   
         protected BaseApiController(ILogger<BaseApiController> logger)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+
+
+        protected bool ValidateTokenApplication()
+        {
+            var validApplicationToken = _configuration["ApplicationToken"]!.ToString();
+            var incomingToken = Request.Headers["Application-Token"].FirstOrDefault();
+
+            _logger.LogInformation("Attempting token validation for access.");
+
+            if (incomingToken != validApplicationToken)
+            {
+                _logger.LogWarning("Unauthorized access attempt with invalid token.");
+                return false;
+            }
+
+            return true;
         }
 
         protected ActionResult<ApiResponse<T>> LogAndReturnOk<T>(ApiResponse<T> response, string message = null)
