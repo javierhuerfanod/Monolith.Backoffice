@@ -20,6 +20,7 @@ using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog;
+using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
 using Microsoft.EntityFrameworkCore;
 
 namespace Juegos.Serios.Authenticacions.Infrastructure.Persistence;
@@ -47,6 +48,8 @@ public partial class BdSqlAuthenticationContext : DbContext
 
     public virtual DbSet<DataConsent> DataConsents { get; set; }
     public virtual DbSet<City> Cities { get; set; }
+    public virtual DbSet<UserAvatarBodyPart> UserAvatarBodyParts { get; set; }
+
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -71,7 +74,7 @@ public partial class BdSqlAuthenticationContext : DbContext
     {
         modelBuilder.Entity<City>(entity =>
         {
-            entity.HasKey(e => e.CityId).HasName("PK__Cities__F2D21A96CF316140");
+            entity.HasKey(e => e.CityId).HasName("PK__Cities__F2D21A96910C1556");
 
             entity.ToTable("Cities", "Authentication");
 
@@ -85,7 +88,7 @@ public partial class BdSqlAuthenticationContext : DbContext
 
         modelBuilder.Entity<DataConsent>(entity =>
         {
-            entity.HasKey(e => e.ConsentId).HasName("PK__DataCons__374AB0A6F5077AE6");
+            entity.HasKey(e => e.ConsentId).HasName("PK__DataCons__374AB0A66029D9BC");
 
             entity.ToTable("DataConsent", "Authentication");
 
@@ -112,11 +115,11 @@ public partial class BdSqlAuthenticationContext : DbContext
 
         modelBuilder.Entity<DocumentType>(entity =>
         {
-            entity.HasKey(e => e.DocumentTypeId).HasName("PK__Document__DBA390C13F5FB552");
+            entity.HasKey(e => e.DocumentTypeId).HasName("PK__Document__DBA390C1C9C6B8E8");
 
             entity.ToTable("DocumentTypes", "Authentication");
 
-            entity.HasIndex(e => e.TypeName, "UQ__Document__D4E7DFA8B296CD72").IsUnique();
+            entity.HasIndex(e => e.TypeName, "UQ__Document__D4E7DFA8847CDA57").IsUnique();
 
             entity.Property(e => e.DocumentTypeId).HasColumnName("DocumentTypeID");
             entity.Property(e => e.CreatedAt)
@@ -132,7 +135,7 @@ public partial class BdSqlAuthenticationContext : DbContext
 
         modelBuilder.Entity<PasswordRecovery>(entity =>
         {
-            entity.HasKey(e => e.RecoveryId).HasName("PK__Password__EE4C844C3A185030");
+            entity.HasKey(e => e.RecoveryId).HasName("PK__Password__EE4C844CB7BA1221");
 
             entity.ToTable("PasswordRecovery", "Authentication");
 
@@ -148,25 +151,25 @@ public partial class BdSqlAuthenticationContext : DbContext
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PasswordRecoveryCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK__PasswordR__Creat__19DFD96B");
+                .HasConstraintName("FK__PasswordR__Creat__7A672E12");
 
             entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.PasswordRecoveryUpdatedByNavigations)
                 .HasForeignKey(d => d.UpdatedBy)
-                .HasConstraintName("FK__PasswordR__Updat__1AD3FDA4");
+                .HasConstraintName("FK__PasswordR__Updat__7B5B524B");
 
             entity.HasOne(d => d.User).WithMany(p => p.PasswordRecoveryUsers)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PasswordR__UserI__18EBB532");
+                .HasConstraintName("FK__PasswordR__UserI__7C4F7684");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A1A328D66");
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A4A6909B5");
 
             entity.ToTable("Roles", "Authentication");
 
-            entity.HasIndex(e => e.RoleName, "UQ__Roles__8A2B6160F4DE1E5D").IsUnique();
+            entity.HasIndex(e => e.RoleName, "UQ__Roles__8A2B6160BAD60DBE").IsUnique();
 
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.CreatedAt)
@@ -182,7 +185,7 @@ public partial class BdSqlAuthenticationContext : DbContext
 
         modelBuilder.Entity<SessionLog>(entity =>
         {
-            entity.HasKey(e => e.LogId).HasName("PK__SessionL__5E5499A8B886A76A");
+            entity.HasKey(e => e.LogId).HasName("PK__SessionL__5E5499A8AA79D06E");
 
             entity.ToTable("SessionLogs", "Authentication");
 
@@ -208,15 +211,15 @@ public partial class BdSqlAuthenticationContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC07E7D606");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCACAF9F3526");
 
             entity.ToTable("Users", "Authentication");
 
-            entity.HasIndex(e => e.Username, "UQ__Users__536C85E499FFE0C3").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__Users__536C85E44C0A6ECD").IsUnique();
 
-            entity.HasIndex(e => e.DocumentNumber, "UQ__Users__689939184C980168").IsUnique();
+            entity.HasIndex(e => e.DocumentNumber, "UQ__Users__68993918D2D35C49").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D105343696D236").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D105344CE22BD7").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.BirthdayDate).HasColumnType("datetime");
@@ -258,21 +261,39 @@ public partial class BdSqlAuthenticationContext : DbContext
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InverseCreatedByNavigation)
                 .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK__Users__CreatedBy__1332DBDC");
+                .HasConstraintName("FK__Users__CreatedBy__7D439ABD");
 
             entity.HasOne(d => d.DocumentType).WithMany(p => p.Users)
                 .HasForeignKey(d => d.DocumentTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Users__DocumentT__123EB7A3");
+                .HasConstraintName("FK__Users__DocumentT__7E37BEF6");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Users__RoleID__114A936A");
+                .HasConstraintName("FK__Users__RoleID__7F2BE32F");
 
             entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.InverseUpdatedByNavigation)
                 .HasForeignKey(d => d.UpdatedBy)
-                .HasConstraintName("FK__Users__UpdatedBy__14270015");
+                .HasConstraintName("FK__Users__UpdatedBy__00200768");
+        });
+
+        modelBuilder.Entity<UserAvatarBodyPart>(entity =>
+        {
+            entity.HasKey(e => e.UserAvatarBodyPartsId).HasName("PK__UserAvat__6647D3E5B873B90D");
+
+            entity.ToTable("UserAvatarBodyParts", "Authentication");
+
+            entity.Property(e => e.BodyPartAnimationId).HasColumnName("BodyPartAnimationID");
+            entity.Property(e => e.BodyPartName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UserAvatarBodyParts)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__UserAvata__UserI__17F790F9");
         });
 
         OnModelCreatingPartial(modelBuilder);

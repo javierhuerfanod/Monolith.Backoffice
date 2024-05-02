@@ -4,7 +4,7 @@
 // Created          : 18-04-2024
 //
 // Last Modified By : diego diaz
-// Last Modified On : 22-04-2024
+// Last Modified On : 01-05-2024
 // ***********************************************************************
 // <copyright file="AuthenticationsApplicationServiceRegistration.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
@@ -25,11 +25,13 @@ namespace Juegos.Serios.Authenticacions.Application
     using Juegos.Serios.Authenticacions.Application.Features.Authentication.RecoveryPassword;
     using Juegos.Serios.Authenticacions.Application.Features.CityApplication.Interfaces;
     using Juegos.Serios.Authenticacions.Application.Features.CityApplication;
+    using Juegos.Serios.Authenticacions.Application.Features.UserAvatarBodyParts;
 
     public static class AuthenticationsApplicationServiceRegistration
     {
         public static IServiceCollection AddAuthenticationsApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IUserAvatarBodyPartsApplication, UserAvatarBodyPartsApplication>();
             services.AddScoped<ICityApplication, CityApplication>();
             services.AddScoped<IRoleApplication, RoleApplication>();
             services.AddScoped<ILoginApplication, LoginApplication>();

@@ -25,6 +25,7 @@ using Juegos.Serios.Authenticacions.Infrastructure.Persistence;
 using Juegos.Serios.Authenticacions.Infrastructure.Repositories;
 using Juegos.Serios.Authenticacions.Infrastructure.Repositories.CityRepository;
 using Juegos.Serios.Authenticacions.Infrastructure.Repositories.Rol;
+using Juegos.Serios.Authenticacions.Infrastructure.Repositories.UserAvatar;
 using Juegos.Serios.Authenticacions.Infrastructure.Repositories.UserRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -46,6 +47,7 @@ public static class AuthenticationsInfrastructureServiceRegistration
         services.AddScoped<IPasswordRecoveryRepository, PasswordRecoveryRepository>();
         services.AddScoped<IDataConsentRepository, DataConsentRepository>();
         services.AddScoped<ISessionLogRepository, SessionLogRepository>();
+        services.AddScoped<IUserAvatarBodyPartRepository, UserAvatarBodyPartRepository>();
         return services;
     }
 }

@@ -20,6 +20,8 @@ using Juegos.Serios.Authenticacions.Domain.Entities.City;
 using Juegos.Serios.Authenticacions.Domain.Entities.City.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
+using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar.Interfaces;
 using Juegos.Serios.Authentications.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +29,7 @@ public static class AuthenticationsDomainServiceRegistration
 {
     public static IServiceCollection AddAuthenticationsDomainServices(this IServiceCollection services)
     {
+        services.AddScoped<IUserAvatarBodyPartService<UserAvatarBodyPart>, UserAvatarBodyPartService>();
         services.AddScoped<IRolService<Role>, RolService>();
         services.AddScoped<IUserAggregateService<User>, UserAggregateService>();
         services.AddScoped<ICityService<City>, CityService>();
