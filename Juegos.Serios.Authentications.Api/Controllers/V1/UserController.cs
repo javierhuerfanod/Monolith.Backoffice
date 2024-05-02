@@ -28,6 +28,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Juegos.Serios.Domain.Shared.Exceptions;
     using System.Security.Claims;
     using Microsoft.AspNetCore.Authorization;
+    using Azure;
 
     [ApiController]
     [Route("api/v1/[controller]")]
@@ -151,29 +152,21 @@ namespace Juegos.Serios.Authenticacions.Api.V1
                 _logger.LogWarning("Password update failed due to invalid model state");
                 return BadRequest(new ApiResponse<ErrorResponse>(400, AppMessages.Api_Badrequest, false, errorResponse));
             }
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            try
+            if (string.IsNullOrEmpty(userIdClaim))
             {
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-                if (string.IsNullOrEmpty(userIdClaim))
-                {
-                    return Unauthorized("Invalid token data");
-                }
-                int userId = int.Parse(userIdClaim);
-                await _userApplication.UpdateUserPassword(updatePasswordRequest, userId);
-                return Ok(new ApiResponse<object>(200, "Password updated successfully.", true, null));
+                return Unauthorized("Invalid token data");
             }
-            catch (DomainException ex)
+            int userId = int.Parse(userIdClaim);
+            var response = await _userApplication.UpdateUserPassword(updatePasswordRequest, userId);
+            return response.ResponseCode switch
             {
-                _logger.LogError("Domain exception occurred while updating password: {Message}", ex.Message);
-                return BadRequest(new ApiResponse<ErrorResponse>(400, ex.Message, false, null));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Unexpected error occurred while updating password: {Message}", ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, new ApiResponse<object>(500, "Internal server error.", false, null));
-            }
+                (int)GenericEnumerator.ResponseCode.Ok => LogAndReturnOk(response),
+                (int)GenericEnumerator.ResponseCode.BadRequest => LogAndReturnBadRequest(response),
+                (int)GenericEnumerator.ResponseCode.InternalError => LogAndReturnInternalError(response),
+                _ => throw new NotImplementedException()
+            };
         }
     }
 }

@@ -4,6 +4,7 @@ using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent;
 using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
 using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
 using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
+using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Domain.Shared.Exceptions;
@@ -70,6 +71,8 @@ public partial class User : BaseDomainModel
     public virtual Role Role { get; set; } = null!;
 
     public virtual User? UpdatedByNavigation { get; set; }
+
+    public virtual ICollection<UserAvatarBodyPart> UserAvatarBodyParts { get; set; } = new List<UserAvatarBodyPart>();
 
     public static User CreateNewUser(UserAggregateModel userModel)
     {

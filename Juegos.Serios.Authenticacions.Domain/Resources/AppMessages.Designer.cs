@@ -69,6 +69,48 @@ namespace Juegos.Serios.Authenticacions.Domain.Resources
             }
         }
 
+        public static string Api_UserAvatarBodyParts_GetByUserId_NotFound
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_UserAvatarBodyParts_GetByUserId_NotFound", resourceCulture);
+            }
+        }
+        public static string Api_UserAvatarBodyParts_Select_Error
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_UserAvatarBodyParts_Select_Error", resourceCulture);
+            }
+        }
+        public static string Api_UserAvatarBodyParts_GetByUserId_Success
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_UserAvatarBodyParts_GetByUserId_Success", resourceCulture);
+            }
+        }
+        public static string Api_Get_UserAvatarBodyParts_Created_Response
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Get_UserAvatarBodyParts_Created_Response", resourceCulture);
+            }
+        }
+        public static string Api_UserAvatarBodyPart_GetByUserId_Exist
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_UserAvatarBodyPart_GetByUserId_Exist", resourceCulture);
+            }
+        }
+        public static string Api_UserAvatarBodyParts_Create_DontExist_BodyParts
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_UserAvatarBodyParts_Create_DontExist_BodyParts", resourceCulture);
+            }
+        }
         public static string Api_User_GetById_NotFound
         {
             get
@@ -76,6 +118,14 @@ namespace Juegos.Serios.Authenticacions.Domain.Resources
                 return ResourceManager.GetString("Api_User_GetById_NotFound", resourceCulture);
             }
         }
+        public static string Api_UserAvatarBodyParts_Create_Duplicated
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_UserAvatarBodyParts_Create_Duplicated", resourceCulture);
+            }
+        }
+
         public static string Api_City_GetCities_NotFound
         {
             get

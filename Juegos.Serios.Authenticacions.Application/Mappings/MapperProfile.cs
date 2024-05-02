@@ -16,9 +16,12 @@ namespace Aurora.Backend.Baseline.Application.Features.ConceptoBase.Commands
     using AutoMapper;
     using Juegos.Serios.Authenticacions.Application.Models.Dtos;
     using Juegos.Serios.Authenticacions.Application.Models.Request;
+    using Juegos.Serios.Authenticacions.Application.Models.Response;
     using Juegos.Serios.Authenticacions.Domain.Entities.City;
     using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
+    using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
     using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
+    using Juegos.Serios.Authenticacions.Domain.Models.UserAvatarBodyParts;
 
     public class MapperProfile : Profile
     {
@@ -26,6 +29,17 @@ namespace Aurora.Backend.Baseline.Application.Features.ConceptoBase.Commands
         {
             CreateMap<Role, RolDto>();
             CreateMap<City, CityDto>();
+            CreateMap<UserAvatarBodyPart, UserBodyPartsResponse>();
+            CreateMap<UserBodyPartsRequest, UserBodyPartsModel>()
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+               .AfterMap((src, dest, context) =>
+               {
+                   if (context.Items.ContainsKey("userId"))
+                   {
+                       dest.UserId = (int)context.Items["userId"];
+                   }
+               });
+            CreateMap<BodyPartRequest, BodyPartModel>();
             CreateMap<UserCreateRequest, UserAggregateModel>();
             CreateMap<UpdatePasswordRequest, UpdatePasswordModel>()
                .ForMember(dest => dest.UserId, opt => opt.Ignore())
