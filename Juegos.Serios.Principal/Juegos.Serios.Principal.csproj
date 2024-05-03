@@ -16,7 +16,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 	</ItemGroup>
 
@@ -25,6 +25,7 @@
 		<ProjectReference Include="..\Juegos.Serios.Authenticacions.Domain\Juegos.Serios.Authenticacions.Domain.csproj" />
 		<ProjectReference Include="..\Juegos.Serios.Authenticacions.Infrastructure\Juegos.Serios.Authenticacions.Infrastructure.csproj" />
 		<ProjectReference Include="..\Juegos.Serios.Authentications.Api\Juegos.Serios.Authentications.Api.csproj" />
+		<ProjectReference Include="..\Juegos.Serios.Bathroom.Api\Juegos.Serios.Bathroom.Api.csproj" />
 		<ProjectReference Include="..\Juegos.Serios.Shared.Api\Juegos.Serios.Shared.Api.csproj" />
 	</ItemGroup>
 

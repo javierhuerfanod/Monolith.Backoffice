@@ -1,0 +1,6 @@
+@Juegos.Serios.Bathroom.Api_HostAddress = http://localhost:5258
+
+GET {{Juegos.Serios.Bathroom.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

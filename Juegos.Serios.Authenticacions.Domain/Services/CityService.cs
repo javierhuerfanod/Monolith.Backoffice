@@ -12,8 +12,9 @@
 // <summary>Implements the Password Recovery service.</summary>
 // ***********************************************************************
 
-using Juegos.Serios.Authenticacions.Domain.Entities.City;
-using Juegos.Serios.Authenticacions.Domain.Entities.City.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Repositories;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Authenticacions.Domain.Specifications;
 using Juegos.Serios.Domain.Shared.Exceptions;
@@ -49,7 +50,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
         public async Task<List<City>> GetAllCitiesOrderedAlphabeticallyAsync()
         {
             try
-            {                
+            {
                 var cities = await _cityRepository.GetManyAsync(
                     orderBy: query => query.OrderBy(CitySpecifications.OrderByCityName())
                 );

@@ -13,15 +13,15 @@
 // ***********************************************************************
 
 using AutoMapper;
-using Juegos.Serios.Shared.Application.Response;
-using Juegos.Serios.Domain.Shared.Exceptions;
-using Microsoft.Extensions.Logging;
 using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
+using Juegos.Serios.Authenticacions.Application.Models.Request;
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 using Juegos.Serios.Authenticacions.Domain.Resources;
-using Juegos.Serios.Authenticacions.Application.Models.Request;
+using Juegos.Serios.Domain.Shared.Exceptions;
+using Juegos.Serios.Shared.Application.Response;
+using Microsoft.Extensions.Logging;
 
 namespace Juegos.Serios.Authentications.Application.Features.Login
 {
@@ -66,7 +66,7 @@ namespace Juegos.Serios.Authentications.Application.Features.Login
                 var updatePasswordModel = _mapper.Map<UpdatePasswordModel>(updatePasswordRequest, opts =>
                 {
                     opts.Items["userId"] = userId;
-                }); 
+                });
                 await _userAggregateService.UpdateUserPassword(updatePasswordModel);
                 _logger.LogInformation("Password updated successfully for user: {UserId}", userId);
                 return new ApiResponse<object>(200, AppMessages.Api_Get_User_UpdatedPassword_Response, true, null);

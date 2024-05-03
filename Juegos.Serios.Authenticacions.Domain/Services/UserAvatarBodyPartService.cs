@@ -13,14 +13,14 @@
 // ***********************************************************************
 
 
-using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
-using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Repositories;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
+using Juegos.Serios.Authenticacions.Domain.Models.UserAvatarBodyParts;
 using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Authenticacions.Domain.Specifications;
 using Juegos.Serios.Domain.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
-using Juegos.Serios.Authenticacions.Domain.Models.UserAvatarBodyParts;
 
 
 namespace Juegos.Serios.Authentications.Domain.Services

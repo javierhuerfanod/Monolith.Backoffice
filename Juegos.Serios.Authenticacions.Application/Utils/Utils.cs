@@ -24,7 +24,7 @@ namespace Juegos.Serios.Authentications.Application.Utils
             var plantillaHTML = AppEmailsMessages.Emails_RecoveryPassword_Body;
             plantillaHTML = plantillaHTML.Replace("{name}", name)
                                          .Replace("{lastName}", lastName)
-                                         .Replace("{recoveryPassword}", recoveryPassword);        
+                                         .Replace("{recoveryPassword}", recoveryPassword);
             return plantillaHTML;
         }
     }

@@ -15,21 +15,18 @@
 
 namespace Juegos.Serios.Authenticacions.Api.V1
 {
-    using Juegos.Serios.Authenticacions.Application.Models.Dtos;
-    using Juegos.Serios.Shared.Application.Response;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Net;
     using Aurora.Backend.Baseline.Application.Constants;
-    using Juegos.Serios.Authenticacions.Domain.Resources;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.Extensions.Logging;
-    using Juegos.Serios.Shared.Api.Controllers;
     using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
     using Juegos.Serios.Authenticacions.Application.Models.Request;
-    using Juegos.Serios.Authentications.Application.Features.Login;
-    using System.Security.Claims;
     using Juegos.Serios.Authenticacions.Application.Models.Response;
-    using Juegos.Serios.Shared.Api.UtilCross.Swagger;
+    using Juegos.Serios.Authenticacions.Domain.Resources;
+    using Juegos.Serios.Shared.Api.Controllers;
+    using Juegos.Serios.Shared.Application.Response;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using System.Net;
+    using System.Security.Claims;
 
     [ApiController]
     [Route("api/v1/[controller]")]
@@ -98,13 +95,13 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         /// <response code="404">Si no se encuentran partes del cuerpo del avatar para el usuario, devuelve el código 404.</response>
         /// <response code="500">Si ocurre un error interno en el servidor mientras se procesa la solicitud, devuelve el código 500.</response>
         [Authorize]
-        [HttpGet("GetUserAvatarBodyParts")]      
+        [HttpGet("GetUserAvatarBodyParts")]
         [ProducesResponseType(typeof(ApiResponse<List<UserBodyPartsResponse>>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<ApiResponse<List<UserBodyPartsResponse>>>> GetUserAvatarBodyParts()
-        {           
+        {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userIdClaim))
@@ -114,11 +111,13 @@ namespace Juegos.Serios.Authenticacions.Api.V1
             int userId = int.Parse(userIdClaim);
             _logger.LogInformation("Validating token for avatar body parts list retrieval");
             var response = await _userAvatarBodyPartsApplication.SelectByUserId(userId);
+#pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
             if (response.Data.Count == 0)
             {
                 _logger.LogWarning("No avatar body parts found for user ID: {UserId}", userId);
                 return NotFound(AppMessages.Api_UserAvatarBodyParts_GetByUserId_NotFound);
             }
+#pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
 
             return response.ResponseCode switch
             {

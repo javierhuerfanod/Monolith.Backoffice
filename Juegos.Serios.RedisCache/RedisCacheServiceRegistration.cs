@@ -13,10 +13,10 @@
 // ***********************************************************************
 namespace Juegos.Serios.Shared.RedisCache
 {
+    using Juegos.Serios.Shared.RedisCache.Interfaces;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using StackExchange.Redis;
-    using Juegos.Serios.Shared.RedisCache.Interfaces;
 
     public static class RedisCacheServiceRegistration
     {

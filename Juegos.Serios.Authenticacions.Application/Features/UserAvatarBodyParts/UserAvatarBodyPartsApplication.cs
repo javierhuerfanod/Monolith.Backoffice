@@ -13,18 +13,17 @@
 // ***********************************************************************
 
 using AutoMapper;
-using Juegos.Serios.Shared.Application.Response;
-using Juegos.Serios.Domain.Shared.Exceptions;
-using Microsoft.Extensions.Logging;
 using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Authenticacions.Application.Models.Request;
-using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
-using Juegos.Serios.Authenticacions.Domain.Models.UserAvatarBodyParts;
 using Juegos.Serios.Authenticacions.Application.Models.Response;
-using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+using Juegos.Serios.Authenticacions.Domain.Entities;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
+using Juegos.Serios.Authenticacions.Domain.Models.UserAvatarBodyParts;
+using Juegos.Serios.Authenticacions.Domain.Resources;
+using Juegos.Serios.Domain.Shared.Exceptions;
+using Juegos.Serios.Shared.Application.Response;
 using Juegos.Serios.Shared.RedisCache.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Juegos.Serios.Authenticacions.Application.Features.UserAvatarBodyParts
 {

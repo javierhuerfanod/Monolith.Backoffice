@@ -13,14 +13,8 @@
 // ***********************************************************************
 
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
-using Juegos.Serios.Authenticacions.Domain.Common;
-using Juegos.Serios.Authenticacions.Domain.Entities.City;
-using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent;
-using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
-using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
-using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog;
-using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
+using Juegos.Serios.Authenticacions.Domain.Entities;
+using Juegos.Serios.Shared.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Juegos.Serios.Authenticacions.Infrastructure.Persistence;

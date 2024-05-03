@@ -17,9 +17,7 @@ namespace Aurora.Backend.Baseline.Application.Features.ConceptoBase.Commands
     using Juegos.Serios.Authenticacions.Application.Models.Dtos;
     using Juegos.Serios.Authenticacions.Application.Models.Request;
     using Juegos.Serios.Authenticacions.Application.Models.Response;
-    using Juegos.Serios.Authenticacions.Domain.Entities.City;
-    using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
-    using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
+    using Juegos.Serios.Authenticacions.Domain.Entities;
     using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
     using Juegos.Serios.Authenticacions.Domain.Models.UserAvatarBodyParts;
 

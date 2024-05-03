@@ -12,19 +12,19 @@
 // <summary></summary>
 // ***********************************************************************
 
-using Juegos.Serios.Shared.Application.Response;
-using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
 using Juegos.Serios.Authenticacions.Application.Models.Request;
-using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
+using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Domain.Shared.Exceptions;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+using Juegos.Serios.Shared.Application.Response;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Juegos.Serios.Authentications.Application.Features.Login
 {
@@ -86,7 +86,9 @@ namespace Juegos.Serios.Authentications.Application.Features.Login
 
         private string GenerateJwtToken(User user)
         {
+#pragma warning disable CS8604 // Posible argumento de referencia nulo
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+#pragma warning restore CS8604 // Posible argumento de referencia nulo
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]

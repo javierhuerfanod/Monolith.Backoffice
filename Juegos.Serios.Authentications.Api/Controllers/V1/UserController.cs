@@ -15,20 +15,18 @@
 
 namespace Juegos.Serios.Authenticacions.Api.V1
 {
-    using Juegos.Serios.Shared.Application.Response;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Net;
     using Aurora.Backend.Baseline.Application.Constants;
     using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
+    using Juegos.Serios.Authenticacions.Application.Models.Request;
     using Juegos.Serios.Authenticacions.Domain.Resources;
-    using Microsoft.Extensions.Logging;
     using Juegos.Serios.Shared.Api.Controllers;
     using Juegos.Serios.Shared.Api.UtilCross.Swagger;
-    using Juegos.Serios.Authenticacions.Application.Models.Request;
-    using Juegos.Serios.Domain.Shared.Exceptions;
-    using System.Security.Claims;
+    using Juegos.Serios.Shared.Application.Response;
     using Microsoft.AspNetCore.Authorization;
-    using Azure;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using System.Net;
+    using System.Security.Claims;
 
     [ApiController]
     [Route("api/v1/[controller]")]
