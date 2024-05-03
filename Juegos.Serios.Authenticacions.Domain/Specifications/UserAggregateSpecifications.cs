@@ -11,8 +11,8 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System.Linq.Expressions;
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
+using System.Linq.Expressions;
 
 namespace Juegos.Serios.Authenticacions.Domain.Specifications
 {

@@ -11,8 +11,8 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using Juegos.Serios.Authenticacions.Domain.Entities;
 using System.Linq.Expressions;
-using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
 
 namespace Juegos.Serios.Authenticacions.Domain.Specifications
 {

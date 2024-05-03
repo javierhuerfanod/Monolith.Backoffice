@@ -12,21 +12,20 @@
 // <summary></summary>
 // ***********************************************************************
 
-using Juegos.Serios.Shared.Application.Response;
-using Juegos.Serios.Authenticacions.Domain.Resources;
-using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Aggregates;
-using Juegos.Serios.Domain.Shared.Exceptions;
-using Microsoft.Extensions.Logging;
-using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
-using Juegos.Serios.Shared.AzureQueue.Models;
-using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword.Response;
-using Juegos.Serios.Authentications.Application.Utils;
 using Juegos.Serios.Authenticacions.Application.Constants;
-using Juegos.Serios.Shared.AzureQueue.Interfaces;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Configuration;
+using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
 using Juegos.Serios.Authenticacions.Application.Resources.EmailsHtml;
+using Juegos.Serios.Authenticacions.Domain.Aggregates;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
+using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword.Response;
+using Juegos.Serios.Authenticacions.Domain.Resources;
+using Juegos.Serios.Authentications.Application.Utils;
+using Juegos.Serios.Domain.Shared.Exceptions;
+using Juegos.Serios.Shared.Application.Response;
+using Juegos.Serios.Shared.AzureQueue.Interfaces;
+using Juegos.Serios.Shared.AzureQueue.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Juegos.Serios.Authenticacions.Application.Features.Authentication.RecoveryPassword
 {
@@ -50,7 +49,7 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Authentication.Reco
             _logger.LogInformation("Initiating password recovery for email: {Email}", email);
             try
             {
-                var passwordRecovery = await _userAggregateService.RegisterRecoveryPassword(email);               
+                var passwordRecovery = await _userAggregateService.RegisterRecoveryPassword(email);
                 await _azureQueue.EnqueueMessageAsync(_configuration["QueueEmails"]!.ToString(), CreateEmailRecoveryPasswordQueueAzure(passwordRecovery, email));
                 _logger.LogInformation("Password recovery request successful for email: {Email}", email);
                 return new ApiResponse<object>(200, AppMessages.Api_Get_RecoveryPassword_Created_Response, true, null);

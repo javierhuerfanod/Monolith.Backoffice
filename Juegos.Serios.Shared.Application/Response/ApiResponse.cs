@@ -26,7 +26,7 @@ namespace Juegos.Serios.Shared.Application.Response
             Message = message;
             Status = status;
             Data = data;
-        }          
+        }
 
     }
 }

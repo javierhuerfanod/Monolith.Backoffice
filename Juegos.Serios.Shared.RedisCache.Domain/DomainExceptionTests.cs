@@ -14,8 +14,8 @@
 
 namespace Juegos.Serios.Domain.Shared.Tests
 {
-    using Xunit;
     using Juegos.Serios.Domain.Shared.Exceptions;
+    using Xunit;
 
     public class DomainExceptionTests
     {

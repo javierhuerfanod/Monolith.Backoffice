@@ -13,15 +13,17 @@
 // ***********************************************************************
 namespace Juegos.Serios.Shared.Api.UtilCross.Swagger
 {
-    using Swashbuckle.AspNetCore.SwaggerGen;
     using Microsoft.OpenApi.Models;
+    using Swashbuckle.AspNetCore.SwaggerGen;
 
     public class ApplicationTokenHeaderParameter : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
+#pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
             var hasAttribute = context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<IncludeApplicationTokenHeaderAttribute>().Any()
                                || context.MethodInfo.GetCustomAttributes(true).OfType<IncludeApplicationTokenHeaderAttribute>().Any();
+#pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
 
             if (hasAttribute)
             {

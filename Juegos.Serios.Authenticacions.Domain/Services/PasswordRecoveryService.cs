@@ -12,8 +12,9 @@
 // <summary>Implements the Password Recovery service.</summary>
 // ***********************************************************************
 
-using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
-using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Repositories;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Domain.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
@@ -42,7 +43,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
                 _logger.LogError(ex, "Error retrieving PasswordRecovery by ID");
                 throw new DomainException(AppMessages.Api_Servererror, ex);
             }
-        }    
+        }
 
         public async Task<List<PasswordRecovery>> SelectAsync()
         {

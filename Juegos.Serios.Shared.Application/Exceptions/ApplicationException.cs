@@ -15,7 +15,9 @@ namespace Juegos.Serios.Shared.Application.Exceptions
 {
     public class ApplicationException<T> : Exception
     {
+#pragma warning disable CS0114 // El miembro oculta el miembro heredado. Falta una contraseña de invalidación
         public T Data { get; }
+#pragma warning restore CS0114 // El miembro oculta el miembro heredado. Falta una contraseña de invalidación
 
         public ApplicationException(string message, T data) : base(message)
         {
@@ -30,11 +32,15 @@ namespace Juegos.Serios.Shared.Application.Exceptions
 
     public class RoleApplicationException : ApplicationException<object>
     {
+#pragma warning disable CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         public RoleApplicationException(string message) : base(message, null)
+#pragma warning restore CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         {
         }
 
+#pragma warning disable CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         public RoleApplicationException(string message, Exception innerException) : base(message, innerException, null)
+#pragma warning restore CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         {
         }
     }

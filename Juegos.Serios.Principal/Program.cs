@@ -1,17 +1,18 @@
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Juegos.Serios.Authenticacions.Api.V1;
 using Juegos.Serios.Authenticacions.Application;
 using Juegos.Serios.Authenticacions.Domain;
 using Juegos.Serios.Authenticacions.Infrastructure;
+using Juegos.Serios.Bathroom.Api.Controllers;
+using Juegos.Serios.Shared.Api.UtilCross;
+using Juegos.Serios.Shared.Api.UtilCross.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
-using Microsoft.OpenApi.Models;
-using Juegos.Serios.Shared.Api.UtilCross.Swagger;
-using Azure.Extensions.AspNetCore.Configuration.Secrets;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
-using Juegos.Serios.Shared.Api.UtilCross;
 
 var builder = WebApplication.CreateBuilder(args);
 string kvUrl = builder.Configuration.GetSection("KVUrl").Value!;
@@ -34,6 +35,7 @@ builder.Services.AddControllers()
     .AddApplicationPart(typeof(AuthenticationController).Assembly)
     .AddApplicationPart(typeof(UserController).Assembly)
     .AddApplicationPart(typeof(CityController).Assembly)
+    .AddApplicationPart(typeof(WeatherForecastController).Assembly)
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new NullableDateTimeConverter());
@@ -49,6 +51,7 @@ builder.Services.AddControllers()
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+#pragma warning disable CS8604 // Posible argumento de referencia nulo
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
@@ -58,6 +61,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero
         };
+#pragma warning restore CS8604 // Posible argumento de referencia nulo
     });
 
 // Swagger Configuration

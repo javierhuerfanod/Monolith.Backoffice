@@ -18,11 +18,15 @@ namespace Juegos.Serios.Authenticacions.Application.Exceptions
 {
     public class RoleApplicationException : ApplicationException<object>
     {
+#pragma warning disable CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         public RoleApplicationException(string message) : base(message, null)
+#pragma warning restore CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         {
         }
 
+#pragma warning disable CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         public RoleApplicationException(string message, Exception innerException) : base(message, innerException, null)
+#pragma warning restore CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         {
         }
     }

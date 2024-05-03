@@ -12,7 +12,7 @@
 // <summary></summary>
 // ***********************************************************************
 namespace Juegos.Serios.Shared.AzureQueue
-{ 
+{
     using Azure.Storage.Queues;
     using Juegos.Serios.Shared.AzureQueue.Interfaces;
     using Newtonsoft.Json;

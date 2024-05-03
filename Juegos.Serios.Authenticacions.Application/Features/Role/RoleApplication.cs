@@ -14,15 +14,14 @@
 
 using AutoMapper;
 using Juegos.Serios.Authenticacions.Application.Exceptions;
-using Juegos.Serios.Authenticacions.Application.Models.Dtos;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
-using Juegos.Serios.Shared.Application.Response;
-using Juegos.Serios.Authenticacions.Domain.Resources;
-using Juegos.Serios.Shared.RedisCache.Interfaces;
-using Juegos.Serios.Shared.AzureQueue.Interfaces;
-using Newtonsoft.Json;
 using Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces;
+using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+using Juegos.Serios.Authenticacions.Domain.Entities;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
+using Juegos.Serios.Authenticacions.Domain.Resources;
+using Juegos.Serios.Shared.Application.Response;
+using Juegos.Serios.Shared.AzureQueue.Interfaces;
+using Juegos.Serios.Shared.RedisCache.Interfaces;
 
 namespace Juegos.Serios.Authenticacions.Application.Features.Rol
 {
@@ -58,7 +57,7 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Rol
                     return new ApiResponse<RolDto>(204, AppMessages.Api_Get_Rol_Response, true, null);
                 }
                 var roleDto = _mapper.Map<RolDto>(roleEntity);
-                var apiresponse = new ApiResponse<RolDto>(200, AppMessages.Api_Get_Rol_Response, true, roleDto);               
+                var apiresponse = new ApiResponse<RolDto>(200, AppMessages.Api_Get_Rol_Response, true, roleDto);
                 await _redisCache.SetCacheData($"{nameof(GetById)}{id}", apiresponse, DateTimeOffset.Now.AddMinutes(5.0));
                 return apiresponse;
             }

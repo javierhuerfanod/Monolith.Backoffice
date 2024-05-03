@@ -22,15 +22,17 @@ namespace Juegos.Serios.Shared.Api.Controllers
     public abstract class BaseApiController : ControllerBase
     {
         protected readonly ILogger<BaseApiController> _logger;
-        protected readonly IConfiguration _configuration; 
-    
+        protected readonly IConfiguration _configuration;
+
         protected BaseApiController(ILogger<BaseApiController> logger, IConfiguration configuration)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _configuration = configuration;
         }
-   
+
+#pragma warning disable CS8618 // Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de declararlo como que admite un valor NULL.
         protected BaseApiController(ILogger<BaseApiController> logger)
+#pragma warning restore CS8618 // Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de declararlo como que admite un valor NULL.
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -53,7 +55,9 @@ namespace Juegos.Serios.Shared.Api.Controllers
             return true;
         }
 
+#pragma warning disable CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         protected ActionResult<ApiResponse<T>> LogAndReturnOk<T>(ApiResponse<T> response, string message = null)
+#pragma warning restore CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         {
             _logger.LogInformation("Request successful: {Message}", message ?? "Success");
             return Ok(response);
@@ -65,7 +69,9 @@ namespace Juegos.Serios.Shared.Api.Controllers
             return BadRequest(response);
         }
 
+#pragma warning disable CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         protected ActionResult<ApiResponse<T>> LogAndReturnInternalError<T>(ApiResponse<T> response, string message = null)
+#pragma warning restore CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         {
             _logger.LogError("Internal server error: {Message}", message ?? "Error occurred");
             return StatusCode((int)HttpStatusCode.InternalServerError, response);

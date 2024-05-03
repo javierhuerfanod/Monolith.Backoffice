@@ -13,19 +13,19 @@
 // ***********************************************************************
 namespace Juegos.Serios.Authenticacions.Application
 {
-    using Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces;
+    using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
+    using Juegos.Serios.Authenticacions.Application.Features.Authentication.RecoveryPassword;
+    using Juegos.Serios.Authenticacions.Application.Features.CityApplication;
+    using Juegos.Serios.Authenticacions.Application.Features.CityApplication.Interfaces;
     using Juegos.Serios.Authenticacions.Application.Features.Rol;
-    using Microsoft.Extensions.DependencyInjection;
-    using System.Reflection;
+    using Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces;
+    using Juegos.Serios.Authenticacions.Application.Features.UserAvatarBodyParts;
+    using Juegos.Serios.Authentications.Application.Features.Login;
     using Juegos.Serios.Shared.AzureQueue;
     using Juegos.Serios.Shared.RedisCache;
     using Microsoft.Extensions.Configuration;
-    using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
-    using Juegos.Serios.Authentications.Application.Features.Login;
-    using Juegos.Serios.Authenticacions.Application.Features.Authentication.RecoveryPassword;
-    using Juegos.Serios.Authenticacions.Application.Features.CityApplication.Interfaces;
-    using Juegos.Serios.Authenticacions.Application.Features.CityApplication;
-    using Juegos.Serios.Authenticacions.Application.Features.UserAvatarBodyParts;
+    using Microsoft.Extensions.DependencyInjection;
+    using System.Reflection;
 
     public static class AuthenticationsApplicationServiceRegistration
     {

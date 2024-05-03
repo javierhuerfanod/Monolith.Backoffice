@@ -15,13 +15,8 @@
 namespace Juegos.Serios.Authenticacions.Domain;
 
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
-using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.City;
-using Juegos.Serios.Authenticacions.Domain.Entities.City.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
-using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authentications.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 

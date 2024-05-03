@@ -1,13 +1,8 @@
-﻿using Juegos.Serios.Authenticacions.Domain.Common;
-using Juegos.Serios.Authenticacions.Domain.Entities.City;
-using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent;
-using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType;
-using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol;
-using Juegos.Serios.Authenticacions.Domain.Entities.UserAvatar;
+﻿using Juegos.Serios.Authenticacions.Domain.Entities;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
 using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Domain.Shared.Exceptions;
+using Juegos.Serios.Shared.Domain.Common;
 using System.Text;
 
 namespace Juegos.Serios.Authenticacions.Domain.Aggregates;

@@ -6,27 +6,17 @@
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="InfrastructureServiceRegistration.cs" company="Universidad Javeriana">
+// <copyright file="AuthenticationsInfrastructureServiceRegistration.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
 namespace Juegos.Serios.Authenticacions.Infrastructure;
-using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.City.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Ports.Persistence;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Repositories;
 using Juegos.Serios.Authenticacions.Infrastructure.Persistence;
 using Juegos.Serios.Authenticacions.Infrastructure.Repositories;
-using Juegos.Serios.Authenticacions.Infrastructure.Repositories.CityRepository;
-using Juegos.Serios.Authenticacions.Infrastructure.Repositories.Rol;
-using Juegos.Serios.Authenticacions.Infrastructure.Repositories.UserAvatar;
-using Juegos.Serios.Authenticacions.Infrastructure.Repositories.UserRepository;
+using Juegos.Serios.Shared.Domain.Ports.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

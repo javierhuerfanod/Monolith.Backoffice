@@ -15,24 +15,24 @@
 
 namespace Juegos.Serios.Authenticacions.Api.V1
 {
-    using Juegos.Serios.Authenticacions.Application.Models.Dtos;
-    using Juegos.Serios.Shared.Application.Response;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Net;
-    using Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces;
     using Aurora.Backend.Baseline.Application.Constants;
+    using Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces;
+    using Juegos.Serios.Authenticacions.Application.Models.Dtos;
     using Juegos.Serios.Authenticacions.Domain.Resources;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.Extensions.Logging;
     using Juegos.Serios.Shared.Api.Controllers;
-   
+    using Juegos.Serios.Shared.Application.Response;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using System.Net;
+
 
     [ApiController]
     [Route("api/v1/[controller]")]
     public class RolController : BaseApiController
     {
         private readonly IRoleApplication _roleApplication;
-        private new readonly ILogger<RolController> _logger; 
+        private new readonly ILogger<RolController> _logger;
 
         public RolController(ILogger<RolController> logger, IRoleApplication roleApplication) : base(logger)
         {

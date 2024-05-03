@@ -33,8 +33,10 @@ namespace Juegos.Serios.Shared.RedisCache.Tests
                                     .Returns(mockDatabase.Object);
 
             var mockRedisCache = new Mock<IRedisCache>();
+#pragma warning disable CS8620 // El argumento no se puede usar para el parámetro debido a las diferencias en la nulabilidad de los tipos de referencia.
             mockRedisCache.Setup(c => c.GetCacheData<string>(It.IsAny<string>()))
                           .ReturnsAsync(default(string)); // Puedes ajustar esto según tu necesidad
+#pragma warning restore CS8620 // El argumento no se puede usar para el parámetro debido a las diferencias en la nulabilidad de los tipos de referencia.
 
             // Act
             var result = await mockRedisCache.Object.GetCacheData<string>("nonexistent_key");

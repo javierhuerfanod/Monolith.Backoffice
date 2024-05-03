@@ -15,17 +15,17 @@
 
 namespace Juegos.Serios.Authenticacions.Api.V1
 {
+    using Aurora.Backend.Baseline.Application.Constants;
+    using Juegos.Serios.Authenticacions.Application.Features.CityApplication.Interfaces;
     using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+    using Juegos.Serios.Authenticacions.Domain.Resources;
+    using Juegos.Serios.Shared.Api.Controllers;
+    using Juegos.Serios.Shared.Api.UtilCross.Swagger;
     using Juegos.Serios.Shared.Application.Response;
     using Microsoft.AspNetCore.Mvc;
-    using System.Net;
-    using Aurora.Backend.Baseline.Application.Constants;
-    using Juegos.Serios.Authenticacions.Domain.Resources;   
     using Microsoft.Extensions.Logging;
-    using Juegos.Serios.Shared.Api.Controllers;
-    using Juegos.Serios.Authenticacions.Application.Features.CityApplication.Interfaces;
     using System.Collections.Generic;
-    using Juegos.Serios.Shared.Api.UtilCross.Swagger;
+    using System.Net;
 
     [ApiController]
     [Route("api/v1/[controller]")]
@@ -65,11 +65,13 @@ namespace Juegos.Serios.Authenticacions.Api.V1
 
             _logger.LogInformation("Validating token for city list retrieval");
             var response = await _cityApplication.SelectAsync();
+#pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
             if (response.Data.Count == 0)
             {
                 _logger.LogWarning("No cities found during retrieval");
                 return NotFound(AppMessages.Api_City_GetCities_NotFound);
             }
+#pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
 
             return response.ResponseCode switch
             {

@@ -15,7 +15,7 @@ namespace Juegos.Serios.Shared.RedisCache
 {
     using Juegos.Serios.Shared.RedisCache.Interfaces;
     using Newtonsoft.Json;
-    using StackExchange.Redis;   
+    using StackExchange.Redis;
 
     /// <summary>
     /// Provides methods for working with Redis cache.
@@ -44,9 +44,15 @@ namespace Juegos.Serios.Shared.RedisCache
             var value = await _dbRedis.StringGetAsync(key);
             if (!string.IsNullOrEmpty(value))
             {
+#pragma warning disable CS8604 // Posible argumento de referencia nulo
+#pragma warning disable CS8603 // Posible tipo de valor devuelto de referencia nulo
                 return JsonConvert.DeserializeObject<T>(value);
+#pragma warning restore CS8603 // Posible tipo de valor devuelto de referencia nulo
+#pragma warning restore CS8604 // Posible argumento de referencia nulo
             }
+#pragma warning disable CS8603 // Posible tipo de valor devuelto de referencia nulo
             return default;
+#pragma warning restore CS8603 // Posible tipo de valor devuelto de referencia nulo
         }
 
         /// <summary>

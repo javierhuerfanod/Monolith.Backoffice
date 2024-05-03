@@ -23,7 +23,9 @@ namespace Juegos.Serios.Shared.AzureQueue
         {
             services.AddScoped<IAzureQueue>(provider =>
             {
+#pragma warning disable CS8604 // Posible argumento de referencia nulo
                 return new AzureQueue(configuration["AzureAccessStorage"]);
+#pragma warning restore CS8604 // Posible argumento de referencia nulo
             });
 
             return services;

@@ -14,13 +14,13 @@
 
 namespace Juegos.Serios.Shared.AzureQueue.Tests
 {
-    using Xunit;
-    using Moq;
+    using Azure;
     using Azure.Storage.Queues;
     using Azure.Storage.Queues.Models;
-    using Azure;
-    using System.Threading.Tasks;
     using Juegos.Serios.Shared.AzureQueue;
+    using Moq;
+    using System.Threading.Tasks;
+    using Xunit;
 
     public class AzureQueueTests
     {
@@ -51,9 +51,11 @@ namespace Juegos.Serios.Shared.AzureQueue.Tests
         [Fact]
         public async Task EnqueueMessageAsync_Throws_ArgumentNullException_If_MessageIsNull()
         {
+#pragma warning disable CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
             await Assert.ThrowsAsync<ArgumentNullException>(() => _azureQueue.EnqueueMessageAsync<string>(_queueName, null));
+#pragma warning restore CS8625 // No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
         }
-    
+
     }
 }
 

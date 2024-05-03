@@ -22,7 +22,7 @@ public static class DomainExceptionHandler
             return await func();
         }
         catch (NotFoundException ex)
-        {            
+        {
             Log(ex);
             throw new Exception("Resource not found.", ex);
         }
@@ -39,7 +39,7 @@ public static class DomainExceptionHandler
     }
 
     private static void Log(Exception ex)
-    {        
-        Console.WriteLine(ex.ToString()); 
+    {
+        Console.WriteLine(ex.ToString());
     }
 }

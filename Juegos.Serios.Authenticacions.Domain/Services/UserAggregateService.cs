@@ -13,24 +13,17 @@
 // ***********************************************************************
 
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
-using Juegos.Serios.Authenticacions.Domain.Aggregates.Interfaces;
 using Juegos.Serios.Authenticacions.Domain.Constants;
-using Juegos.Serios.Authenticacions.Domain.Entities.City.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent;
-using Juegos.Serios.Authenticacions.Domain.Entities.DataConsent.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.DocumentType.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery;
-using Juegos.Serios.Authenticacions.Domain.Entities.PasswordRecovery.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.Rol.Interfaces;
-using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog;
-using Juegos.Serios.Authenticacions.Domain.Entities.SessionLog.Interfaces;
+using Juegos.Serios.Authenticacions.Domain.Entities;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Repositories;
+using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword;
 using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword.Response;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
-using Juegos.Serios.Authenticacions.Domain.Ports.Persistence;
 using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Authenticacions.Domain.Specifications;
 using Juegos.Serios.Domain.Shared.Exceptions;
+using Juegos.Serios.Shared.Domain.Ports.Persistence;
 using Microsoft.Extensions.Logging;
 using System.Text;
 
@@ -64,19 +57,19 @@ namespace Juegos.Serios.Authentications.Domain.Services
         public async Task<User> GetById(int id)
         {
             try
-            {            
+            {
                 var user = await _userAggregateRepository.GetByIdAsync(id);
-            
+
                 if (user == null)
-                {                
-                    _logger.LogWarning("User not found with ID: {UserId}", id);                   
+                {
+                    _logger.LogWarning("User not found with ID: {UserId}", id);
                     throw new DomainException(AppMessages.Api_User_GetById_NotFound);
                 }
                 return user;
-            }          
+            }
             catch (Exception ex)
-            {              
-                _logger.LogError(ex, "Unexpected error during retrieval of user by ID: {UserId}", id);               
+            {
+                _logger.LogError(ex, "Unexpected error during retrieval of user by ID: {UserId}", id);
                 throw new DomainException(AppMessages.Api_Servererror, ex);
             }
         }

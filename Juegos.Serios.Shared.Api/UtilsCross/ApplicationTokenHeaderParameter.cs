@@ -11,8 +11,8 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Juegos.Serios.Shared.Api.UtilCross
 {
@@ -27,7 +27,9 @@ namespace Juegos.Serios.Shared.Api.UtilCross
 
             if (reader.TokenType == JsonTokenType.String)
             {
+#pragma warning disable CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
                 string dateString = reader.GetString();
+#pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
                 if (DateTime.TryParse(dateString, out DateTime date))
                 {
                     return date;
