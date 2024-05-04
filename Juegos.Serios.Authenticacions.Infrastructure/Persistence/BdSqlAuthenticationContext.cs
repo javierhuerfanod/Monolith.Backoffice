@@ -52,12 +52,12 @@ public partial class BdSqlAuthenticationContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedAt = DateTime.UtcNow;
+                    entry.Entity.CreatedAt = DateTime.Now;
                     entry.Entity.CreatedBy = 3;
                     break;
 
                 case EntityState.Modified:
-                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                    entry.Entity.UpdatedAt = DateTime.Now;
                     entry.Entity.UpdatedBy = 3;
                     break;
             }

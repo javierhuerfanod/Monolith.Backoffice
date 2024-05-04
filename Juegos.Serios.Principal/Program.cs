@@ -5,12 +5,16 @@ using Juegos.Serios.Authenticacions.Api.V1;
 using Juegos.Serios.Authenticacions.Application;
 using Juegos.Serios.Authenticacions.Domain;
 using Juegos.Serios.Authenticacions.Infrastructure;
-using Juegos.Serios.Bathroom.Api.Controllers;
+using Juegos.Serios.Bathroom.Api.Controllers.V1;
+using Juegos.Serios.Bathroom.Application;
+using Juegos.Serios.Bathroom.Domain;
+using Juegos.Serios.Bathroom.Infrastructure;
 using Juegos.Serios.Shared.Api.UtilCross;
 using Juegos.Serios.Shared.Api.UtilCross.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 
@@ -35,7 +39,7 @@ builder.Services.AddControllers()
     .AddApplicationPart(typeof(AuthenticationController).Assembly)
     .AddApplicationPart(typeof(UserController).Assembly)
     .AddApplicationPart(typeof(CityController).Assembly)
-    .AddApplicationPart(typeof(WeatherForecastController).Assembly)
+    .AddApplicationPart(typeof(WeightController).Assembly)
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new NullableDateTimeConverter());
@@ -73,11 +77,17 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPathPrincipal);
 
     // Include the XML comments for other relevant projects
-    var xmlFileAuth = "Juegos.Serios.Authentications.Api.xml";
+    var xmlFileAuth = "Juegos.Serios.Authentications.Api.xml";  
     var xmlPathAuth = Path.Combine(AppContext.BaseDirectory, xmlFileAuth);
     if (System.IO.File.Exists(xmlPathAuth))
     {
         options.IncludeXmlComments(xmlPathAuth, true);
+    }
+    var xmlFileBathroom = "Juegos.Serios.Bathroom.Api.Xml";
+    var xmlPathBathroom = Path.Combine(AppContext.BaseDirectory, xmlFileBathroom);
+    if (System.IO.File.Exists(xmlPathBathroom))
+    {
+        options.IncludeXmlComments(xmlPathBathroom, true);
     }
     options.OperationFilter<ApplicationTokenHeaderParameter>();
     // Ensure JWT Security Definitions are correctly set up
@@ -113,6 +123,9 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddAuthenticationsInfrastuctureServices(builder.Configuration);
 builder.Services.AddAuthenticationsDomainServices();
 builder.Services.AddAuthenticationsApplicationServices(builder.Configuration);
+builder.Services.AddBathroomInfrastuctureServices(builder.Configuration);
+builder.Services.AddBathroomDomainServices();
+builder.Services.AddBathroomApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 

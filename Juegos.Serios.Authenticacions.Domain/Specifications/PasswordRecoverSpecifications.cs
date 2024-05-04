@@ -28,7 +28,7 @@ namespace Juegos.Serios.Authenticacions.Domain.Specifications
         }
         public static Expression<Func<PasswordRecovery, bool>> ByUserIdAndNotExpired(int userId)
         {
-            return recovery => recovery.UserId == userId && recovery.RecoveryPasswordExpiration > DateTime.UtcNow;
+            return recovery => recovery.UserId == userId && recovery.RecoveryPasswordExpiration > DateTime.Now;
         }
     }
 }

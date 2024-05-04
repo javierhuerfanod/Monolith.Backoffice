@@ -241,8 +241,8 @@ namespace Juegos.Serios.Authentications.Domain.Services
                         var recoveryPassword = new PasswordRecovery
                         {
                             UserId = user.UserId,
-                            CreatedAt = DateTime.UtcNow,
-                            UpdatedAt = DateTime.UtcNow,
+                            CreatedAt = DateTime.Now,
+                            UpdatedAt = DateTime.Now,
                             CreatedBy = user.UserId,
                             RecoveryPasswordExpiration = recoveryPasswordData.Expiration,
                             RecoveryPassword = recoveryPasswordData.PasswordHash
@@ -270,8 +270,8 @@ namespace Juegos.Serios.Authentications.Domain.Services
                         var recoveryPassword = new PasswordRecovery
                         {
                             UserId = user.UserId,
-                            CreatedAt = DateTime.UtcNow,
-                            UpdatedAt = DateTime.UtcNow,
+                            CreatedAt = DateTime.Now,
+                            UpdatedAt = DateTime.Now,
                             CreatedBy = user.UserId,
                             RecoveryPasswordExpiration = recoveryPasswordData.Expiration,
                             RecoveryPassword = recoveryPasswordData.PasswordHash
@@ -355,7 +355,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
             {
                 PasswordHash = Encoding.UTF8.GetBytes(passwordHash),
                 Password = new string(passwordArray),
-                Expiration = DateTime.UtcNow.AddHours(1)
+                Expiration = DateTime.Now.AddHours(1)
             };
         }
     }
