@@ -14,7 +14,6 @@
 namespace Aurora.Backend.Baseline.Application.Features.ConceptoBase.Commands
 {
     using AutoMapper;
-    using Juegos.Serios.Authenticacions.Application.Models.Dtos;
     using Juegos.Serios.Authenticacions.Application.Models.Request;
     using Juegos.Serios.Authenticacions.Application.Models.Response;
     using Juegos.Serios.Authenticacions.Domain.Entities;
@@ -25,8 +24,8 @@ namespace Aurora.Backend.Baseline.Application.Features.ConceptoBase.Commands
     {
         public MapperProfile()
         {
-            CreateMap<Role, RolDto>();
-            CreateMap<City, CityDto>();
+            CreateMap<Role, RolResponse>();
+            CreateMap<City, CityResponse>();
             CreateMap<UserAvatarBodyPart, UserBodyPartsResponse>();
             CreateMap<UserBodyPartsRequest, UserBodyPartsModel>()
                 .ForMember(dest => dest.UserId, opt => opt.Ignore())

@@ -1,22 +1,22 @@
 ﻿// ***********************************************************************
 // Assembly         : Juegos.Serios.Authenticacions.Application
 // Author           : diego diaz
-// Created          : 01-05-2024
+// Created          : 18-04-2024
 //
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="CityDto.cs" company="Universidad Javeriana">
+// <copyright file="RolDto.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
-namespace Juegos.Serios.Authenticacions.Application.Models.Dtos;
+namespace Juegos.Serios.Authenticacions.Application.Models.Response;
 
-public partial class CityDto
+public partial class RolResponse
 {
-    public int CityId { get; set; }
+    public int RoleId { get; set; }
 
-    public string CityName { get; set; } = null!;
+    public string RoleName { get; set; } = null!;
 }

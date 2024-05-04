@@ -1,22 +1,22 @@
 ﻿// ***********************************************************************
-// Assembly         : Juegos.Serios.Authenticacions.Application
+// Assembly         : Juegos.Serios.Bathroom.Domain
 // Author           : diego diaz
-// Created          : 18-04-2024
+// Created          : 04-05-2024
 //
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="RolDto.cs" company="Universidad Javeriana">
+// <copyright file="RegisterWeightModel.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
-namespace Juegos.Serios.Authenticacions.Application.Models.Dtos;
+namespace Juegos.Serios.Bathroom.Domain.Models.Weight;
 
-public partial class RolDto
+public class RegisterWeightModel
 {
-    public int RoleId { get; set; }
-
-    public string RoleName { get; set; } = null!;
+    public int UserId { get; set; }
+    public int Weight { get; set; }      
 }
+

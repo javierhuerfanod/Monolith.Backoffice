@@ -13,11 +13,15 @@
 // ***********************************************************************
 
 
+using AutoMapper;
 using Juegos.Serios.Bathroom.Application.Features.Weight.Interfaces;
+using Juegos.Serios.Bathroom.Application.Models.Request;
+using Juegos.Serios.Bathroom.Application.Models.Response;
 using Juegos.Serios.Bathroom.Domain.Interfaces.Services;
+using Juegos.Serios.Bathroom.Domain.Models.Weight;
+using Juegos.Serios.Bathroom.Domain.Resources;
 using Juegos.Serios.Domain.Shared.Exceptions;
 using Juegos.Serios.Shared.Application.Response;
-using Juegos.Serios.Bathroom.Domain.Resources;
 using Microsoft.Extensions.Logging;
 
 namespace Juegos.Serios.Bathroom.Application.Features.WeightApplication
@@ -26,12 +30,13 @@ namespace Juegos.Serios.Bathroom.Application.Features.WeightApplication
     {
         private readonly IWeightService<Domain.Aggregates.Weight> _weightService;
         private readonly ILogger<WeightApplication> _logger;
+        private readonly IMapper _mapper;
 
-        public WeightApplication(ILogger<WeightApplication> logger, IWeightService<Domain.Aggregates.Weight> weightService)
+        public WeightApplication(ILogger<WeightApplication> logger, IWeightService<Domain.Aggregates.Weight> weightService, IMapper mapper)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _weightService = weightService ?? throw new ArgumentNullException(nameof(weightService));
-
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<ApiResponse<object>> ValidateWeight(int userId, int weightCreatedInRegister, DateTime createdUser)
@@ -68,6 +73,44 @@ namespace Juegos.Serios.Bathroom.Application.Features.WeightApplication
                 return new ApiResponse<object>(500, AppMessages.Api_Servererror, false, null);
             }
         }
+
+        public async Task<ApiResponse<List<QuestionareQuestionResponse>>> RegisterWeight(RegisterWeightRequest registerWeightRequest, int userId, int weightCreatedInRegister, DateTime createdUser)
+        {
+            _logger.LogInformation("Starting registration process for weight validation. User ID: {UserId}, Weight: {Weight}, Created Date: {CreatedDate}", userId, weightCreatedInRegister, createdUser);
+
+            try
+            {               
+                var registerWeightModel = _mapper.Map<RegisterWeightModel>(registerWeightRequest, opts =>
+                {
+                    opts.Items["userId"] = userId;
+                });
+                _logger.LogDebug("Mapped RegisterWeightRequest to RegisterWeightModel. Starting service call for User ID: {UserId}.", userId);
+
+                var validationSuccess = await _weightService.RegisterWeight(registerWeightModel, new ValidateWeightJwtModel
+                {
+                    CreatedUser = createdUser,
+                    UserId = userId,
+                    WeightCreatedInRegister = weightCreatedInRegister
+                });
+
+                _logger.LogDebug("Service call completed. Mapping response for User ID: {UserId}.", userId);
+                var questionareQuestionResponses = _mapper.Map<List<QuestionareQuestionResponse>>(validationSuccess.questionareQuestionsDtos);
+
+                _logger.LogInformation("Weight registration completed successfully for User ID: {UserId}.", userId);
+                return new ApiResponse<List<QuestionareQuestionResponse>>(validationSuccess.StatusCondition, validationSuccess.Message, true, questionareQuestionResponses);
+            }
+            catch (DomainException dex)
+            {
+                _logger.LogWarning("Domain exception during weight validation for User ID: {UserId}. Reason: {ExceptionMessage}", userId, dex.Message);
+                return new ApiResponse<List<QuestionareQuestionResponse>>(400, dex.Message, false, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Unexpected error during the weight validation process for User ID: {UserId}. Exception details: {ExceptionMessage}", userId, ex.Message);
+                return new ApiResponse<List<QuestionareQuestionResponse>>(500, AppMessages.Api_Servererror, false, null);
+            }
+        }
+
     }
 }
 

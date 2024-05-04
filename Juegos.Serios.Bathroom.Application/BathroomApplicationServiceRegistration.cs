@@ -22,7 +22,8 @@ namespace Juegos.Serios.Bathroom.Application
     public static class BathroomApplicationServiceRegistration
     {
         public static IServiceCollection AddBathroomApplicationServices(this IServiceCollection services, IConfiguration configuration)
-        {          
+        {
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<IWeightApplication, WeightApplication>();          
             return services;
         }

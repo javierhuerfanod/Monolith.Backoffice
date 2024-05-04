@@ -6,20 +6,17 @@
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="ICityApplication.cs" company="Universidad Javeriana">
+// <copyright file="CityDto.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
-using Juegos.Serios.Authenticacions.Application.Models.Response;
-using Juegos.Serios.Shared.Application.Response;
+namespace Juegos.Serios.Authenticacions.Application.Models.Response;
 
-namespace Juegos.Serios.Authenticacions.Application.Features.CityApplication.Interfaces
+public partial class CityResponse
 {
-    public interface ICityApplication
-    {
-        Task<ApiResponse<List<CityResponse>>> SelectAsync();
-    }
-}
+    public int CityId { get; set; }
 
+    public string CityName { get; set; } = null!;
+}

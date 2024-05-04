@@ -12,16 +12,16 @@
 // <summary></summary>
 // ***********************************************************************
 
-using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+using Juegos.Serios.Authenticacions.Application.Models.Response;
 using Juegos.Serios.Shared.Application.Response;
 
 namespace Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces
 {
     public interface IRoleApplication
     {
-        Task<ApiResponse<RolDto>> GetById(int id);
-        Task<ApiResponse<List<RolDto>>> SelectAsync();
-        Task<ApiResponse<RolDto>> CreateRol(string rolename);
+        Task<ApiResponse<RolResponse>> GetById(int id);
+        Task<ApiResponse<List<RolResponse>>> SelectAsync();
+        Task<ApiResponse<RolResponse>> CreateRol(string rolename);
     }
 }
 

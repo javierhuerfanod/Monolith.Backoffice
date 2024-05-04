@@ -1,25 +1,24 @@
 ﻿// ***********************************************************************
 // Assembly         : Juegos.Serios.Authenticacions.Application
 // Author           : diego diaz
-// Created          : 01-05-2024
+// Created          : 20-04-2024
 //
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="ICityApplication.cs" company="Universidad Javeriana">
+// <copyright file="RegisterWeightRequest.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
-using Juegos.Serios.Authenticacions.Application.Models.Response;
-using Juegos.Serios.Shared.Application.Response;
+using System.ComponentModel.DataAnnotations;
 
-namespace Juegos.Serios.Authenticacions.Application.Features.CityApplication.Interfaces
+namespace Juegos.Serios.Bathroom.Application.Models.Request;
+
+public class RegisterWeightRequest
 {
-    public interface ICityApplication
-    {
-        Task<ApiResponse<List<CityResponse>>> SelectAsync();
-    }
+    [Required(ErrorMessage = "El peso es requerido")]
+    [Range(1, int.MaxValue, ErrorMessage = "El peso debe ser mayor a 0")]
+    public int Weight { get; set; }
 }
-

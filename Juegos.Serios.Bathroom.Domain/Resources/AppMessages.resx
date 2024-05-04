@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Api_Badrequest" xml:space="preserve">
+    <value>Datos de entrada no válidos</value>
+  </data>
   <data name="Api_Get_Weight_ValidatedWeight_Response_failed" xml:space="preserve">
     <value>El peso aun no fue tomado el dia de hoy.</value>
   </data>
@@ -134,5 +137,20 @@
   </data>
   <data name="Api_Weight_InvalidWeight" xml:space="preserve">
     <value>El peso registrado no debe estar vacío.</value>
+  </data>
+  <data name="Api_Weight_NoPreviousRecords" xml:space="preserve">
+    <value>No se encontraron pesos, comuniquese con el administrador.</value>
+  </data>
+  <data name="Domain_Weight_IsEqual" xml:space="preserve">
+    <value>El peso se mantiene.</value>
+  </data>
+  <data name="Domain_Weight_IsSuperiorByOne" xml:space="preserve">
+    <value>El peso aumento 1 kilo.</value>
+  </data>
+  <data name="Domain_Weight_IsSuperiorByTwo" xml:space="preserve">
+    <value>El peso es igual o superior a 2 kilo.</value>
+  </data>
+  <data name="Domain_Weight_IsTakeToday" xml:space="preserve">
+    <value>El peso ya fue tomado el dia de hoy.</value>
   </data>
 </root>

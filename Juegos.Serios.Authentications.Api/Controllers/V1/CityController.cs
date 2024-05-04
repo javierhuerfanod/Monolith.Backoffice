@@ -17,7 +17,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
 {
     using Aurora.Backend.Baseline.Application.Constants;
     using Juegos.Serios.Authenticacions.Application.Features.CityApplication.Interfaces;
-    using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+    using Juegos.Serios.Authenticacions.Application.Models.Response;
     using Juegos.Serios.Authenticacions.Domain.Resources;
     using Juegos.Serios.Shared.Api.Controllers;
     using Juegos.Serios.Shared.Api.UtilCross.Swagger;
@@ -52,11 +52,11 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         /// <response code="500">Si ocurre un error interno en el servidor mientras se procesa la solicitud, devuelve el código 500.</response>
         [HttpGet("Cities")]
         [IncludeApplicationTokenHeader]
-        [ProducesResponseType(typeof(ApiResponse<List<CityDto>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResponse<List<CityResponse>>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<ApiResponse<List<CityDto>>>> GetCities()
+        public async Task<ActionResult<ApiResponse<List<CityResponse>>>> GetCities()
         {
             if (!ValidateTokenApplication())
             {
