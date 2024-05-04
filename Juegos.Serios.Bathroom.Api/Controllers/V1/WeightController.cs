@@ -85,42 +85,36 @@ namespace Juegos.Serios.Bathroom.Api.Controllers.V1
             };
         }
         /// <summary>
-        /// Registra el peso del usuario.
+        /// Registra y valida el peso del usuario basado en la información proporcionada.
         /// </summary>
         /// <param name="registerWeightRequest">Datos de solicitud para registrar el peso.</param>
-        /// <returns>Una respuesta API que indica el resultado del registro y validación del peso.</returns>
-        /// <response code="200">Devuelve el código 200 si el registro y la validación del peso se completan correctamente.</response>
+        /// <returns>Una respuesta API que indica el resultado del registro y validación del peso, incluyendo la condición del peso comparado con registros anteriores.</returns>
+        /// <response code="200">Devuelve el código 200 si el registro y la validación del peso se completan correctamente, junto con el estado del peso:
+        ///  0: El peso ya se tomó ese día.
+        ///  1: Los pesos son iguales o el peso nuevo es menor.
+        ///  2: El peso nuevo es superior por 1.
+        ///  3: El peso nuevo es superior por 2.
+        /// </response>
         /// <response code="400">Devuelve el código 400 si los datos en la solicitud son inválidos o faltan datos en el token.</response>
         /// <response code="401">Devuelve el código 401 si el token es inválido o falta autorización.</response>
-        /// <response code="500">Devuelve el código 500 en caso de un error interno del servidor.</response>      
+        /// <response code="500">Devuelve el código 500 en caso de un error interno del servidor.</response>   
         [HttpPost()]
         [Authorize]
-        [ProducesResponseType(typeof(ApiResponse<List<QuestionareQuestionResponse>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResponse<RegisterWeightResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<ApiResponse<List<QuestionareQuestionResponse>>>> RegisterWeight(RegisterWeightRequest registerWeightRequest)
+        public async Task<ActionResult<ApiResponse<RegisterWeightResponse>>> RegisterWeight(RegisterWeightRequest registerWeightRequest)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var createdUserClaim = User.FindFirst("Created_user")?.Value;
-            var userWeightClaim = User.FindFirst("user_weight")?.Value;
 
             if (string.IsNullOrEmpty(userIdClaim))
             {
                 _logger.LogWarning("Unauthorized access attempt due to missing UserID in token.");
                 return Unauthorized("Token inválido, ingrese el token a refrescar");
             }
-
-            if (string.IsNullOrEmpty(createdUserClaim) || string.IsNullOrEmpty(userWeightClaim))
-            {
-                _logger.LogWarning("Unauthorized access attempt due to incomplete data in token. Missing 'Created_user' or 'user_weight'.");
-                return Unauthorized("Datos faltantes en el token, verifique la información de usuario y peso.");
-            }
-
             int userId = int.Parse(userIdClaim);
-            DateTime createdUser = DateTime.Parse(createdUserClaim);
-            int weightCreatedInRegister = int.Parse(userWeightClaim);
 
             if (!ModelState.IsValid)
             {
@@ -130,8 +124,8 @@ namespace Juegos.Serios.Bathroom.Api.Controllers.V1
                 return BadRequest(new ApiResponse<ErrorResponse>(400, AppMessages.Api_Badrequest, false, errorResponse));
             }
 
-            _logger.LogInformation("Proceeding with weight registration for User ID: {UserId}, Weight: {Weight}, Created Date: {CreatedDate}", userId, weightCreatedInRegister, createdUser);
-            var response = await _weightApplication.RegisterWeight(registerWeightRequest, userId, weightCreatedInRegister, createdUser);
+            _logger.LogInformation("Proceeding with weight registration for User ID: {UserId}", userId);
+            var response = await _weightApplication.RegisterWeight(registerWeightRequest, userId);
 
             return response.ResponseCode switch
             {

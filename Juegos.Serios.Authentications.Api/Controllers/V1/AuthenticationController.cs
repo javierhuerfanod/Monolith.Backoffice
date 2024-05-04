@@ -68,7 +68,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
             {
                 return Unauthorized(new ApiResponse<object>(401, AppMessages.Api_TokenApplication_Invalid, false));
             }           
-            loginRequest.Password = EncryptionHelper.DecryptString(loginRequest.Password, _configuration["AppKeyEncrypt"]!.ToString());
+            //loginRequest.Password = EncryptionHelper.DecryptString(loginRequest.Password, _configuration["AppKeyEncrypt"]!.ToString());
             if (!ModelState.IsValid)
             {
                 var errorMessages = ModelState.GetAllErrorMessages();
