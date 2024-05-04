@@ -96,7 +96,9 @@ namespace Juegos.Serios.Authentications.Application.Features.Login
         new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
         new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
         new Claim(JwtRegisteredClaimNames.Email, user.Email),
-        new Claim("user_id", user.UserId.ToString())
+        new Claim("user_id", user.UserId.ToString()),
+        new Claim("Created_user", user.CreatedAt.ToString()),
+        new Claim("user_weight", user.Weight.ToString())
     };
 
             var token = new JwtSecurityToken(

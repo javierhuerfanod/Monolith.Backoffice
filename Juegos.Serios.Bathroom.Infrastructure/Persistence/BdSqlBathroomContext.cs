@@ -46,12 +46,12 @@ public partial class BdSqlBathroomContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedAt = DateTime.UtcNow;
+                    entry.Entity.CreatedAt = DateTime.Now;
                     entry.Entity.CreatedBy = 3;
                     break;
 
                 case EntityState.Modified:
-                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                    entry.Entity.UpdatedAt = DateTime.Now;
                     entry.Entity.UpdatedBy = 3;
                     break;
             }
@@ -78,25 +78,20 @@ public partial class BdSqlBathroomContext : DbContext
 
         modelBuilder.Entity<QuestionnaireAnswer>(entity =>
         {
-            entity.HasKey(e => e.AnswerId).HasName("PK__Question__D4825024A6B50257");
+            entity.HasKey(e => e.AnswerId).HasName("PK__Question__D482502485115A90");
 
             entity.ToTable("QuestionnaireAnswers", "Bathroom");
 
-            entity.Property(e => e.AnswerId)
-                .ValueGeneratedNever()
-                .HasColumnName("AnswerID");
+            entity.Property(e => e.AnswerId).HasColumnName("AnswerID");
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
             entity.Property(e => e.WeightId).HasColumnName("WeightID");
 
-            entity.HasOne(d => d.Question).WithMany(p => p.QuestionnaireAnswers)
-                .HasForeignKey(d => d.QuestionId)
-                .HasConstraintName("FK__Questionn__Quest__22751F6C");
-
             entity.HasOne(d => d.Weight).WithMany(p => p.QuestionnaireAnswers)
                 .HasForeignKey(d => d.WeightId)
-                .HasConstraintName("FK__Questionn__Weigh__2180FB33");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_WeightID");
         });
 
         modelBuilder.Entity<QuestionnaireQuestion>(entity =>
@@ -122,13 +117,11 @@ public partial class BdSqlBathroomContext : DbContext
 
         modelBuilder.Entity<Weight>(entity =>
         {
-            entity.HasKey(e => e.WeightId).HasName("PK__Weights__02A0F3FB08A9E020");
+            entity.HasKey(e => e.WeightId).HasName("PK__Weights__02A0F3FBC9B28BB5");
 
             entity.ToTable("Weights", "Bathroom");
 
-            entity.Property(e => e.WeightId)
-                .ValueGeneratedNever()
-                .HasColumnName("WeightID");
+            entity.Property(e => e.WeightId).HasColumnName("WeightID");
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
             entity.Property(e => e.UserId).HasColumnName("UserID");

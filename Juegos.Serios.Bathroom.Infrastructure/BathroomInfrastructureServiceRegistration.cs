@@ -13,6 +13,8 @@
 // ***********************************************************************
 
 namespace Juegos.Serios.Bathroom.Infrastructure;
+
+using Juegos.Serios.Bathroom.Domain.Interfaces.Repositories;
 using Juegos.Serios.Bathroom.Infrastructure.Persistence;
 using Juegos.Serios.Bathroom.Infrastructure.Repositories;
 using Juegos.Serios.Shared.Domain.Ports.Persistence;
@@ -28,7 +30,11 @@ public static class BathroomInfrastructureServiceRegistration
          options.UseSqlServer(configuration.GetConnectionString("BathroomSqlDbConnection"))
          );
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));     
+        services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
+        services.AddScoped<IWeightRepository, WeightRepository>();
+        services.AddScoped<IQuestionnaireAnswerRepository, QuestionnaireAnswerRepository>();
+        services.AddScoped<IQuestionnaireRepository, QuestionnaireRepository>();
+        services.AddScoped<IQuestionnaireQuestionRepository, QuestionnaireQuestionRepository>();
         return services;
     }
 }
