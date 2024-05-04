@@ -17,14 +17,18 @@ RUN dotnet build "Juegos.Serios.Principal.csproj" -c Release -o /app/build
 # Define una nueva etapa de construcción con la imagen base de ASP.NET
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 as runtime
 
+# Establece la zona horaria del contenedor
+ENV TZ=America/Bogota
+
 # Establece el directorio de trabajo en /app
 WORKDIR /app
 # Copia los archivos compilados de la etapa de construcción anterior
 COPY --from=build /app/build .
-# Expone el puerto 80
-EXPOSE 8080
-EXPOSE 443
+# Expone el puerto 80 y 443
 EXPOSE 80
+EXPOSE 443
+
 # Configura el punto de entrada de la aplicación
 ENTRYPOINT ["dotnet", "Juegos.Serios.Principal.dll"]
+
 
