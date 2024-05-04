@@ -24,6 +24,7 @@ COPY --from=build /app/build .
 # Expone el puerto 80 y 443
 EXPOSE 80
 EXPOSE 443
+RUN apk add --no-cache tzdata
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 ENV TZ America/Bogota
 # Configura el punto de entrada de la aplicación
