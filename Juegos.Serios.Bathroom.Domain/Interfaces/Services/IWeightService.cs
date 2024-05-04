@@ -20,6 +20,6 @@ namespace Juegos.Serios.Bathroom.Domain.Interfaces.Services
     public interface IWeightService<T>
     {
         Task<bool> ValidateWeight(ValidateWeightJwtModel validateWeightJwtModel);
-        Task<RegisterWeightResponse> RegisterWeight(RegisterWeightModel registerWeightModel, ValidateWeightJwtModel validateWeightJwtModel);       
+        Task<DomainRegisterWeightResponse> RegisterWeight(RegisterWeightModel registerWeightModel);       
     }
 }

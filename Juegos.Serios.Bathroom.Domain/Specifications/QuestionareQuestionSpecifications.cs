@@ -20,7 +20,7 @@ namespace Juegos.Serios.Bathroom.Domain.Specifications
     {
         public static Expression<Func<QuestionnaireQuestion, bool>> ByQuestionareId(int questionareId)
         {
-            return QuestionnaireQuestion => QuestionnaireQuestion.QuestionId == questionareId;
+            return QuestionnaireQuestion => QuestionnaireQuestion.QuestionnaireId == questionareId;
         }
     }    
 }

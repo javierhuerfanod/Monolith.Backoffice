@@ -31,8 +31,15 @@ namespace Juegos.Serios.Bathroom.Application.Mappings
                    {
                        dest.UserId = (int)context.Items["userId"];
                    }
-               });         
+               });
             CreateMap<QuestionareQuestionDto, QuestionareQuestionResponse>();
+
+            CreateMap<DomainRegisterWeightResponse, RegisterWeightResponse>()
+                .ForMember(dest => dest.WeightID, opt => opt.MapFrom(src => src.WeightID))
+                .ForMember(dest => dest.StatusCondition, opt => opt.MapFrom(src => src.StatusCondition))           
+                .ForMember(dest => dest.QuestionareQuestionsResponses, opt => opt.MapFrom(src => src.questionareQuestionsDtos));
+
+
         }
     }
 }

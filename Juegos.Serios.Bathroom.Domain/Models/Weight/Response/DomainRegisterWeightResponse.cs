@@ -14,7 +14,7 @@
 
 namespace Juegos.Serios.Bathroom.Domain.Models.Weight.Response;
 
-public class RegisterWeightResponse
+public class DomainRegisterWeightResponse
 {
     public int WeightID { get; set; }
     public int StatusCondition { get; set; }

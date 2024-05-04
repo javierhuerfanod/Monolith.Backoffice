@@ -74,40 +74,34 @@ namespace Juegos.Serios.Bathroom.Application.Features.WeightApplication
             }
         }
 
-        public async Task<ApiResponse<List<QuestionareQuestionResponse>>> RegisterWeight(RegisterWeightRequest registerWeightRequest, int userId, int weightCreatedInRegister, DateTime createdUser)
+        public async Task<ApiResponse<RegisterWeightResponse>> RegisterWeight(RegisterWeightRequest registerWeightRequest, int userId)
         {
-            _logger.LogInformation("Starting registration process for weight validation. User ID: {UserId}, Weight: {Weight}, Created Date: {CreatedDate}", userId, weightCreatedInRegister, createdUser);
+            _logger.LogInformation("Starting registration process for weight validation. User ID: {UserId}", userId);
 
             try
-            {               
+            {
                 var registerWeightModel = _mapper.Map<RegisterWeightModel>(registerWeightRequest, opts =>
                 {
                     opts.Items["userId"] = userId;
                 });
                 _logger.LogDebug("Mapped RegisterWeightRequest to RegisterWeightModel. Starting service call for User ID: {UserId}.", userId);
 
-                var validationSuccess = await _weightService.RegisterWeight(registerWeightModel, new ValidateWeightJwtModel
-                {
-                    CreatedUser = createdUser,
-                    UserId = userId,
-                    WeightCreatedInRegister = weightCreatedInRegister
-                });
+                var validationSuccess = await _weightService.RegisterWeight(registerWeightModel);
 
                 _logger.LogDebug("Service call completed. Mapping response for User ID: {UserId}.", userId);
-                var questionareQuestionResponses = _mapper.Map<List<QuestionareQuestionResponse>>(validationSuccess.questionareQuestionsDtos);
-
+                var questionareQuestionResponses = _mapper.Map<RegisterWeightResponse>(validationSuccess);              
                 _logger.LogInformation("Weight registration completed successfully for User ID: {UserId}.", userId);
-                return new ApiResponse<List<QuestionareQuestionResponse>>(validationSuccess.StatusCondition, validationSuccess.Message, true, questionareQuestionResponses);
+                return new ApiResponse<RegisterWeightResponse>(200, validationSuccess.Message, true, questionareQuestionResponses);
             }
             catch (DomainException dex)
             {
                 _logger.LogWarning("Domain exception during weight validation for User ID: {UserId}. Reason: {ExceptionMessage}", userId, dex.Message);
-                return new ApiResponse<List<QuestionareQuestionResponse>>(400, dex.Message, false, null);
+                return new ApiResponse<RegisterWeightResponse>(400, dex.Message, false, null);
             }
             catch (Exception ex)
             {
                 _logger.LogError("Unexpected error during the weight validation process for User ID: {UserId}. Exception details: {ExceptionMessage}", userId, ex.Message);
-                return new ApiResponse<List<QuestionareQuestionResponse>>(500, AppMessages.Api_Servererror, false, null);
+                return new ApiResponse<RegisterWeightResponse>(500, AppMessages.Api_Servererror, false, null);
             }
         }
 

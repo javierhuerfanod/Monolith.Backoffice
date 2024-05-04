@@ -12,10 +12,18 @@
 // <summary></summary>
 // ***********************************************************************
 
+
 namespace Juegos.Serios.Bathroom.Application.Models.Response;
 
 public class QuestionareQuestionResponse
 {
     public int QuestionId { get; set; }
     public string Question { get; set; }
+}
+
+public class RegisterWeightResponse
+{
+    public int WeightID { get; set; }
+    public int StatusCondition { get; set; }
+    public List<QuestionareQuestionResponse> QuestionareQuestionsResponses { get; set; }
 }
