@@ -18,11 +18,13 @@ using Juegos.Serios.Bathroom.Domain.Aggregates;
 using Juegos.Serios.Bathroom.Domain.Interfaces.Services;
 using Juegos.Serios.Bathroom.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 public static class BathroomDomainServiceRegistration
 {
     public static IServiceCollection AddBathroomDomainServices(this IServiceCollection services)
     {
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddScoped<IWeightService<Weight>, WeightService>();    
         return services;
     }

@@ -13,11 +13,13 @@
 // ***********************************************************************
 
 using Juegos.Serios.Bathroom.Domain.Models.Weight;
+using Juegos.Serios.Bathroom.Domain.Models.Weight.Response;
 
 namespace Juegos.Serios.Bathroom.Domain.Interfaces.Services
 {
     public interface IWeightService<T>
     {
         Task<bool> ValidateWeight(ValidateWeightJwtModel validateWeightJwtModel);
+        Task<RegisterWeightResponse> RegisterWeight(RegisterWeightModel registerWeightModel, ValidateWeightJwtModel validateWeightJwtModel);       
     }
 }

@@ -21,8 +21,10 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Juegos.Serios.Authenticacions.Domain.Resources;
     using Juegos.Serios.Shared.Api.Controllers;
     using Juegos.Serios.Shared.Api.UtilCross.Swagger;
+    using Juegos.Serios.Shared.Api.UtilsCross.Encryption;
     using Juegos.Serios.Shared.Application.Response;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity.Data;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using System.Net;
@@ -96,7 +98,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
                 _logger.LogWarning("Unauthorized access attempt with invalid token");
                 return Unauthorized(AppMessages.Api_TokenApplication_Invalid);
             }
-
+            userCreateRequest.Password = EncryptionHelper.DecryptString(userCreateRequest.Password, _configuration["AppKeyEncrypt"]!.ToString());
             if (!ModelState.IsValid)
             {
                 var errorMessages = ModelState.GetAllErrorMessages();
@@ -157,6 +159,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
                 return Unauthorized("Invalid token data");
             }
             int userId = int.Parse(userIdClaim);
+            updatePasswordRequest.NewPassword = EncryptionHelper.DecryptString(updatePasswordRequest.NewPassword, _configuration["AppKeyEncrypt"]!.ToString());
             var response = await _userApplication.UpdateUserPassword(updatePasswordRequest, userId);
             return response.ResponseCode switch
             {

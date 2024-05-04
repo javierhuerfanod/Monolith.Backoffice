@@ -24,6 +24,7 @@ public static class AuthenticationsDomainServiceRegistration
 {
     public static IServiceCollection AddAuthenticationsDomainServices(this IServiceCollection services)
     {
+
         services.AddScoped<IUserAvatarBodyPartService<UserAvatarBodyPart>, UserAvatarBodyPartService>();
         services.AddScoped<IRolService<Role>, RolService>();
         services.AddScoped<IUserAggregateService<User>, UserAggregateService>();

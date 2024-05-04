@@ -15,7 +15,7 @@
 using AutoMapper;
 using Juegos.Serios.Authenticacions.Application.Exceptions;
 using Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces;
-using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+using Juegos.Serios.Authenticacions.Application.Models.Response;
 using Juegos.Serios.Authenticacions.Domain.Entities;
 using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authenticacions.Domain.Resources;
@@ -40,12 +40,12 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Rol
             _azureQueue = azureQueue ?? throw new ArgumentNullException(nameof(azureQueue));
         }
 
-        public async Task<ApiResponse<RolDto>> GetById(int id)
+        public async Task<ApiResponse<RolResponse>> GetById(int id)
         {
             try
             {
                 //tiene ejemplo de cola en azure, solo es de referencia.
-                var responseApiCache = await _redisCache.GetCacheData<ApiResponse<RolDto>>($"{nameof(GetById)}{id}");
+                var responseApiCache = await _redisCache.GetCacheData<ApiResponse<RolResponse>>($"{nameof(GetById)}{id}");
                 if (responseApiCache != null)
                 {
                     return responseApiCache;
@@ -54,10 +54,10 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Rol
                 var roleEntity = await _rolService.GetById(id);
                 if (roleEntity == null)
                 {
-                    return new ApiResponse<RolDto>(204, AppMessages.Api_Get_Rol_Response, true, null);
+                    return new ApiResponse<RolResponse>(204, AppMessages.Api_Get_Rol_Response, true, null);
                 }
-                var roleDto = _mapper.Map<RolDto>(roleEntity);
-                var apiresponse = new ApiResponse<RolDto>(200, AppMessages.Api_Get_Rol_Response, true, roleDto);
+                var roleDto = _mapper.Map<RolResponse>(roleEntity);
+                var apiresponse = new ApiResponse<RolResponse>(200, AppMessages.Api_Get_Rol_Response, true, roleDto);
                 await _redisCache.SetCacheData($"{nameof(GetById)}{id}", apiresponse, DateTimeOffset.Now.AddMinutes(5.0));
                 return apiresponse;
             }
@@ -67,18 +67,18 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Rol
             }
         }
 
-        public async Task<ApiResponse<RolDto>> CreateRol(string rolename)
+        public async Task<ApiResponse<RolResponse>> CreateRol(string rolename)
         {
             try
             {
                 var roleFindEntity = await _rolService.GetByName(rolename);
                 if (roleFindEntity != null)
                 {
-                    return new ApiResponse<RolDto>(400, AppMessages.Api_Get_Rol_Duplicated_Response, false, null);
+                    return new ApiResponse<RolResponse>(400, AppMessages.Api_Get_Rol_Duplicated_Response, false, null);
                 }
                 var roleEntity = await _rolService.CreateRoleAsync(rolename);
-                var roleDto = _mapper.Map<RolDto>(roleEntity);
-                var apiresponse = new ApiResponse<RolDto>(200, AppMessages.Api_Get_Rol_Created_Response, true, roleDto);
+                var roleDto = _mapper.Map<RolResponse>(roleEntity);
+                var apiresponse = new ApiResponse<RolResponse>(200, AppMessages.Api_Get_Rol_Created_Response, true, roleDto);
                 return apiresponse;
             }
             catch (Exception ex)
@@ -87,13 +87,13 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Rol
             }
         }
 
-        public async Task<ApiResponse<List<RolDto>>> SelectAsync()
+        public async Task<ApiResponse<List<RolResponse>>> SelectAsync()
         {
             try
             {
                 var roleEntities = await _rolService.SelectAsync();
-                var roleDtos = _mapper.Map<List<RolDto>>(roleEntities);
-                return new ApiResponse<List<RolDto>>(200, AppMessages.Api_Get_Rol_Response, true, roleDtos);
+                var roleDtos = _mapper.Map<List<RolResponse>>(roleEntities);
+                return new ApiResponse<List<RolResponse>>(200, AppMessages.Api_Get_Rol_Response, true, roleDtos);
             }
             catch (Exception ex)
             {

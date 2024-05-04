@@ -21,6 +21,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Juegos.Serios.Authenticacions.Domain.Resources;
     using Juegos.Serios.Shared.Api.Controllers;
     using Juegos.Serios.Shared.Api.UtilCross.Swagger;
+    using Juegos.Serios.Shared.Api.UtilsCross.Encryption;
     using Juegos.Serios.Shared.Application.Response;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
@@ -66,8 +67,8 @@ namespace Juegos.Serios.Authenticacions.Api.V1
             if (!ValidateTokenApplication())
             {
                 return Unauthorized(new ApiResponse<object>(401, AppMessages.Api_TokenApplication_Invalid, false));
-            }
-
+            }           
+            loginRequest.Password = EncryptionHelper.DecryptString(loginRequest.Password, _configuration["AppKeyEncrypt"]!.ToString());
             if (!ModelState.IsValid)
             {
                 var errorMessages = ModelState.GetAllErrorMessages();

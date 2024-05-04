@@ -61,6 +61,15 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Datos de entrada no válidos.
+        /// </summary>
+        public static string Api_Badrequest {
+            get {
+                return ResourceManager.GetString("Api_Badrequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a El peso aun no fue tomado el dia de hoy..
         /// </summary>
         public static string Api_Get_Weight_ValidatedWeight_Response_failed {
@@ -111,6 +120,51 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         public static string Api_Weight_InvalidWeight {
             get {
                 return ResourceManager.GetString("Api_Weight_InvalidWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se encontraron pesos, comuniquese con el administrador..
+        /// </summary>
+        public static string Api_Weight_NoPreviousRecords {
+            get {
+                return ResourceManager.GetString("Api_Weight_NoPreviousRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El peso se mantiene..
+        /// </summary>
+        public static string Domain_Weight_IsEqual {
+            get {
+                return ResourceManager.GetString("Domain_Weight_IsEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El peso aumento 1 kilo..
+        /// </summary>
+        public static string Domain_Weight_IsSuperiorByOne {
+            get {
+                return ResourceManager.GetString("Domain_Weight_IsSuperiorByOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El peso es igual o superior a 2 kilo..
+        /// </summary>
+        public static string Domain_Weight_IsSuperiorByTwo {
+            get {
+                return ResourceManager.GetString("Domain_Weight_IsSuperiorByTwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El peso ya fue tomado el dia de hoy..
+        /// </summary>
+        public static string Domain_Weight_IsTakeToday {
+            get {
+                return ResourceManager.GetString("Domain_Weight_IsTakeToday", resourceCulture);
             }
         }
     }

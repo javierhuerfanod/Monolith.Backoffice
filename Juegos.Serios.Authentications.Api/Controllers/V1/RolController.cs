@@ -17,7 +17,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
 {
     using Aurora.Backend.Baseline.Application.Constants;
     using Juegos.Serios.Authenticacions.Application.Features.Rol.Interfaces;
-    using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+    using Juegos.Serios.Authenticacions.Application.Models.Response;
     using Juegos.Serios.Authenticacions.Domain.Resources;
     using Juegos.Serios.Shared.Api.Controllers;
     using Juegos.Serios.Shared.Application.Response;
@@ -52,11 +52,11 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         /// <response code="500">Si ocurre un error interno en el servidor mientras se procesa la solicitud, devuelve el código 500.</response>
         [Authorize]
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ApiResponse<RolDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResponse<RolResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<ApiResponse<RolDto>>> GetRolById(int id)
+        public async Task<ActionResult<ApiResponse<RolResponse>>> GetRolById(int id)
         {
             _logger.LogInformation("Attempting to fetch role with ID: {RoleId}", id);
 
@@ -83,10 +83,10 @@ namespace Juegos.Serios.Authenticacions.Api.V1
         /// </remarks>
         [Authorize]
         [HttpPost]
-        [ProducesResponseType(typeof(ApiResponse<RolDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResponse<RolResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<ApiResponse<RolDto>>> CreateRol(string roleName)
+        public async Task<ActionResult<ApiResponse<RolResponse>>> CreateRol(string roleName)
         {
             _logger.LogInformation("Attempting to create role with name: {RoleName}", roleName);
 

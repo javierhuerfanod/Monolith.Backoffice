@@ -13,6 +13,8 @@
 // ***********************************************************************
 
 
+using Juegos.Serios.Bathroom.Application.Models.Request;
+using Juegos.Serios.Bathroom.Application.Models.Response;
 using Juegos.Serios.Shared.Application.Response;
 
 namespace Juegos.Serios.Bathroom.Application.Features.Weight.Interfaces
@@ -20,6 +22,7 @@ namespace Juegos.Serios.Bathroom.Application.Features.Weight.Interfaces
     public interface IWeightApplication
     {
         Task<ApiResponse<object>> ValidateWeight(int userId, int weightCreatedInRegister, DateTime createdUser);
+        Task<ApiResponse<List<QuestionareQuestionResponse>>> RegisterWeight(RegisterWeightRequest registerWeightRequest, int userId, int weightCreatedInRegister, DateTime createdUser);
     }
 }
 

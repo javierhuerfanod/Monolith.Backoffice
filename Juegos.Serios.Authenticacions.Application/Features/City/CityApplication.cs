@@ -14,7 +14,7 @@
 
 using AutoMapper;
 using Juegos.Serios.Authenticacions.Application.Features.CityApplication.Interfaces;
-using Juegos.Serios.Authenticacions.Application.Models.Dtos;
+using Juegos.Serios.Authenticacions.Application.Models.Response;
 using Juegos.Serios.Authenticacions.Domain.Entities;
 using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authenticacions.Domain.Resources;
@@ -39,12 +39,12 @@ namespace Juegos.Serios.Authenticacions.Application.Features.CityApplication
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<ApiResponse<List<CityDto>>> SelectAsync()
+        public async Task<ApiResponse<List<CityResponse>>> SelectAsync()
         {
             try
             {
                 var cacheKey = $"{nameof(CityApplication)}{nameof(SelectAsync)}";
-                var responseApiCache = await _redisCache.GetCacheData<ApiResponse<List<CityDto>>>(cacheKey);
+                var responseApiCache = await _redisCache.GetCacheData<ApiResponse<List<CityResponse>>>(cacheKey);
                 if (responseApiCache != null)
                 {
                     _logger.LogInformation("Returning cached cities data.");
@@ -55,11 +55,11 @@ namespace Juegos.Serios.Authenticacions.Application.Features.CityApplication
                 if (cityEntities == null || !cityEntities.Any())
                 {
                     _logger.LogWarning("No cities found in the database.");
-                    return new ApiResponse<List<CityDto>>(404, AppMessages.Api_City_GetCities_NotFound, false, null);
+                    return new ApiResponse<List<CityResponse>>(404, AppMessages.Api_City_GetCities_NotFound, false, null);
                 }
 
-                var cityDtos = _mapper.Map<List<CityDto>>(cityEntities);
-                var apiResponse = new ApiResponse<List<CityDto>>(200, AppMessages.Api_Get_citis_Response, true, cityDtos);
+                var cityDtos = _mapper.Map<List<CityResponse>>(cityEntities);
+                var apiResponse = new ApiResponse<List<CityResponse>>(200, AppMessages.Api_Get_citis_Response, true, cityDtos);
 
                 await _redisCache.SetCacheData(cacheKey, apiResponse, DateTimeOffset.Now.AddMinutes(5.0));
                 _logger.LogInformation("Cities data retrieved and cached.");
