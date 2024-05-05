@@ -22,5 +22,9 @@ namespace Juegos.Serios.Bathroom.Domain.Specifications
         {
             return weight => weight.UserId == userId;
         }
+        public static Expression<Func<Weight, bool>> ByWeightId(int weightId)
+        {
+            return weight => weight.WeightId == weightId;
+        }
     }
 }
