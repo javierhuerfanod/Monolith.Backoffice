@@ -6,21 +6,24 @@
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="RegisterWeightModel.cs" company="Universidad Javeriana">
+// <copyright file="RegisterQuestionnaireAnswerModel.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
-namespace Juegos.Serios.Bathroom.Domain.Models.Weight.Response;
+namespace Juegos.Serios.Bathroom.Domain.Models.QuestionnaireAnswer;
 
-public class DomainRegisterWeightResponse
+public class RegisterQuestionnaireAnswerModel
 {
-    public int WeightID { get; set; }
     public int QuestionnaireID { get; set; }
-    
-    public int StatusCondition { get; set; }
-    public string Message { get; set; }
-    public List<QuestionareQuestionDto> questionareQuestionsDtos { get; set; }
+    public int WeightID { get; set; }
+
+    public List<QuestionareQuestionModel> questionareQuestionModels { get; set; }
+}
+public class QuestionareQuestionModel
+{
+    public int QuestionId { get; set; }
+    public bool Answer { get; set; }
 }
 

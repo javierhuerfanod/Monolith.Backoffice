@@ -14,7 +14,6 @@ using Juegos.Serios.Shared.Api.UtilCross.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Globalization;
 using System.Reflection;
 using System.Text;
 
@@ -40,6 +39,7 @@ builder.Services.AddControllers()
     .AddApplicationPart(typeof(UserController).Assembly)
     .AddApplicationPart(typeof(CityController).Assembly)
     .AddApplicationPart(typeof(WeightController).Assembly)
+    .AddApplicationPart(typeof(QuestionnaireAnswerController).Assembly)
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new NullableDateTimeConverter());
@@ -77,7 +77,7 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPathPrincipal);
 
     // Include the XML comments for other relevant projects
-    var xmlFileAuth = "Juegos.Serios.Authentications.Api.xml";  
+    var xmlFileAuth = "Juegos.Serios.Authentications.Api.xml";
     var xmlPathAuth = Path.Combine(AppContext.BaseDirectory, xmlFileAuth);
     if (System.IO.File.Exists(xmlPathAuth))
     {

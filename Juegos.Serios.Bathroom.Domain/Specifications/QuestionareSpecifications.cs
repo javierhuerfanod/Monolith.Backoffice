@@ -1,30 +1,26 @@
 ﻿// ***********************************************************************
 // Assembly         : Juegos.Serios.Bathroom.Domain
 // Author           : diego diaz
-// Created          : 03-05-2024
+// Created          : 05-05-2024
 //
 // Last Modified By : 
 // Last Modified On : 
 // ***********************************************************************
-// <copyright file="WeightSpecifications.cs" company="Universidad Javeriana">
+// <copyright file="QuestionareSpecifications.cs" company="Universidad Javeriana">
 //     Copyright (c) Universidad Javeriana All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using Juegos.Serios.Bathroom.Domain.Aggregates;
+using Juegos.Serios.Bathroom.Domain.Entities;
 using System.Linq.Expressions;
 
 namespace Juegos.Serios.Bathroom.Domain.Specifications
 {
-    public class WeightSpecifications
+    public class QuestionareSpecifications
     {
-        public static Expression<Func<Weight, bool>> ByUserId(int userId)
+        public static Expression<Func<Questionnaire, bool>> ByQuestionareId(int questionareId)
         {
-            return weight => weight.UserId == userId;
+            return QuestionnaireQuestion => QuestionnaireQuestion.QuestionnaireId == questionareId;
         }
-        public static Expression<Func<Weight, bool>> ByWeightId(int weightId)
-        {
-            return weight => weight.WeightId == weightId;
-        }
-    }
+    }    
 }

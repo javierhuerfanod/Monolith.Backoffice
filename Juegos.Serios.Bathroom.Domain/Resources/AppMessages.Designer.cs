@@ -70,6 +70,15 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El formulario se registro exitosamente..
+        /// </summary>
+        public static string Api_Get_RegisterQuestionnaireAnswer_Created_Response {
+            get {
+                return ResourceManager.GetString("Api_Get_RegisterQuestionnaireAnswer_Created_Response", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a El peso aun no fue tomado el dia de hoy..
         /// </summary>
         public static string Api_Get_Weight_ValidatedWeight_Response_failed {
@@ -84,6 +93,60 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         public static string Api_Get_Weight_ValidatedWeight_Response_success {
             get {
                 return ResourceManager.GetString("Api_Get_Weight_ValidatedWeight_Response_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ya existe una respuesta para el cuestionario asociada con el ID de peso proporcionado..
+        /// </summary>
+        public static string Api_Questionnaire_AnswerAlreadyExists {
+            get {
+                return ResourceManager.GetString("Api_Questionnaire_AnswerAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Los datos del cuestionario son inválidos o están incompletos..
+        /// </summary>
+        public static string Api_Questionnaire_InvalidData {
+            get {
+                return ResourceManager.GetString("Api_Questionnaire_InvalidData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Uno o más identificadores de preguntas proporcionados no son válidos o no corresponden al cuestionario..
+        /// </summary>
+        public static string Api_Questionnaire_InvalidQuestionIDs {
+            get {
+                return ResourceManager.GetString("Api_Questionnaire_InvalidQuestionIDs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El identificador del cuestionario proporcionado no es válido o no existe..
+        /// </summary>
+        public static string Api_Questionnaire_InvalidQuestionnaireID {
+            get {
+                return ResourceManager.GetString("Api_Questionnaire_InvalidQuestionnaireID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La cantidad de preguntas proporcionadas no coincide con la cantidad esperada en el cuestionario..
+        /// </summary>
+        public static string Api_Questionnaire_MismatchQuestionCount {
+            get {
+                return ResourceManager.GetString("Api_Questionnaire_MismatchQuestionCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Los identificadores de preguntas tiene uno o mas duplicado..
+        /// </summary>
+        public static string Api_Questionnaire_MismatchQuestionCountDuplicated {
+            get {
+                return ResourceManager.GetString("Api_Questionnaire_MismatchQuestionCountDuplicated", resourceCulture);
             }
         }
         
@@ -120,6 +183,15 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         public static string Api_Weight_InvalidWeight {
             get {
                 return ResourceManager.GetString("Api_Weight_InvalidWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El identificador del peso no existe..
+        /// </summary>
+        public static string Api_Weight_InvalidWeight_NotFound {
+            get {
+                return ResourceManager.GetString("Api_Weight_InvalidWeight_NotFound", resourceCulture);
             }
         }
         

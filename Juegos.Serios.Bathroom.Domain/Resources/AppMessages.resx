@@ -120,11 +120,32 @@
   <data name="Api_Badrequest" xml:space="preserve">
     <value>Datos de entrada no válidos</value>
   </data>
+  <data name="Api_Get_RegisterQuestionnaireAnswer_Created_Response" xml:space="preserve">
+    <value>El formulario se registro exitosamente.</value>
+  </data>
   <data name="Api_Get_Weight_ValidatedWeight_Response_failed" xml:space="preserve">
     <value>El peso aun no fue tomado el dia de hoy.</value>
   </data>
   <data name="Api_Get_Weight_ValidatedWeight_Response_success" xml:space="preserve">
     <value>El peso ya fue tomado el dia de hoy.</value>
+  </data>
+  <data name="Api_Questionnaire_AnswerAlreadyExists" xml:space="preserve">
+    <value>Ya existe una respuesta para el cuestionario asociada con el ID de peso proporcionado.</value>
+  </data>
+  <data name="Api_Questionnaire_InvalidData" xml:space="preserve">
+    <value>Los datos del cuestionario son inválidos o están incompletos.</value>
+  </data>
+  <data name="Api_Questionnaire_InvalidQuestionIDs" xml:space="preserve">
+    <value>Uno o más identificadores de preguntas proporcionados no son válidos o no corresponden al cuestionario.</value>
+  </data>
+  <data name="Api_Questionnaire_InvalidQuestionnaireID" xml:space="preserve">
+    <value>El identificador del cuestionario proporcionado no es válido o no existe.</value>
+  </data>
+  <data name="Api_Questionnaire_MismatchQuestionCount" xml:space="preserve">
+    <value>La cantidad de preguntas proporcionadas no coincide con la cantidad esperada en el cuestionario.</value>
+  </data>
+  <data name="Api_Questionnaire_MismatchQuestionCountDuplicated" xml:space="preserve">
+    <value>Los identificadores de preguntas tiene uno o mas duplicado.</value>
   </data>
   <data name="Api_Servererror" xml:space="preserve">
     <value>Ocurrio un error, comuniquese con el administrador.</value>
@@ -137,6 +158,9 @@
   </data>
   <data name="Api_Weight_InvalidWeight" xml:space="preserve">
     <value>El peso registrado no debe estar vacío.</value>
+  </data>
+  <data name="Api_Weight_InvalidWeight_NotFound" xml:space="preserve">
+    <value>El identificador del peso no existe.</value>
   </data>
   <data name="Api_Weight_NoPreviousRecords" xml:space="preserve">
     <value>No se encontraron pesos, comuniquese con el administrador.</value>
