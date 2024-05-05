@@ -22,7 +22,7 @@ namespace Juegos.Serios.Bathroom.Application.Features.Weight.Interfaces
     public interface IWeightApplication
     {
         Task<ApiResponse<object>> ValidateWeight(int userId, int weightCreatedInRegister, DateTime createdUser);
-        Task<ApiResponse<RegisterWeightResponse>> RegisterWeight(RegisterWeightRequest registerWeightRequest, int userId);
+        Task<ApiResponse<RegisterWeightResponse>> RegisterWeight(RegisterWeightRequest registerWeightRequest, int userId, string name, string lastName, string email);
     }
 }
 

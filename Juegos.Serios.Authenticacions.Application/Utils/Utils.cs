@@ -1,5 +1,5 @@
 ﻿// ***********************************************************************
-// Assembly         : Juegos.Serios.Authenticacions.Domain
+// Assembly         : Juegos.Serios.Authenticacions.Application
 // Author           : diego diaz
 // Created          : 28-04-2024
 //
@@ -15,7 +15,7 @@
 using Juegos.Serios.Authenticacions.Application.Resources.EmailsHtml;
 
 
-namespace Juegos.Serios.Authentications.Application.Utils
+namespace Juegos.Serios.Authenticacions.Application.Utils
 {
     public static class Utils
     {

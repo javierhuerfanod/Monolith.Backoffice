@@ -19,13 +19,13 @@ using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword.Response;
 using Juegos.Serios.Authenticacions.Domain.Resources;
-using Juegos.Serios.Authentications.Application.Utils;
 using Juegos.Serios.Domain.Shared.Exceptions;
 using Juegos.Serios.Shared.Application.Response;
 using Juegos.Serios.Shared.AzureQueue.Interfaces;
 using Juegos.Serios.Shared.AzureQueue.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Juegos.Serios.Authenticacions.Application.Utils;
 
 namespace Juegos.Serios.Authenticacions.Application.Features.Authentication.RecoveryPassword
 {
@@ -73,7 +73,7 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Authentication.Reco
             {
                 var emailQueue = new EmailsQueueAzure
                 {
-                    Message = Utils.GeneratePasswordRecoveryEmail(passwordRecoveryResponse.Name, passwordRecoveryResponse.LastName, passwordRecoveryResponse.Password),
+                    Message = Juegos.Serios.Authenticacions.Application.Utils.Utils.GeneratePasswordRecoveryEmail(passwordRecoveryResponse.Name, passwordRecoveryResponse.LastName, passwordRecoveryResponse.Password),
                     Subject = AppEmailsMessages.Emails_RecoveryPassword_Subject,
                     TypeEmailId = (int)TypeEmailEnumerator.TypeEmail.RecoveryPassword,
                     Recipients = [email],
