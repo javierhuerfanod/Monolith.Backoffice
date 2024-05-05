@@ -108,13 +108,23 @@ namespace Juegos.Serios.Bathroom.Api.Controllers.V1
         public async Task<ActionResult<ApiResponse<RegisterWeightResponse>>> RegisterWeight(RegisterWeightRequest registerWeightRequest)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
+            var UserNameClaim = User.FindFirst("Created_userName")?.Value;
+            var userLastNameClaim = User.FindFirst("Created_userLastName")?.Value;
+            var userEmailClaim = User.FindFirst("Created_userEmail")?.Value;
             if (string.IsNullOrEmpty(userIdClaim))
             {
-                _logger.LogWarning("Unauthorized access attempt due to missing UserID in token.");
                 return Unauthorized("Token inválido, ingrese el token a refrescar");
             }
+
+            if (string.IsNullOrEmpty(UserNameClaim) || string.IsNullOrEmpty(userLastNameClaim) || string.IsNullOrEmpty(userEmailClaim))
+            {
+                return Unauthorized("Datos faltantes en el token, verifique la información de usuario y peso.");
+            }
+
             int userId = int.Parse(userIdClaim);
+            string userName = UserNameClaim;
+            string userLastname = userLastNameClaim;
+            string userEmail = userEmailClaim;
 
             if (!ModelState.IsValid)
             {
@@ -125,7 +135,7 @@ namespace Juegos.Serios.Bathroom.Api.Controllers.V1
             }
 
             _logger.LogInformation("Proceeding with weight registration for User ID: {UserId}", userId);
-            var response = await _weightApplication.RegisterWeight(registerWeightRequest, userId);
+            var response = await _weightApplication.RegisterWeight(registerWeightRequest, userId, userName, userLastname, userEmail);
 
             return response.ResponseCode switch
             {

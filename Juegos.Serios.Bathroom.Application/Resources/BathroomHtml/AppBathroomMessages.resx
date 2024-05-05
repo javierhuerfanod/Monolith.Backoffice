@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Emails_SuperiorByOne_Body" xml:space="preserve">
+    <value>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Aviso Importante sobre tu Salud&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div style="font-family: Arial, sans-serif;"&gt;
+
+        &lt;h2&gt;Aviso Importante sobre tu Salud&lt;/h2&gt;
+
+        &lt;p&gt;Hola {name} {lastName},&lt;/p&gt;
+
+        &lt;p&gt;Hemos notado un incremento en tu peso de 1 kilo. Si bien esto puede ser una fluctuación normal, queremos que estés atento a cualquier otro síntoma que pueda indicar una descompensación leve.&lt;/p&gt;
+
+        &lt;p&gt;&lt;strong&gt;Recuerda, puedes tener una descompensación leve si presentas otros síntomas adicionales como:&lt;/strong&gt;&lt;/p&gt;
+        &lt;ul&gt;
+            &lt;li&gt;Dolor en el pecho que pasa a los pocos minutos.&lt;/li&gt;
+            &lt;li&gt;Dificultad para respirar cuando caminas.&lt;/li&gt;
+            &lt;li&gt;Necesidad de más almohadas para dormir bien.&lt;/li&gt;
+            &lt;li&gt;Hinchazón en los pies.&lt;/li&gt;
+            &lt;li&gt;Presencia de tos leve.&lt;/li&gt;
+            &lt;li&gt;Palpitaciones en el pecho que ceden pronto.&lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;p&gt;Si experimentas alguno de estos síntomas, te recomendamos consultar a tu médico. Recuerda que estamos aquí para apoyarte en cada paso de tu camino hacia una vida saludable.&lt;/p&gt;
+
+        &lt;p&gt;Saludos cordiales,&lt;/p&gt;
+        &lt;p&gt;El equipo de Soporte&lt;/p&gt;
+
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</value>
+  </data>
+  <data name="Emails_SuperiorByOne_Subject" xml:space="preserve">
+    <value>Alerta de Salud: Observa estos síntomas importantes</value>
+  </data>
+  <data name="Emails_SuperiorByTwo_Body" xml:space="preserve">
+    <value>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Alerta de Salud Urgente&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div style="font-family: Arial, sans-serif;"&gt;
+
+        &lt;h2&gt;Alerta de Salud Urgente&lt;/h2&gt;
+
+        &lt;p&gt;Hola {name} {lastName},&lt;/p&gt;
+
+        &lt;p&gt;Hemos notado un incremento significativo en tu peso de más de 2 kilos. Este cambio puede estar relacionado con una descompensación severa, por lo que es crucial que estés atento a los siguientes síntomas:&lt;/p&gt;
+
+        &lt;p&gt;&lt;strong&gt;Recuerda, puedes tener una descompensación severa si presentas síntomas adicionales como:&lt;/strong&gt;&lt;/p&gt;
+        &lt;ul&gt;
+            &lt;li&gt;Dolor en el pecho opresivo irradiado a brazo izquierdo que no cede a pesar del paso del tiempo y descanso.&lt;/li&gt;
+            &lt;li&gt;Dificultad para respirar estando en reposo.&lt;/li&gt;
+            &lt;li&gt;Necesidad de dormir sentado por culpa del ahogo.&lt;/li&gt;
+            &lt;li&gt;Incremento notable en la hinchazón en las piernas.&lt;/li&gt;
+            &lt;li&gt;Tos persistente.&lt;/li&gt;
+            &lt;li&gt;Palpitaciones en el pecho que no ceden pronto y se acompañan de mareo.&lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;p&gt;Estos síntomas requieren atención médica inmediata. Si experimentas alguno de ellos, contacta a tu médico o acude a la emergencia más cercana sin demora.&lt;/p&gt;
+
+        &lt;p&gt;Saludos cordiales,&lt;/p&gt;
+        &lt;p&gt;El equipo de Soporte&lt;/p&gt;
+
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</value>
+  </data>
+  <data name="Emails_SuperiorByTwo_Subject" xml:space="preserve">
+    <value>Alerta Urgente de Salud: Acción Inmediata Necesaria</value>
+  </data>
+  <data name="Emails_WeightEqual_Body" xml:space="preserve">
+    <value>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Felicidades por tu progreso&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div style="font-family: Arial, sans-serif;"&gt;
+
+        &lt;h2&gt;Felicidades por tu progreso&lt;/h2&gt;
+
+        &lt;p&gt;Hola {name} {lastName},&lt;/p&gt;
+
+        &lt;p&gt;Felicidades, vamos bien hasta ahora. Todo está bajo control, continua con tu autocuidado.&lt;/p&gt;
+
+        &lt;p&gt;Esperamos que sigas comprometido con tus metas y recuerda que estamos aquí para apoyarte en cada paso del camino.&lt;/p&gt;
+
+        &lt;p&gt;¡Sigue adelante!&lt;/p&gt;
+
+        &lt;p&gt;Saludos cordiales,&lt;/p&gt;
+        &lt;p&gt;El equipo de Soporte&lt;/p&gt;
+
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</value>
+  </data>
+  <data name="Emails_WeightEqual_Subject" xml:space="preserve">
+    <value>Continúa así: todo está bajo control</value>
+  </data>
+</root>

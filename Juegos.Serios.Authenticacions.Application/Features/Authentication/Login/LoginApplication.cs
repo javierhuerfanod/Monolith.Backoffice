@@ -98,6 +98,9 @@ namespace Juegos.Serios.Authentications.Application.Features.Login
         new Claim(JwtRegisteredClaimNames.Email, user.Email),
         new Claim("user_id", user.UserId.ToString()),
         new Claim("Created_user", user.CreatedAt.ToString()),
+        new Claim("Created_userName", user.FirstName.ToString()),
+        new Claim("Created_userLastName", user.LastName.ToString()),
+        new Claim("Created_userEmail", user.Email.ToString()),
         new Claim("user_weight", user.Weight.ToString())
     };
 
