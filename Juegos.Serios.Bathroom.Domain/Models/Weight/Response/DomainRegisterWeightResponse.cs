@@ -17,6 +17,8 @@ namespace Juegos.Serios.Bathroom.Domain.Models.Weight.Response;
 public class DomainRegisterWeightResponse
 {
     public int WeightID { get; set; }
+    public int QuestionnaireID { get; set; }
+    
     public int StatusCondition { get; set; }
     public string Message { get; set; }
     public List<QuestionareQuestionDto> questionareQuestionsDtos { get; set; }

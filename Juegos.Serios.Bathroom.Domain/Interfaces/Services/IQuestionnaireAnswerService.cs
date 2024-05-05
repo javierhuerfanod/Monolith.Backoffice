@@ -13,9 +13,12 @@
 // ***********************************************************************
 
 
+using Juegos.Serios.Bathroom.Domain.Models.QuestionnaireAnswer;
+
 namespace Juegos.Serios.Bathroom.Domain.Interfaces.Services
 {
     public interface IQuestionnaireAnswerService<T>
-    {             
+    {
+        Task<bool> RegisterQuestionnaireAnswer(RegisterQuestionnaireAnswerModel registerQuestionnaireAnswerModel);
     }
 }

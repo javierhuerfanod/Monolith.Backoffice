@@ -16,6 +16,7 @@ namespace Juegos.Serios.Bathroom.Domain.Models.QuestionnaireAnswer;
 
 public class RegisterQuestionnaireAnswerModel
 {
+    public int QuestionnaireID { get; set; }
     public int WeightID { get; set; }
 
     public List<QuestionareQuestionModel> questionareQuestionModels { get; set; }
@@ -23,6 +24,6 @@ public class RegisterQuestionnaireAnswerModel
 public class QuestionareQuestionModel
 {
     public int QuestionId { get; set; }
-    public string Answer { get; set; }
+    public bool Answer { get; set; }
 }
 

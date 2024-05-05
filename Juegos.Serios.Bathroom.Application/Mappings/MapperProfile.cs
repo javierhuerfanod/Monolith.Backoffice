@@ -16,6 +16,7 @@ namespace Juegos.Serios.Bathroom.Application.Mappings
     using AutoMapper;
     using Juegos.Serios.Bathroom.Application.Models.Request;
     using Juegos.Serios.Bathroom.Application.Models.Response;
+    using Juegos.Serios.Bathroom.Domain.Models.QuestionnaireAnswer;
     using Juegos.Serios.Bathroom.Domain.Models.Weight;
     using Juegos.Serios.Bathroom.Domain.Models.Weight.Response;
 
@@ -35,11 +36,15 @@ namespace Juegos.Serios.Bathroom.Application.Mappings
             CreateMap<QuestionareQuestionDto, QuestionareQuestionResponse>();
 
             CreateMap<DomainRegisterWeightResponse, RegisterWeightResponse>()
+                .ForMember(dest => dest.QuestionnaireID, opt => opt.MapFrom(src => src.QuestionnaireID))
                 .ForMember(dest => dest.WeightID, opt => opt.MapFrom(src => src.WeightID))
-                .ForMember(dest => dest.StatusCondition, opt => opt.MapFrom(src => src.StatusCondition))           
+                .ForMember(dest => dest.StatusCondition, opt => opt.MapFrom(src => src.StatusCondition))
                 .ForMember(dest => dest.QuestionareQuestionsResponses, opt => opt.MapFrom(src => src.questionareQuestionsDtos));
 
-
+            CreateMap<RegisterQuestionnaireAnswerRequest, RegisterQuestionnaireAnswerModel>()
+                .ForMember(dest => dest.questionareQuestionModels, opt => opt.MapFrom(src => src.questionareQuestionRequests));
+            CreateMap<QuestionareQuestionRequest, QuestionareQuestionModel>();
+                 
         }
     }
 }

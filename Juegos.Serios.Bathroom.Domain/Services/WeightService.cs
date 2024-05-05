@@ -61,7 +61,7 @@ namespace Juegos.Serios.Bathroom.Domain.Services
                     {
                         _logger.LogError("Weight validation failed: 'UserId' is zero.");
                         throw new DomainException(AppMessages.Api_Weight_InvalidUserId);
-                    }             
+                    }
                     _logger.LogDebug("Fetching weights for UserId: {UserId}.", registerWeightModel.UserId);
                     var weights = await _weightRepository.ListAsync(WeightSpecifications.ByUserId(registerWeightModel.UserId));
                     if (weights.Count == 0)
@@ -76,6 +76,7 @@ namespace Juegos.Serios.Bathroom.Domain.Services
                         _logger.LogInformation("Weight already measured today for UserId {UserId}.", registerWeightModel.UserId);
                         return new DomainRegisterWeightResponse
                         {
+                            QuestionnaireID = 0,
                             WeightID = 0,
                             StatusCondition = (int)DomainEnumerator.WeightComparisonResult.AlreadyMeasuredToday,
                             Message = AppMessages.Domain_Weight_IsTakeToday,
@@ -100,6 +101,7 @@ namespace Juegos.Serios.Bathroom.Domain.Services
                         var questionare1 = await _questionnaireQuestionRepository.ListAsync(QuestionareQuestionSpecifications.ByQuestionareId((int)DomainEnumerator.DifferenceStatus.SuperiorByMoreThanOne));
                         return new DomainRegisterWeightResponse
                         {
+                            QuestionnaireID = (int)DomainEnumerator.DifferenceStatus.SuperiorByMoreThanOne,
                             WeightID = createdWeight.WeightId,
                             StatusCondition = (int)DomainEnumerator.WeightComparisonResult.SuperiorByOne,
                             Message = AppMessages.Domain_Weight_IsSuperiorByOne,
@@ -111,6 +113,7 @@ namespace Juegos.Serios.Bathroom.Domain.Services
                         var questionare2 = await _questionnaireQuestionRepository.ListAsync(QuestionareQuestionSpecifications.ByQuestionareId((int)DomainEnumerator.DifferenceStatus.SuperiorByMoreThanTwo));
                         return new DomainRegisterWeightResponse
                         {
+                            QuestionnaireID = (int)DomainEnumerator.DifferenceStatus.SuperiorByMoreThanTwo,
                             WeightID = createdWeight.WeightId,
                             StatusCondition = (int)DomainEnumerator.WeightComparisonResult.SuperiorByTwo,
                             Message = AppMessages.Domain_Weight_IsSuperiorByTwo,
@@ -119,6 +122,7 @@ namespace Juegos.Serios.Bathroom.Domain.Services
                     }
                     return new DomainRegisterWeightResponse
                     {
+                        QuestionnaireID = 0,
                         WeightID = 0,
                         StatusCondition = (int)DomainEnumerator.WeightComparisonResult.Equal,
                         Message = AppMessages.Domain_Weight_IsEqual,

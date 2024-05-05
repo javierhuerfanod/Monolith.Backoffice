@@ -13,6 +13,8 @@
 // ***********************************************************************
 namespace Juegos.Serios.Bathroom.Application
 {
+    using Juegos.Serios.Bathroom.Application.Features.QuestionnaireAnswer;
+    using Juegos.Serios.Bathroom.Application.Features.QuestionnaireAnswer.Interfaces;
     using Juegos.Serios.Bathroom.Application.Features.Weight.Interfaces;
     using Juegos.Serios.Bathroom.Application.Features.WeightApplication;
     using Microsoft.Extensions.Configuration;
@@ -24,7 +26,8 @@ namespace Juegos.Serios.Bathroom.Application
         public static IServiceCollection AddBathroomApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddScoped<IWeightApplication, WeightApplication>();          
+            services.AddScoped<IWeightApplication, WeightApplication>();
+            services.AddScoped<IQuestionnaireAnswerApplication, QuestionnaireAnswerApplication>();
             return services;
         }
     }

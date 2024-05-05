@@ -23,6 +23,7 @@ public class QuestionareQuestionResponse
 
 public class RegisterWeightResponse
 {
+    public int QuestionnaireID { get; set; }
     public int WeightID { get; set; }
     public int StatusCondition { get; set; }
     public List<QuestionareQuestionResponse> QuestionareQuestionsResponses { get; set; }

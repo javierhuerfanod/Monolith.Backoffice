@@ -15,6 +15,7 @@
 namespace Juegos.Serios.Bathroom.Domain;
 
 using Juegos.Serios.Bathroom.Domain.Aggregates;
+using Juegos.Serios.Bathroom.Domain.Entities;
 using Juegos.Serios.Bathroom.Domain.Interfaces.Services;
 using Juegos.Serios.Bathroom.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,8 @@ public static class BathroomDomainServiceRegistration
     public static IServiceCollection AddBathroomDomainServices(this IServiceCollection services)
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        services.AddScoped<IWeightService<Weight>, WeightService>();    
+        services.AddScoped<IWeightService<Weight>, WeightService>();
+        services.AddScoped<IQuestionnaireAnswerService<QuestionnaireAnswer>, QuestionnaireAnswerService>();
         return services;
     }
 }
