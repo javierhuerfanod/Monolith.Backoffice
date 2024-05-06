@@ -66,7 +66,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
             _logger.LogInformation("Validating token for city list retrieval");
             var response = await _cityApplication.SelectAsync();
 #pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
-            if (response.Data.Count == 0)
+            if (response.Data == null)
             {
                 _logger.LogWarning("No cities found during retrieval");
                 return NotFound(AppMessages.Api_City_GetCities_NotFound);
