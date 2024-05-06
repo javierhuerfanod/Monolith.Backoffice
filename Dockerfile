@@ -21,7 +21,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 as runtime
 WORKDIR /app
 # Copia los archivos compilados de la etapa de construcción anterior
 COPY --from=build /app/build .
-COPY --from=build /src/Juegos.Serios.Principal/bin/Release/net8.0/*.xml ./ 
+
 # Expone el puerto 80 y 443
 EXPOSE 80
 EXPOSE 443
