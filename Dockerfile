@@ -27,6 +27,9 @@ EXPOSE 80
 EXPOSE 443
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 ENV TZ America/Bogota
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 # Configura el punto de entrada de la aplicación
 ENTRYPOINT ["dotnet", "Juegos.Serios.Principal.dll"]
 
