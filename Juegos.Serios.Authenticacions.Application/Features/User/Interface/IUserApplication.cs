@@ -13,7 +13,9 @@
 // ***********************************************************************
 
 using Juegos.Serios.Authenticacions.Application.Models.Request;
+using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate.Dtos;
 using Juegos.Serios.Shared.Application.Response;
+using Juegos.Serios.Shared.Domain.Models;
 
 namespace Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces
 {
@@ -21,6 +23,7 @@ namespace Juegos.Serios.Authenticacions.Application.Features.Authentication.Logi
     {
         Task<ApiResponse<object>> CreateUser(UserCreateRequest userCreateRequest);
         Task<ApiResponse<object>> UpdateUserPassword(UpdatePasswordRequest updatePasswordRequest, int userId);
+        Task<ApiResponse<PaginatedList<UserDto>>> SearchUsers(string searchTerm, int pageNumber, int pageSize);
     }
 }
 

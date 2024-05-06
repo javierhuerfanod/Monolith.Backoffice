@@ -31,6 +31,13 @@ namespace Juegos.Serios.Authenticacions.Domain.Specifications
         {
             return user => user.UserId == userId;
         }
-
+        public static Expression<Func<User, bool>> BySearchTerm(string searchTerm)
+        {
+            return user =>
+                (!string.IsNullOrEmpty(user.FirstName) && user.FirstName.Contains(searchTerm)) ||
+                (!string.IsNullOrEmpty(user.LastName) && user.LastName.Contains(searchTerm)) ||
+                (!string.IsNullOrEmpty(user.Email) && user.Email.Contains(searchTerm)) ||
+                (!string.IsNullOrEmpty(user.DocumentNumber) && user.DocumentNumber.Contains(searchTerm));
+        }
     }
 }

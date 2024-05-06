@@ -68,7 +68,20 @@ namespace Juegos.Serios.Authenticacions.Domain.Resources
                 resourceCulture = value;
             }
         }
-
+        public static string Api_PageNumber_Invalid
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_PageNumber_Invalid ", resourceCulture);
+            }
+        }
+        public static string Api_PageSize_Invalid
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_PageSize_Invalid  ", resourceCulture);
+            }
+        }
         public static string Api_UserAvatarBodyParts_GetByUserId_NotFound
         {
             get

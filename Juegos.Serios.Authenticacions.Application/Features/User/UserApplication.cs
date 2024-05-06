@@ -18,9 +18,11 @@ using Juegos.Serios.Authenticacions.Application.Models.Request;
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
+using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate.Dtos;
 using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Domain.Shared.Exceptions;
 using Juegos.Serios.Shared.Application.Response;
+using Juegos.Serios.Shared.Domain.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Juegos.Serios.Authentications.Application.Features.Login
@@ -80,6 +82,29 @@ namespace Juegos.Serios.Authentications.Application.Features.Login
             {
                 _logger.LogError(ex, "Unexpected error occurred while updating password");
                 return new ApiResponse<object>(500, AppMessages.Api_Servererror, false, null);
+            }
+        }
+        public async Task<ApiResponse<PaginatedList<UserDto>>> SearchUsers(string searchTerm, int pageNumber, int pageSize)
+        {
+            try
+            {
+                _logger.LogInformation("Initiating search for users with searchTerm: {SearchTerm}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, pageNumber, pageSize);
+
+                var paginatedUsers = await _userAggregateService.SearchUsers(searchTerm, pageNumber, pageSize);
+
+                _logger.LogInformation("Search completed successfully. Total records found: {TotalRecords}", paginatedUsers.TotalCount);
+
+                return new ApiResponse<PaginatedList<UserDto>>(200, "Users retrieved successfully", true, paginatedUsers);
+            }
+            catch (DomainException dex)
+            {
+                _logger.LogWarning("Domain exception occurred: {Message}", dex.Message);
+                return new ApiResponse<PaginatedList<UserDto>>(400, dex.Message, false, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error occurred while searching for users");
+                return new ApiResponse<PaginatedList<UserDto>>(500, AppMessages.Api_Servererror, false, null);
             }
         }
 
