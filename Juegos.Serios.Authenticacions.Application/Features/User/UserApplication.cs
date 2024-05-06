@@ -94,7 +94,7 @@ namespace Juegos.Serios.Authentications.Application.Features.Login
 
                 _logger.LogInformation("Search completed successfully. Total records found: {TotalRecords}", paginatedUsers.TotalCount);
 
-                return new ApiResponse<PaginatedList<UserDto>>(200, "Users retrieved successfully", true, paginatedUsers);
+                return new ApiResponse<PaginatedList<UserDto>>(200, AppMessages.Api_Usuarios_paginated_successfully, true, paginatedUsers);
             }
             catch (DomainException dex)
             {

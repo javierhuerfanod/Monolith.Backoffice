@@ -14,6 +14,7 @@
 namespace Juegos.Serios.Bathroom.Domain.Mappings
 {
     using AutoMapper;
+    using Juegos.Serios.Bathroom.Domain.Aggregates;
     using Juegos.Serios.Bathroom.Domain.Entities;
     using Juegos.Serios.Bathroom.Domain.Models.Weight.Response;
 
@@ -24,6 +25,9 @@ namespace Juegos.Serios.Bathroom.Domain.Mappings
             CreateMap<QuestionnaireQuestion, QuestionareQuestionDto>()
                  .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.QuestionId))
                  .ForMember(dest => dest.Question, opt => opt.MapFrom(src => src.Question));
+
+            CreateMap<Weight, WeightDto>()
+            .ForMember(dest => dest.WeightValue, opt => opt.MapFrom(src => src.Weight1));
         }
     }
 }

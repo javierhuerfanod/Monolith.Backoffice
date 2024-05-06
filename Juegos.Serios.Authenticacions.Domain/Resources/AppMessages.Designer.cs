@@ -82,6 +82,14 @@ namespace Juegos.Serios.Authenticacions.Domain.Resources
                 return ResourceManager.GetString("Api_PageSize_Invalid  ", resourceCulture);
             }
         }
+
+        public static string Api_Usuarios_paginated_successfully
+        {
+            get
+            {
+                return ResourceManager.GetString("Api_Usuarios_paginated_successfully", resourceCulture);
+            }
+        }
         public static string Api_UserAvatarBodyParts_GetByUserId_NotFound
         {
             get

@@ -26,5 +26,18 @@ namespace Juegos.Serios.Bathroom.Domain.Specifications
         {
             return weight => weight.WeightId == weightId;
         }
+        public static Expression<Func<Weight, bool>> BySearchTermAndDateRange(string searchTerm, DateOnly? startDate, DateOnly? endDate)
+        {
+            int? weightFilter = null;
+            if (int.TryParse(searchTerm, out int numericValue))
+            {
+                weightFilter = numericValue;
+            }
+
+            return weight =>
+                (!weightFilter.HasValue || weight.Weight1 == weightFilter) &&
+                (!startDate.HasValue || weight.Date >= startDate) &&
+                (!endDate.HasValue || weight.Date <= endDate);
+        }
     }
 }
