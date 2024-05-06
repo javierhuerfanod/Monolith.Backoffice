@@ -70,6 +70,15 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a La fecha de inicio y la fecha de finalización deben estar dentro del mismo año..
+        /// </summary>
+        public static string Api_DateNotInSameYear {
+            get {
+                return ResourceManager.GetString("Api_DateNotInSameYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a El formulario se registro exitosamente..
         /// </summary>
         public static string Api_Get_RegisterQuestionnaireAnswer_Created_Response {
@@ -93,6 +102,33 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         public static string Api_Get_Weight_ValidatedWeight_Response_success {
             get {
                 return ResourceManager.GetString("Api_Get_Weight_ValidatedWeight_Response_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El formato de la fecha no es válido. Por favor, usa el formato &apos;AAAA-MM-DD&apos;..
+        /// </summary>
+        public static string Api_InvalidDateFormat {
+            get {
+                return ResourceManager.GetString("Api_InvalidDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El número de página debe ser mayor que cero..
+        /// </summary>
+        public static string Api_PageNumber_Invalid {
+            get {
+                return ResourceManager.GetString("Api_PageNumber_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El tamaño de página debe ser mayor que cero..
+        /// </summary>
+        public static string Api_PageSize_Invalid {
+            get {
+                return ResourceManager.GetString("Api_PageSize_Invalid", resourceCulture);
             }
         }
         
@@ -160,6 +196,15 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a La fecha de inicio no puede ser posterior a la fecha de finalización..
+        /// </summary>
+        public static string Api_StartDateGreaterThanEndDate {
+            get {
+                return ResourceManager.GetString("Api_StartDateGreaterThanEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a La fecha de creación del usuario no debe estar vacía..
         /// </summary>
         public static string Api_Weight_InvalidCreatedUser {
@@ -201,6 +246,15 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         public static string Api_Weight_NoPreviousRecords {
             get {
                 return ResourceManager.GetString("Api_Weight_NoPreviousRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Pesos recuperados con éxito..
+        /// </summary>
+        public static string Api_Weigths_paginated_successfully {
+            get {
+                return ResourceManager.GetString("Api_Weigths_paginated_successfully", resourceCulture);
             }
         }
         

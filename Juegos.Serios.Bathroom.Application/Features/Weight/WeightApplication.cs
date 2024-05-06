@@ -23,12 +23,13 @@ using Juegos.Serios.Bathroom.Domain.Resources;
 using Juegos.Serios.Domain.Shared.Exceptions;
 using Juegos.Serios.Shared.Application.Response;
 using Juegos.Serios.Shared.AzureQueue.Models;
-using Juegos.Serios.Bathroom.Application.Utils;
 using Microsoft.Extensions.Logging;
 using Juegos.Serios.Shared.AzureQueue.Interfaces;
 using Juegos.Serios.Bathroom.Application.Resources.BathroomHtml;
 using Juegos.Serios.Bathroom.Application.Constants;
 using Microsoft.Extensions.Configuration;
+using Juegos.Serios.Bathroom.Domain.Models.Weight.Response;
+using Juegos.Serios.Shared.Domain.Models;
 
 namespace Juegos.Serios.Bathroom.Application.Features.WeightApplication
 {
@@ -134,6 +135,49 @@ namespace Juegos.Serios.Bathroom.Application.Features.WeightApplication
                 return new ApiResponse<RegisterWeightResponse>(500, AppMessages.Api_Servererror, false, null);
             }
         }
+        public async Task<ApiResponse<PaginatedList<WeightDto>>> SearchWeights(string searchTerm, string startDate, string endDate, int pageNumber, int pageSize)
+        {
+            _logger.LogInformation("Starting weight search with searchTerm: {SearchTerm}, startDate: {StartDate}, endDate: {EndDate}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, startDate, endDate, pageNumber, pageSize);
+
+            try
+            {
+                if (!DateOnly.TryParse(startDate, out DateOnly start) || !DateOnly.TryParse(endDate, out DateOnly end))
+                {
+                    _logger.LogWarning("Invalid date format received for StartDate: {StartDate} or EndDate: {EndDate}.", startDate, endDate);
+                    throw new DomainException(AppMessages.Api_InvalidDateFormat);
+                }
+
+                if (start > end)
+                {
+                    _logger.LogWarning("StartDate: {StartDate} is greater than EndDate: {EndDate}.", startDate, endDate);
+                    throw new DomainException(AppMessages.Api_StartDateGreaterThanEndDate);
+                }
+
+                if (start.Year != end.Year)
+                {
+                    _logger.LogWarning("StartDate: {StartDate} and EndDate: {EndDate} must be within the same year.", startDate, endDate);
+                    throw new DomainException(AppMessages.Api_DateNotInSameYear);
+                }
+
+                var paginatedWeights = await _weightService.SearchWeights(searchTerm, start, end, pageNumber, pageSize);
+                _logger.LogInformation("Weight search completed successfully. Total records found: {TotalRecords}", paginatedWeights.TotalCount);
+               
+                return new ApiResponse<PaginatedList<WeightDto>>(200, AppMessages.Api_Weigths_paginated_successfully, true, paginatedWeights);
+            }
+            catch (DomainException dex)
+            {
+                _logger.LogError(dex, "Domain exception occurred during weight search");
+                return new ApiResponse<PaginatedList<WeightDto>>(400, dex.Message, false, null);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during searchWeights with searchTerm: {SearchTerm}, startDate: {StartDate}, endDate: {EndDate}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, startDate, endDate, pageNumber, pageSize);
+                throw new DomainException(AppMessages.Api_Servererror, ex);
+            }
+        }
+
+
 
         private EmailsQueueAzure CreateEmailWeightEqualQueueAzure(string name, string lastName, string email)
         {

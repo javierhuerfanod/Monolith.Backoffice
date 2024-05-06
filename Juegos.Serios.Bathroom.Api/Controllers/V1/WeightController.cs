@@ -19,9 +19,12 @@ namespace Juegos.Serios.Bathroom.Api.Controllers.V1
     using Juegos.Serios.Bathroom.Application.Features.Weight.Interfaces;
     using Juegos.Serios.Bathroom.Application.Models.Request;
     using Juegos.Serios.Bathroom.Application.Models.Response;
+    using Juegos.Serios.Bathroom.Domain.Models.Weight.Response;
     using Juegos.Serios.Bathroom.Domain.Resources;
+    using Juegos.Serios.Domain.Shared.Exceptions;
     using Juegos.Serios.Shared.Api.Controllers;
     using Juegos.Serios.Shared.Application.Response;
+    using Juegos.Serios.Shared.Domain.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -144,6 +147,47 @@ namespace Juegos.Serios.Bathroom.Api.Controllers.V1
                 (int)GenericEnumerator.ResponseCode.InternalError => LogAndReturnInternalError(response),
                 _ => throw new NotImplementedException()
             };
+        }
+        /// <summary>
+        /// Busca pesos dentro de un rango específico y devuelve resultados paginados.
+        /// </summary>
+        /// <param name="searchTerm">El término de búsqueda para filtrar pesos por peso específico.</param>
+        /// <param name="startDate">La fecha de inicio del rango de búsqueda en formato AAAA-MM-DD.</param>
+        /// <param name="endDate">La fecha de fin del rango de búsqueda en formato AAAA-MM-DD.</param>
+        /// <param name="pageNumber">Número de página para la paginación de resultados.</param>
+        /// <param name="pageSize">Cantidad de pesos por página.</param>
+        /// <returns>Una lista paginada de pesos que coinciden con los criterios de búsqueda.</returns>
+        /// <response code="200">Devuelve una lista paginada de pesos.</response>
+        /// <response code="400">Devuelve un error si la solicitud es inválida o las fechas no están en el formato correcto.</response>
+        /// <response code="500">Devuelve un error si ocurre un problema interno en el servidor.</response>
+        [HttpGet("SearchPaginatedWeights")]
+        [ProducesResponseType(typeof(ApiResponse<PaginatedList<WeightDto>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResponse<ErrorResponse>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<ApiResponse<PaginatedList<WeightDto>>>> SearchPaginatedWeights(
+            [FromQuery] string searchTerm,
+            [FromQuery] string startDate,
+            [FromQuery] string endDate,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            _logger.LogInformation("Initiating weight search with searchTerm: {SearchTerm}, startDate: {StartDate}, endDate: {EndDate}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, startDate, endDate, pageNumber, pageSize);
+            try
+            {
+                var result = await _weightApplication.SearchWeights(searchTerm, startDate, endDate, pageNumber, pageSize);
+                _logger.LogInformation("Weight search completed successfully. Total records found: {TotalRecords}", result.Data.TotalCount);
+                return Ok(new ApiResponse<PaginatedList<WeightDto>>(200, "Weights retrieved successfully", true, result.Data));
+            }
+            catch (DomainException dex)
+            {
+                _logger.LogWarning("Weight search failed: {Message}", dex.Message);
+                return BadRequest(new ApiResponse<ErrorResponse>(400, dex.Message, false, null));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error occurred during the weight search");
+                return StatusCode((int)HttpStatusCode.InternalServerError, new ApiResponse<object>(500, "Internal server error", false, null));
+            }
         }
     }
 }

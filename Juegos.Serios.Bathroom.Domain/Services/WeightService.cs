@@ -23,8 +23,10 @@ using Juegos.Serios.Bathroom.Domain.Models.Weight.Response;
 using Juegos.Serios.Bathroom.Domain.Resources;
 using Juegos.Serios.Bathroom.Domain.Specifications;
 using Juegos.Serios.Domain.Shared.Exceptions;
+using Juegos.Serios.Shared.Domain.Models;
 using Juegos.Serios.Shared.Domain.Ports.Persistence;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 
 namespace Juegos.Serios.Bathroom.Domain.Services
 {
@@ -142,6 +144,45 @@ namespace Juegos.Serios.Bathroom.Domain.Services
                 throw new DomainException(AppMessages.Api_Servererror, ex);
             }
         }
+
+        public async Task<PaginatedList<WeightDto>> SearchWeights(string searchTerm, DateOnly? startDate, DateOnly? endDate, int pageNumber, int pageSize)
+        {
+            _logger.LogInformation("Starting weight search with searchTerm: {SearchTerm}, startDate: {StartDate}, endDate: {EndDate}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, startDate, endDate, pageNumber, pageSize);
+
+            try
+            {
+                if (pageNumber <= 0)
+                {
+                    _logger.LogWarning("Invalid pageNumber received: {PageNumber}.", pageNumber);
+                    throw new DomainException(AppMessages.Api_PageNumber_Invalid);
+                }
+                if (pageSize <= 0)
+                {
+                    _logger.LogWarning("Invalid pageSize received: {PageSize}.", pageSize);
+                    throw new DomainException(AppMessages.Api_PageSize_Invalid);
+                }
+
+                Expression<Func<Weight, bool>> searchPredicate = WeightSpecifications.BySearchTermAndDateRange(searchTerm, startDate, endDate);
+
+                var (weights, totalRecords) = await _weightRepository.ListPaginatedWeightAsync(searchPredicate, pageNumber, pageSize);
+
+                var weightDtos = _mapper.Map<List<WeightDto>>(weights);
+                _logger.LogInformation("Successfully retrieved weight data. Total records found: {TotalRecords}", totalRecords);
+
+                return new PaginatedList<WeightDto>(weightDtos, totalRecords, pageNumber, pageSize);
+            }
+            catch (DomainException ex)
+            {
+                _logger.LogError(ex, "Domain exception occurred during weight search");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during searchWeights");
+                throw new DomainException(AppMessages.Api_Servererror, ex);
+            }
+        }
+
 
         public async Task<bool> ValidateWeight(ValidateWeightJwtModel validateWeightJwtModel)
         {
