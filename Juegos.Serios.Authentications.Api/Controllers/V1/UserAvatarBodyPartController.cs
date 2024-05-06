@@ -112,7 +112,7 @@ namespace Juegos.Serios.Authenticacions.Api.V1
             _logger.LogInformation("Validating token for avatar body parts list retrieval");
             var response = await _userAvatarBodyPartsApplication.SelectByUserId(userId);
 #pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
-            if (response.Data.Count == 0)
+            if (response.Data == null)
             {
                 _logger.LogWarning("No avatar body parts found for user ID: {UserId}", userId);
                 return NotFound(AppMessages.Api_UserAvatarBodyParts_GetByUserId_NotFound);

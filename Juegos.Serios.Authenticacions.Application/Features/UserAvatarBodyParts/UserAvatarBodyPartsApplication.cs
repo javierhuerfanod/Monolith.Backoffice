@@ -99,7 +99,7 @@ namespace Juegos.Serios.Authenticacions.Application.Features.UserAvatarBodyParts
             catch (DomainException dex)
             {
                 _logger.LogError(dex, "Domain exception while retrieving avatar body parts for user ID: {UserId}", userId);
-                throw new DomainException(dex.Message);
+                return new ApiResponse<List<UserBodyPartsResponse>> (400, dex.Message, false, null);
             }
             catch (Exception ex)
             {
