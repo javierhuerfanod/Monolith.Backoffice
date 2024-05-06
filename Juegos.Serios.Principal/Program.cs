@@ -72,20 +72,28 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    var xmlFilePrincipal = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPathPrincipal = Path.Combine(AppContext.BaseDirectory, xmlFilePrincipal);
-    options.IncludeXmlComments(xmlPathPrincipal);
+    string basePath = AppContext.BaseDirectory;
 
-    // Include the XML comments for other relevant projects
+    // Añade los comentarios XML para la API principal
+    var xmlFilePrincipal = "Juegos.Serios.Principal.Api.xml";
+    var xmlPathPrincipal = Path.Combine(basePath, xmlFilePrincipal);
+    if (File.Exists(xmlPathPrincipal))
+    {
+        options.IncludeXmlComments(xmlPathPrincipal);
+    }
+
+    // Añade los comentarios XML para el proyecto de Autenticación
     var xmlFileAuth = "Juegos.Serios.Authentications.Api.xml";
-    var xmlPathAuth = Path.Combine(AppContext.BaseDirectory, xmlFileAuth);
-    if (System.IO.File.Exists(xmlPathAuth))
+    var xmlPathAuth = Path.Combine(basePath, xmlFileAuth);
+    if (File.Exists(xmlPathAuth))
     {
         options.IncludeXmlComments(xmlPathAuth, true);
     }
-    var xmlFileBathroom = "Juegos.Serios.Bathroom.Api.Xml";
-    var xmlPathBathroom = Path.Combine(AppContext.BaseDirectory, xmlFileBathroom);
-    if (System.IO.File.Exists(xmlPathBathroom))
+
+    // Añade los comentarios XML para el proyecto de Bathroom
+    var xmlFileBathroom = "Juegos.Serios.Bathroom.Api.xml";
+    var xmlPathBathroom = Path.Combine(basePath, xmlFileBathroom);
+    if (File.Exists(xmlPathBathroom))
     {
         options.IncludeXmlComments(xmlPathBathroom, true);
     }
