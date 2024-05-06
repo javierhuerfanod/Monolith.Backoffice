@@ -12,6 +12,7 @@
 // <summary>Implements the role service.</summary>
 // ***********************************************************************
 
+using AutoMapper;
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Constants;
 using Juegos.Serios.Authenticacions.Domain.Entities;
@@ -20,11 +21,14 @@ using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword;
 using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword.Response;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
+using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate.Dtos;
 using Juegos.Serios.Authenticacions.Domain.Resources;
 using Juegos.Serios.Authenticacions.Domain.Specifications;
 using Juegos.Serios.Domain.Shared.Exceptions;
+using Juegos.Serios.Shared.Domain.Models;
 using Juegos.Serios.Shared.Domain.Ports.Persistence;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 using System.Text;
 
 
@@ -41,8 +45,9 @@ namespace Juegos.Serios.Authentications.Domain.Services
         private readonly IPasswordRecoveryRepository _passwordRecoveryRepository;
         private readonly IDocumentTypeRepository _documentTypeRepository;
         private readonly ILogger<UserAggregateService> _logger;
+        private readonly IMapper _mapper;
 
-        public UserAggregateService(IUnitOfWork unitOfWork, IUserAggregateRepository userAggregateRepository, ICityRepository cityRepository, IPasswordRecoveryRepository passwordRecoveryRepository, ISessionLogRepository sessionLogRepository, IRolRepository rolRepository, IDataConsentRepository dataConsentRepository, IDocumentTypeRepository documentTypeRepository, ILogger<UserAggregateService> logger)
+        public UserAggregateService(IUnitOfWork unitOfWork, IUserAggregateRepository userAggregateRepository, ICityRepository cityRepository, IPasswordRecoveryRepository passwordRecoveryRepository, ISessionLogRepository sessionLogRepository, IRolRepository rolRepository, IDataConsentRepository dataConsentRepository, IDocumentTypeRepository documentTypeRepository, ILogger<UserAggregateService> logger, IMapper mapper)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _userAggregateRepository = userAggregateRepository ?? throw new ArgumentNullException(nameof(userAggregateRepository));
@@ -53,6 +58,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
             _dataConsentRepository = dataConsentRepository ?? throw new ArgumentNullException(nameof(dataConsentRepository));
             _documentTypeRepository = documentTypeRepository ?? throw new ArgumentNullException(nameof(documentTypeRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         public async Task<User> GetById(int id)
         {
@@ -315,6 +321,45 @@ namespace Juegos.Serios.Authentications.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error during update password");
+                throw new DomainException(AppMessages.Api_Servererror, ex);
+            }
+        }
+        public async Task<PaginatedList<UserDto>> SearchUsers(string searchTerm, int pageNumber, int pageSize)
+        {
+            _logger.LogInformation("Starting user search with searchTerm: {SearchTerm}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, pageNumber, pageSize);
+
+            try
+            {
+                if (pageNumber <= 0)
+                {
+                    _logger.LogWarning("Invalid pageNumber received: {PageNumber}.", pageNumber);
+                    throw new DomainException(AppMessages.Api_PageNumber_Invalid);
+                }
+                if (pageSize <= 0)
+                {
+                    _logger.LogWarning("Invalid pageSize received: {PageSize}.", pageSize);
+                    throw new DomainException(AppMessages.Api_PageSize_Invalid);
+                }
+                Expression<Func<User, bool>> searchPredicate = null; 
+
+                if (!string.IsNullOrWhiteSpace(searchTerm))
+                {
+                    searchPredicate = UserAggregateSpecifications.BySearchTerm(searchTerm);
+                }
+                var (users, totalRecords) = await _userAggregateRepository.ListPaginatedUsersAsync(searchPredicate, pageNumber, pageSize);
+
+                var userDtos = _mapper.Map<List<UserDto>>(users);
+                _logger.LogInformation("Successfully retrieved user data for searchTerm: {SearchTerm}. Total records found: {TotalRecords}", searchTerm, totalRecords);
+                return new PaginatedList<UserDto>(userDtos, totalRecords, pageNumber, pageSize);
+            }
+            catch (DomainException ex)
+            {
+                _logger.LogError(ex, "Error during recovery password");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during searchUsers with searchTerm: {SearchTerm}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, pageNumber, pageSize);
                 throw new DomainException(AppMessages.Api_Servererror, ex);
             }
         }

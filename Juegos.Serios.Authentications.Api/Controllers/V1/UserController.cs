@@ -18,13 +18,14 @@ namespace Juegos.Serios.Authenticacions.Api.V1
     using Aurora.Backend.Baseline.Application.Constants;
     using Juegos.Serios.Authenticacions.Application.Features.Authentication.Login.Interfaces;
     using Juegos.Serios.Authenticacions.Application.Models.Request;
+    using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate.Dtos;
     using Juegos.Serios.Authenticacions.Domain.Resources;
+    using Juegos.Serios.Domain.Shared.Exceptions;
     using Juegos.Serios.Shared.Api.Controllers;
-    using Juegos.Serios.Shared.Api.UtilCross.Swagger;
-    using Juegos.Serios.Shared.Api.UtilsCross.Encryption;
+    using Juegos.Serios.Shared.Api.UtilCross.Swagger;    
     using Juegos.Serios.Shared.Application.Response;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity.Data;
+    using Juegos.Serios.Shared.Domain.Models;
+    using Microsoft.AspNetCore.Authorization;  
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using System.Net;
@@ -170,6 +171,45 @@ namespace Juegos.Serios.Authenticacions.Api.V1
                 _ => throw new NotImplementedException()
             };
         }
+
+        /// <summary>
+        /// Busca usuarios basándose en términos de búsqueda y devuelve resultados paginados.
+        /// Este método filtra los usuarios según coincidencias en su nombre, apellido, correo electrónico o número de documento.
+        /// Si no se proporciona un término de búsqueda, los usuarios se devolverán ordenados alfabéticamente por apellido y, en caso de coincidencia, por nombre.
+        /// </summary>
+        /// <param name="searchTerm">El término de búsqueda para filtrar usuarios. Dejar este parámetro vacío resultará en una lista de todos los usuarios, ordenados alfabéticamente por apellido y nombre.</param>
+        /// <param name="pageNumber">Número de página para la paginación de resultados. El valor predeterminado es 1.</param>
+        /// <param name="pageSize">Cantidad de usuarios por página. El valor predeterminado es 10.</param>
+        /// <returns>Una lista paginada de usuarios que coinciden con los criterios de búsqueda o una lista completa de usuarios si no se proporciona un término de búsqueda.</returns>
+        /// <response code="200">Devuelve una lista paginada de usuarios.</response>
+        /// <response code="400">Devuelve un error si la solicitud es inválida.</response>
+        /// <response code="500">Devuelve un error si ocurre un problema interno en el servidor.</response>
+        [HttpGet("SearchPaginatedUsers")]
+        [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<PaginatedList<UserDto>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResponse<ErrorResponse>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<ApiResponse<PaginatedList<UserDto>>>> SearchPaginatedUsers([FromQuery] string searchTerm, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            _logger.LogInformation("Initiating user search with searchTerm: {SearchTerm}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, pageNumber, pageSize);
+            try
+            {
+                var result = await _userApplication.SearchUsers(searchTerm, pageNumber, pageSize);
+                _logger.LogInformation("User search completed successfully. Total records found: {TotalRecords}", result.Data.TotalCount);
+                return Ok(new ApiResponse<PaginatedList<UserDto>>(200, "Users retrieved successfully", true, result.Data));
+            }
+            catch (DomainException dex)
+            {
+                _logger.LogWarning("User search failed: {Message}", dex.Message);
+                return BadRequest(new ApiResponse<ErrorResponse>(400, dex.Message, false, null));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error occurred during the user search");
+                return StatusCode((int)HttpStatusCode.InternalServerError, new ApiResponse<object>(500, "Internal server error", false, null));
+            }
+        }
+
     }
 }
 

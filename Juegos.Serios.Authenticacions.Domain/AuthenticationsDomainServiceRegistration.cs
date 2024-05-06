@@ -19,12 +19,13 @@ using Juegos.Serios.Authenticacions.Domain.Entities;
 using Juegos.Serios.Authenticacions.Domain.Interfaces.Services;
 using Juegos.Serios.Authentications.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 public static class AuthenticationsDomainServiceRegistration
 {
     public static IServiceCollection AddAuthenticationsDomainServices(this IServiceCollection services)
     {
-
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddScoped<IUserAvatarBodyPartService<UserAvatarBodyPart>, UserAvatarBodyPartService>();
         services.AddScoped<IRolService<Role>, RolService>();
         services.AddScoped<IUserAggregateService<User>, UserAggregateService>();

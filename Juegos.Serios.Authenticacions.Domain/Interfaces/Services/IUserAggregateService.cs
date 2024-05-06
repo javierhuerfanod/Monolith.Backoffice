@@ -15,6 +15,8 @@
 using Juegos.Serios.Authenticacions.Domain.Aggregates;
 using Juegos.Serios.Authenticacions.Domain.Models.RecoveryPassword.Response;
 using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate;
+using Juegos.Serios.Authenticacions.Domain.Models.UserAggregate.Dtos;
+using Juegos.Serios.Shared.Domain.Models;
 
 namespace Juegos.Serios.Authenticacions.Domain.Interfaces.Services
 {
@@ -25,5 +27,6 @@ namespace Juegos.Serios.Authenticacions.Domain.Interfaces.Services
         Task<PasswordRecoveryResponse> RegisterRecoveryPassword(string email);
         Task UpdateUserPassword(UpdatePasswordModel updatePasswordModel);
         Task<User> GetById(int id);
+        Task<PaginatedList<UserDto>> SearchUsers(string searchTerm, int pageNumber, int pageSize);
     }
 }
