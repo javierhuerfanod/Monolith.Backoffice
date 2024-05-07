@@ -14,6 +14,7 @@
 
 
 using Juegos.Serios.Bathroom.Application.Models.Request;
+using Juegos.Serios.Bathroom.Application.Models.Response;
 using Juegos.Serios.Shared.Application.Response;
 
 namespace Juegos.Serios.Bathroom.Application.Features.QuestionnaireAnswer.Interfaces
@@ -21,6 +22,7 @@ namespace Juegos.Serios.Bathroom.Application.Features.QuestionnaireAnswer.Interf
     public interface IQuestionnaireAnswerApplication
     {
         Task<ApiResponse<object>> RegisterQuestionnaireAnswer(RegisterQuestionnaireAnswerRequest registerQuestionnaireAnswerRequest);
+        Task<ApiResponse<QuestionnaireAggregateResponse>> GetQuestionnaireAnswersByWeight(GetQuestionnaireAnswersByWeightRequest questionnaireAnswersByWeightRequest);
     }
 }
 

@@ -18,6 +18,7 @@ namespace Juegos.Serios.Bathroom.Domain.Interfaces.Repositories
 {
     public interface IQuestionnaireAnswerRepository : IAsyncRepository<QuestionnaireAnswer>
     {
+        Task<IReadOnlyList<QuestionnaireAnswer>> GetAnswersByWeightIdWithDetails(int weightId);
 
     }
 }

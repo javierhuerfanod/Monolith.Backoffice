@@ -141,6 +141,9 @@
   <data name="Api_PageSize_Invalid" xml:space="preserve">
     <value>El tamaño de página debe ser mayor que cero.</value>
   </data>
+  <data name="Api_QuestionareAnswers_successfully" xml:space="preserve">
+    <value>Respuestas de questionario obtenidas exitosamente.</value>
+  </data>
   <data name="Api_Questionnaire_AnswerAlreadyExists" xml:space="preserve">
     <value>Ya existe una respuesta para el cuestionario asociada con el ID de peso proporcionado.</value>
   </data>
@@ -177,8 +180,14 @@
   <data name="Api_Weight_InvalidWeight_NotFound" xml:space="preserve">
     <value>El identificador del peso no existe.</value>
   </data>
+  <data name="Api_Weight_InvalidWeight_null" xml:space="preserve">
+    <value>No se tomo formulario para ese peso y ese usuario.</value>
+  </data>
   <data name="Api_Weight_NoPreviousRecords" xml:space="preserve">
     <value>No se encontraron pesos, comuniquese con el administrador.</value>
+  </data>
+  <data name="Api_Weight_UserId_Invalid" xml:space="preserve">
+    <value>Identificador de usuario inválido. El identificador de usuario debe ser mayor que cero.</value>
   </data>
   <data name="Api_Weigths_paginated_successfully" xml:space="preserve">
     <value>Pesos recuperados con éxito.</value>

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Juegos.Serios.Bathroom.Domain\Juegos.Serios.Bathroom.Domain.csproj" />
+    <ProjectReference Include="..\Juegos.Serios.RedisCache\Juegos.Serios.Shared.RedisCache.csproj" />
     <ProjectReference Include="..\Juegos.Serios.Shared.Application\Juegos.Serios.Shared.Application.csproj" />
     <ProjectReference Include="..\Juegos.Serios.Shared.AzureQueue\Juegos.Serios.Shared.AzureQueue.csproj" />
   </ItemGroup>

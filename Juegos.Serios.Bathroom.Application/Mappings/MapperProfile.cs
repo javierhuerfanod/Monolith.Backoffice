@@ -16,6 +16,7 @@ namespace Juegos.Serios.Bathroom.Application.Mappings
     using AutoMapper;
     using Juegos.Serios.Bathroom.Application.Models.Request;
     using Juegos.Serios.Bathroom.Application.Models.Response;
+    using Juegos.Serios.Bathroom.Domain.Entities;
     using Juegos.Serios.Bathroom.Domain.Models.QuestionnaireAnswer;
     using Juegos.Serios.Bathroom.Domain.Models.Weight;
     using Juegos.Serios.Bathroom.Domain.Models.Weight.Response;
@@ -44,7 +45,17 @@ namespace Juegos.Serios.Bathroom.Application.Mappings
             CreateMap<RegisterQuestionnaireAnswerRequest, RegisterQuestionnaireAnswerModel>()
                 .ForMember(dest => dest.questionareQuestionModels, opt => opt.MapFrom(src => src.questionareQuestionRequests));
             CreateMap<QuestionareQuestionRequest, QuestionareQuestionModel>();
-                 
+
+            CreateMap<QuestionnaireAnswer, QuestionAnswerResponse>()
+      .ForMember(dest => dest.Answer, opt => opt.MapFrom(src => src.Answer))
+      .ForMember(dest => dest.QuestionText, opt => opt.MapFrom(src => src.Question.Question));
+
+            CreateMap<List<QuestionnaireAnswer>, QuestionnaireAggregateResponse>()
+                .ForMember(dest => dest.Answers, opt => opt.MapFrom(src => src))
+                .AfterMap((src, dest) => {
+                    dest.QuestionnaireDescription = src.FirstOrDefault()?.Question?.Questionnaire?.Description ?? "No description";
+                });
+
         }
     }
 }

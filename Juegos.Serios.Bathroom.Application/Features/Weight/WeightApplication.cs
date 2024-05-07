@@ -135,17 +135,20 @@ namespace Juegos.Serios.Bathroom.Application.Features.WeightApplication
                 return new ApiResponse<RegisterWeightResponse>(500, AppMessages.Api_Servererror, false, null);
             }
         }
-        public async Task<ApiResponse<PaginatedList<WeightDto>>> SearchWeights(string searchTerm, string startDate, string endDate, int pageNumber, int pageSize)
+        public async Task<ApiResponse<PaginatedList<WeightDto>>> SearchWeights(int userId, string searchTerm, string startDate, string endDate, int pageNumber, int pageSize)
         {
             _logger.LogInformation("Starting weight search with searchTerm: {SearchTerm}, startDate: {StartDate}, endDate: {EndDate}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, startDate, endDate, pageNumber, pageSize);
 
             try
             {
-                if (!DateOnly.TryParse(startDate, out DateOnly start) || !DateOnly.TryParse(endDate, out DateOnly end))
-                {
-                    _logger.LogWarning("Invalid date format received for StartDate: {StartDate} or EndDate: {EndDate}.", startDate, endDate);
-                    throw new DomainException(AppMessages.Api_InvalidDateFormat);
-                }
+                DateOnly start = string.IsNullOrWhiteSpace(startDate)
+                     ? DateOnly.FromDateTime(DateTime.Now.AddMonths(-2))
+                     : (DateOnly.TryParse(startDate, out DateOnly parsedStart) ? parsedStart : throw new DomainException(AppMessages.Api_InvalidDateFormat));
+
+                DateOnly end = string.IsNullOrWhiteSpace(endDate)
+                    ? DateOnly.FromDateTime(DateTime.Now)
+                    : (DateOnly.TryParse(endDate, out DateOnly parsedEnd) ? parsedEnd : throw new DomainException(AppMessages.Api_InvalidDateFormat));
+
 
                 if (start > end)
                 {
@@ -159,9 +162,9 @@ namespace Juegos.Serios.Bathroom.Application.Features.WeightApplication
                     throw new DomainException(AppMessages.Api_DateNotInSameYear);
                 }
 
-                var paginatedWeights = await _weightService.SearchWeights(searchTerm, start, end, pageNumber, pageSize);
+                var paginatedWeights = await _weightService.SearchWeights(searchTerm, start, end, pageNumber, pageSize, userId);
                 _logger.LogInformation("Weight search completed successfully. Total records found: {TotalRecords}", paginatedWeights.TotalCount);
-               
+
                 return new ApiResponse<PaginatedList<WeightDto>>(200, AppMessages.Api_Weigths_paginated_successfully, true, paginatedWeights);
             }
             catch (DomainException dex)

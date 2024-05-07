@@ -18,13 +18,14 @@ namespace Juegos.Serios.Bathroom.Api.Controllers.V1
     using Aurora.Backend.Baseline.Application.Constants;
     using Juegos.Serios.Bathroom.Application.Features.QuestionnaireAnswer.Interfaces;
     using Juegos.Serios.Bathroom.Application.Models.Request;
+    using Juegos.Serios.Bathroom.Application.Models.Response;
     using Juegos.Serios.Bathroom.Domain.Resources;
     using Juegos.Serios.Shared.Api.Controllers;
     using Juegos.Serios.Shared.Application.Response;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using System.Net; 
+    using System.Net;
 
     [ApiController]
     [Route("api/v1/[controller]")]
@@ -72,7 +73,35 @@ namespace Juegos.Serios.Bathroom.Api.Controllers.V1
                 (int)GenericEnumerator.ResponseCode.InternalError => LogAndReturnInternalError(response),
                 _ => throw new NotImplementedException()
             };
-        }      
+        }
+
+        /// <summary>
+        /// Recupera las respuestas del cuestionario por ID de peso y ID de usuario.
+        /// </summary>
+        /// <param name="userId">ID de usuario al que está asociado el peso.</param>
+        /// <param name="weightId">ID de peso para el cual se requieren respuestas.</param>
+        /// <returns>ApiResponse que contiene la lista de respuestas del cuestionario.</returns>
+        /// <response code="200">Devuelve las respuestas del cuestionario si se encuentran.</response>
+        /// <response code="400">Se devuelve si el modelo de la solicitud no es válido o falta información necesaria para procesar la solicitud.</response>
+        /// <response code="401">Se devuelve si el usuario no está autorizado para acceder a este recurso.</response>
+        /// <response code="500">Se devuelve en caso de un error interno del servidor al intentar recuperar las respuestas.</response>
+        [HttpGet("GetQuestionnaireAnswersByWeight")]
+        [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<QuestionnaireAggregateResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<ApiResponse<QuestionnaireAggregateResponse>>> GetQuestionnaireAnswersByWeight([FromQuery] int userId, [FromQuery] int weightId)
+        {
+            var response = await _questionnaireAnswerApplication.GetQuestionnaireAnswersByWeight(new GetQuestionnaireAnswersByWeightRequest { UserId = userId, WeightID = weightId });
+            return response.ResponseCode switch
+            {
+                (int)GenericEnumerator.ResponseCode.Ok => LogAndReturnOk(response),
+                (int)GenericEnumerator.ResponseCode.BadRequest => LogAndReturnBadRequest(response),
+                (int)GenericEnumerator.ResponseCode.InternalError => LogAndReturnInternalError(response),
+                _ => throw new NotImplementedException()
+            };
+        }
     }
 }
 

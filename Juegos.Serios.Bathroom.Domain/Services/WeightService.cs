@@ -145,12 +145,18 @@ namespace Juegos.Serios.Bathroom.Domain.Services
             }
         }
 
-        public async Task<PaginatedList<WeightDto>> SearchWeights(string searchTerm, DateOnly? startDate, DateOnly? endDate, int pageNumber, int pageSize)
+        public async Task<PaginatedList<WeightDto>> SearchWeights(string searchTerm, DateOnly? startDate, DateOnly? endDate, int pageNumber, int pageSize, int userId)
         {
             _logger.LogInformation("Starting weight search with searchTerm: {SearchTerm}, startDate: {StartDate}, endDate: {EndDate}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, startDate, endDate, pageNumber, pageSize);
 
             try
             {
+
+                if (userId <= 0)
+                {
+                    _logger.LogWarning("Invalid userId received: {PageNumber}.", pageNumber);
+                    throw new DomainException(AppMessages.Api_Weight_InvalidUserId);
+                }
                 if (pageNumber <= 0)
                 {
                     _logger.LogWarning("Invalid pageNumber received: {PageNumber}.", pageNumber);
@@ -162,7 +168,7 @@ namespace Juegos.Serios.Bathroom.Domain.Services
                     throw new DomainException(AppMessages.Api_PageSize_Invalid);
                 }
 
-                Expression<Func<Weight, bool>> searchPredicate = WeightSpecifications.BySearchTermAndDateRange(searchTerm, startDate, endDate);
+                Expression<Func<Weight, bool>> searchPredicate = WeightSpecifications.BySearchTermAndDateRange(searchTerm, startDate, endDate, userId);
 
                 var (weights, totalRecords) = await _weightRepository.ListPaginatedWeightAsync(searchPredicate, pageNumber, pageSize);
 
