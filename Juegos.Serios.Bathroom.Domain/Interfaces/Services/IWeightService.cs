@@ -22,6 +22,6 @@ namespace Juegos.Serios.Bathroom.Domain.Interfaces.Services
     {
         Task<bool> ValidateWeight(ValidateWeightJwtModel validateWeightJwtModel);
         Task<DomainRegisterWeightResponse> RegisterWeight(RegisterWeightModel registerWeightModel);
-        Task<PaginatedList<WeightDto>> SearchWeights(string searchTerm, DateOnly? startDate, DateOnly? endDate, int pageNumber, int pageSize);
+        Task<PaginatedList<WeightDto>> SearchWeights(string searchTerm, DateOnly? startDate, DateOnly? endDate, int pageNumber, int pageSize, int userId);
     }
 }

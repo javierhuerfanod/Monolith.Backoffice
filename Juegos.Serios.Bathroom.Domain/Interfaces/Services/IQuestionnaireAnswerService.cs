@@ -13,6 +13,7 @@
 // ***********************************************************************
 
 
+using Juegos.Serios.Bathroom.Domain.Entities;
 using Juegos.Serios.Bathroom.Domain.Models.QuestionnaireAnswer;
 
 namespace Juegos.Serios.Bathroom.Domain.Interfaces.Services
@@ -20,5 +21,6 @@ namespace Juegos.Serios.Bathroom.Domain.Interfaces.Services
     public interface IQuestionnaireAnswerService<T>
     {
         Task<bool> RegisterQuestionnaireAnswer(RegisterQuestionnaireAnswerModel registerQuestionnaireAnswerModel);
+        Task<List<QuestionnaireAnswer>> GetQuestionnaireAnswerByWeight(int userId, int weightId);
     }
 }

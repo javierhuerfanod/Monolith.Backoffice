@@ -26,7 +26,7 @@ namespace Juegos.Serios.Bathroom.Domain.Services
 {
     public sealed class QuestionnaireAnswerService : IQuestionnaireAnswerService<QuestionnaireAnswer>
     {
-        private readonly IUnitOfWork _unitOfWork; 
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IQuestionnaireAnswerRepository _questionnaireAnswerRepository;
         private readonly IQuestionnaireQuestionRepository _questionnaireQuestionRepository;
         private readonly IQuestionnaireRepository _questionnaireRepository;
@@ -35,7 +35,7 @@ namespace Juegos.Serios.Bathroom.Domain.Services
 
         public QuestionnaireAnswerService(IUnitOfWork unitOfWork, IQuestionnaireAnswerRepository questionnaireAnswerRepository, IQuestionnaireQuestionRepository questionnaireQuestionRepository, IQuestionnaireRepository questionnaireRepository, IWeightRepository weightRepository, ILogger<QuestionnaireAnswerService> logger)
         {
-            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));         
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _weightRepository = weightRepository ?? throw new ArgumentNullException(nameof(weightRepository));
             _questionnaireAnswerRepository = questionnaireAnswerRepository ?? throw new ArgumentNullException(nameof(questionnaireAnswerRepository));
             _questionnaireQuestionRepository = questionnaireQuestionRepository ?? throw new ArgumentNullException(nameof(questionnaireQuestionRepository));
@@ -118,6 +118,43 @@ namespace Juegos.Serios.Bathroom.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unhandled exception during questionnaire validation.");
+                throw new DomainException(AppMessages.Api_Servererror, ex);
+            }
+        }
+        public async Task<List<QuestionnaireAnswer>> GetQuestionnaireAnswerByWeight(int userId, int weightId)
+        {
+            try
+            {   
+                if (userId <= 0)
+                {
+                    _logger.LogWarning("Invalid userId received: {UserId}.", userId);
+                    throw new DomainException(AppMessages.Api_Weight_InvalidUserId);
+                }
+         
+                if (weightId <= 0)
+                {
+                    _logger.LogWarning("Invalid weightId received: {WeightId}.", weightId);
+                    throw new DomainException(AppMessages.Api_Weight_InvalidWeight);
+                }
+                
+                var weight = await _weightRepository.GetOneAsync(WeightSpecifications.ByWeightIdAndUserId(weightId, userId));
+                if (weight == null)
+                {
+                    _logger.LogWarning("No weight found for given weightId {WeightId} and userId {UserId}.", weightId, userId);
+                    throw new DomainException(AppMessages.Api_Weight_InvalidWeight_null);
+                }           
+                var answers = await _questionnaireAnswerRepository.GetAnswersByWeightIdWithDetails(weightId);
+                _logger.LogInformation("Retrieved {AnswerCount} answers for weightId {WeightId}.", answers.Count, weightId);
+                return answers.ToList();
+            }
+            catch (DomainException ex)
+            {
+                _logger.LogError(ex, "Domain error during questionnaire answers retrieval for userId {UserId} and weightId {WeightId}.", userId, weightId);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception during questionnaire answers retrieval for userId {UserId} and weightId {WeightId}.", userId, weightId);
                 throw new DomainException(AppMessages.Api_Servererror, ex);
             }
         }

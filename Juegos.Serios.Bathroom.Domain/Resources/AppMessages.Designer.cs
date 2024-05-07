@@ -133,6 +133,15 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Respuestas de questionario obtenidas exitosamente..
+        /// </summary>
+        public static string Api_QuestionareAnswers_successfully {
+            get {
+                return ResourceManager.GetString("Api_QuestionareAnswers_successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ya existe una respuesta para el cuestionario asociada con el ID de peso proporcionado..
         /// </summary>
         public static string Api_Questionnaire_AnswerAlreadyExists {
@@ -241,11 +250,29 @@ namespace Juegos.Serios.Bathroom.Domain.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No se tomo formulario para ese peso y ese usuario..
+        /// </summary>
+        public static string Api_Weight_InvalidWeight_null {
+            get {
+                return ResourceManager.GetString("Api_Weight_InvalidWeight_null", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No se encontraron pesos, comuniquese con el administrador..
         /// </summary>
         public static string Api_Weight_NoPreviousRecords {
             get {
                 return ResourceManager.GetString("Api_Weight_NoPreviousRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Identificador de usuario inválido. El identificador de usuario debe ser mayor que cero..
+        /// </summary>
+        public static string Api_Weight_UserId_Invalid {
+            get {
+                return ResourceManager.GetString("Api_Weight_UserId_Invalid", resourceCulture);
             }
         }
         

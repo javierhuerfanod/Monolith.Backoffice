@@ -26,7 +26,11 @@ namespace Juegos.Serios.Bathroom.Domain.Specifications
         {
             return weight => weight.WeightId == weightId;
         }
-        public static Expression<Func<Weight, bool>> BySearchTermAndDateRange(string searchTerm, DateOnly? startDate, DateOnly? endDate)
+        public static Expression<Func<Weight, bool>> ByWeightIdAndUserId(int weightId, int userId)
+        {
+            return weight => weight.WeightId == weightId && weight.UserId == userId;
+        }
+        public static Expression<Func<Weight, bool>> BySearchTermAndDateRange(string searchTerm, DateOnly? startDate, DateOnly? endDate, int userId)
         {
             int? weightFilter = null;
             if (int.TryParse(searchTerm, out int numericValue))
@@ -35,6 +39,7 @@ namespace Juegos.Serios.Bathroom.Domain.Specifications
             }
 
             return weight =>
+                  weight.UserId == userId &&
                 (!weightFilter.HasValue || weight.Weight1 == weightFilter) &&
                 (!startDate.HasValue || weight.Date >= startDate) &&
                 (!endDate.HasValue || weight.Date <= endDate);

@@ -16,6 +16,7 @@
 namespace Juegos.Serios.Bathroom.Api.Controllers.V1
 {
     using Aurora.Backend.Baseline.Application.Constants;
+    using Azure;
     using Juegos.Serios.Bathroom.Application.Features.Weight.Interfaces;
     using Juegos.Serios.Bathroom.Application.Models.Request;
     using Juegos.Serios.Bathroom.Application.Models.Response;
@@ -152,42 +153,45 @@ namespace Juegos.Serios.Bathroom.Api.Controllers.V1
         /// Busca pesos dentro de un rango específico y devuelve resultados paginados.
         /// </summary>
         /// <param name="searchTerm">El término de búsqueda para filtrar pesos por peso específico.</param>
-        /// <param name="startDate">La fecha de inicio del rango de búsqueda en formato AAAA-MM-DD.</param>
-        /// <param name="endDate">La fecha de fin del rango de búsqueda en formato AAAA-MM-DD.</param>
+        /// <param name="startDate">La fecha de inicio del rango de búsqueda en formato AAAA-MM-DD.
+        /// Si esta fecha es vacía, se tomará como fecha de inicio la fecha actual menos dos meses.</param>
+        /// <param name="endDate">La fecha de fin del rango de búsqueda en formato AAAA-MM-DD.
+        /// Si esta fecha es vacía, se tomará como fecha de fin la fecha actual.</param>
         /// <param name="pageNumber">Número de página para la paginación de resultados.</param>
         /// <param name="pageSize">Cantidad de pesos por página.</param>
+        /// <param name="userId">Identificador del usuario. Debe ser un número mayor que cero.
+        /// Si el userId es cero o no se proporciona, se devolverá un error.</param>
         /// <returns>Una lista paginada de pesos que coinciden con los criterios de búsqueda.</returns>
         /// <response code="200">Devuelve una lista paginada de pesos.</response>
-        /// <response code="400">Devuelve un error si la solicitud es inválida o las fechas no están en el formato correcto.</response>
+        /// <response code="400">Devuelve un error si la solicitud es inválida, las fechas no están en el formato correcto, 
+        /// las fechas son vacías y no se puede calcular el rango predeterminado, o si el userId no se ha proporcionado o es cero.</response>
         /// <response code="500">Devuelve un error si ocurre un problema interno en el servidor.</response>
         [HttpGet("SearchPaginatedWeights")]
+        [Authorize]
         [ProducesResponseType(typeof(ApiResponse<PaginatedList<WeightDto>>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiResponse<ErrorResponse>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ApiResponse<object>), (int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<ApiResponse<PaginatedList<WeightDto>>>> SearchPaginatedWeights(
+            [FromQuery] int userId,
             [FromQuery] string searchTerm,
             [FromQuery] string startDate,
             [FromQuery] string endDate,
             [FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = 10)
+            [FromQuery] int pageSize = 10
+            )
         {
             _logger.LogInformation("Initiating weight search with searchTerm: {SearchTerm}, startDate: {StartDate}, endDate: {EndDate}, pageNumber: {PageNumber}, pageSize: {PageSize}", searchTerm, startDate, endDate, pageNumber, pageSize);
-            try
+
+            var response = await _weightApplication.SearchWeights(userId, searchTerm, startDate, endDate, pageNumber, pageSize);
+            _logger.LogInformation("Weight search completed successfully. Total records found: {TotalRecords}", response.Data?.TotalCount ?? 0);
+            return response.ResponseCode switch
             {
-                var result = await _weightApplication.SearchWeights(searchTerm, startDate, endDate, pageNumber, pageSize);
-                _logger.LogInformation("Weight search completed successfully. Total records found: {TotalRecords}", result.Data.TotalCount);
-                return Ok(new ApiResponse<PaginatedList<WeightDto>>(200, "Weights retrieved successfully", true, result.Data));
-            }
-            catch (DomainException dex)
-            {
-                _logger.LogWarning("Weight search failed: {Message}", dex.Message);
-                return BadRequest(new ApiResponse<ErrorResponse>(400, dex.Message, false, null));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error occurred during the weight search");
-                return StatusCode((int)HttpStatusCode.InternalServerError, new ApiResponse<object>(500, "Internal server error", false, null));
-            }
+                (int)GenericEnumerator.ResponseCode.Ok => LogAndReturnOk(response),
+                (int)GenericEnumerator.ResponseCode.BadRequest => LogAndReturnBadRequest(response),
+                (int)GenericEnumerator.ResponseCode.InternalError => LogAndReturnInternalError(response),
+                _ => throw new NotImplementedException()
+            };
+
         }
     }
 }
