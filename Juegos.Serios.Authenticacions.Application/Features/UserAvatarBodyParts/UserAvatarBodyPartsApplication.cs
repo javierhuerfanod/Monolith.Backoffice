@@ -74,7 +74,7 @@ namespace Juegos.Serios.Authenticacions.Application.Features.UserAvatarBodyParts
         public async Task<ApiResponse<List<UserBodyPartsResponse>>> SelectByUserId(int userId)
         {
             _logger.LogInformation("Starting to retrieve avatar body parts for user ID: {UserId}", userId);
-            var cacheKey = $"{nameof(UserAvatarBodyPartsApplication)}{nameof(SelectByUserId)}";
+            var cacheKey = $"{nameof(UserAvatarBodyPartsApplication)}{nameof(SelectByUserId)}{userId}";
             var responseApiCache = await _redisCache.GetCacheData<ApiResponse<List<UserBodyPartsResponse>>>(cacheKey);
             if (responseApiCache != null)
             {
@@ -99,7 +99,7 @@ namespace Juegos.Serios.Authenticacions.Application.Features.UserAvatarBodyParts
             catch (DomainException dex)
             {
                 _logger.LogError(dex, "Domain exception while retrieving avatar body parts for user ID: {UserId}", userId);
-                return new ApiResponse<List<UserBodyPartsResponse>> (400, dex.Message, false, null);
+                return new ApiResponse<List<UserBodyPartsResponse>>(400, dex.Message, false, null);
             }
             catch (Exception ex)
             {
