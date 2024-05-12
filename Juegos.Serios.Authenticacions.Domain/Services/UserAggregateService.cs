@@ -372,20 +372,26 @@ namespace Juegos.Serios.Authentications.Domain.Services
 
         private static PasswordRecoveryModel CreateNewPasswordRecovery()
         {
-            string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            string lettersLower = "abcdefghijklmnopqrstuvwxyz";
+            string lettersUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             string numbers = "0123456789";
             string specialChars = "!@#$%^&*";
-            StringBuilder randomPassword = new StringBuilder(5);
 
             Random rand = new Random();
+            StringBuilder randomPassword = new StringBuilder();
+           
+            randomPassword.Append(lettersLower[rand.Next(lettersLower.Length)]);
+            randomPassword.Append(lettersUpper[rand.Next(lettersUpper.Length)]);
+            randomPassword.Append(numbers[rand.Next(numbers.Length)]);
             randomPassword.Append(specialChars[rand.Next(specialChars.Length)]);
-
-            string allChars = letters + numbers;
-            while (randomPassword.Length < 5)
+           
+            string allChars = lettersLower + lettersUpper + numbers + specialChars;
+            int targetLength = rand.Next(8, 17); 
+            while (randomPassword.Length < targetLength)
             {
                 randomPassword.Append(allChars[rand.Next(allChars.Length)]);
             }
-
+           
             char[] passwordArray = randomPassword.ToString().ToCharArray();
             for (int i = 0; i < passwordArray.Length; i++)
             {
@@ -394,6 +400,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
                 passwordArray[i] = passwordArray[j];
                 passwordArray[j] = temp;
             }
+
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(new string(passwordArray));
 
             return new PasswordRecoveryModel
@@ -403,6 +410,7 @@ namespace Juegos.Serios.Authentications.Domain.Services
                 Expiration = DateTime.Now.AddHours(1)
             };
         }
+
     }
 }
 
