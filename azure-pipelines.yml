@@ -10,7 +10,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '78a02977-f501-4149-9f28-bef5043aa4c3'
+  dockerRegistryServiceConnection: '91d7d671-0456-4bfb-865c-253b71864561'
   imageRepository: 'juegosseriosmonolithbackoffice'
   containerRegistry: 'containerjuegoseriosjaveriana.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
