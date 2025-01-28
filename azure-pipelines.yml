@@ -26,6 +26,7 @@ stages:
       - job: Build
         displayName: Build and push image
         pool:
+          name: Azure Pipelines
           vmImage: $(vmImageName)
         steps:
           - task: Docker@2
@@ -46,6 +47,7 @@ stages:
       - job: Deploy
         displayName: Deploy Web App Container
         pool:
+          name: Azure Pipelines
           vmImage: $(vmImageName)
         steps:
           - task: AzureRmWebAppDeployment@4
