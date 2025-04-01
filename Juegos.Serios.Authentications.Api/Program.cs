@@ -18,7 +18,10 @@ string tenantId = builder.Configuration.GetSection("TenantId").Value!;
 string clientId = builder.Configuration.GetSection("ClientId").Value!;
 string clientSecret = builder.Configuration.GetSection("ClientSecret").Value!;
 string simulatedJuegosSeriosMonolithBackofficeSecrets = builder.Configuration.GetSection("BackOffice").Value!;
-ClientSecretCredential credential = new(tenantId, clientId, clientSecret);
+ClientSecretCredential credential = new(tenantId, clientId, clientSecret,new ClientSecretCredentialOptions
+{
+    AdditionallyAllowedTenants = { "*" }
+});
 SecretClient client = new(new Uri(kvUrl), credential);
 builder.Configuration.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
 var simulatedJuegosSeriosMonolithBackofficeJson = client.GetSecret(simulatedJuegosSeriosMonolithBackofficeSecrets).Value.Value;

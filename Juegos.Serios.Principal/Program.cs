@@ -23,7 +23,10 @@ string tenantId = builder.Configuration.GetSection("TenantId").Value!;
 string clientId = builder.Configuration.GetSection("ClientId").Value!;
 string clientSecret = builder.Configuration.GetSection("ClientSecret").Value!;
 string simulatedJuegosSeriosMonolithBackofficeSecrets = builder.Configuration.GetSection("BackOffice").Value!;
-ClientSecretCredential credential = new(tenantId, clientId, clientSecret);
+ClientSecretCredential credential = new(tenantId, clientId, clientSecret,new ClientSecretCredentialOptions
+{
+    AdditionallyAllowedTenants = { "*" }
+});
 SecretClient client = new(new Uri(kvUrl), credential);
 builder.Configuration.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
 var simulatedJuegosSeriosMonolithBackofficeJson = client.GetSecret(simulatedJuegosSeriosMonolithBackofficeSecrets).Value.Value;
@@ -74,7 +77,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     string basePath = AppContext.BaseDirectory;
 
-    // Añade los comentarios XML para la API principal
+    // Aï¿½ade los comentarios XML para la API principal
     var xmlFilePrincipal = "Juegos.Serios.Principal.Api.xml";
     var xmlPathPrincipal = Path.Combine(basePath, xmlFilePrincipal);
     if (File.Exists(xmlPathPrincipal))
@@ -82,7 +85,7 @@ builder.Services.AddSwaggerGen(options =>
         options.IncludeXmlComments(xmlPathPrincipal);
     }
 
-    // Añade los comentarios XML para el proyecto de Autenticación
+    // Aï¿½ade los comentarios XML para el proyecto de Autenticaciï¿½n
     var xmlFileAuth = "Juegos.Serios.Authentications.Api.xml";
     var xmlPathAuth = Path.Combine(basePath, xmlFileAuth);
     if (File.Exists(xmlPathAuth))
@@ -90,7 +93,7 @@ builder.Services.AddSwaggerGen(options =>
         options.IncludeXmlComments(xmlPathAuth, true);
     }
 
-    // Añade los comentarios XML para el proyecto de Bathroom
+    // Aï¿½ade los comentarios XML para el proyecto de Bathroom
     var xmlFileBathroom = "Juegos.Serios.Bathroom.Api.xml";
     var xmlPathBathroom = Path.Combine(basePath, xmlFileBathroom);
     if (File.Exists(xmlPathBathroom))
