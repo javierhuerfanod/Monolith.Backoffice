@@ -1,0 +1,6 @@
+@Juegos.Serios.Notifications_HostAddress = http://localhost:5222
+
+GET {{Juegos.Serios.Notifications_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

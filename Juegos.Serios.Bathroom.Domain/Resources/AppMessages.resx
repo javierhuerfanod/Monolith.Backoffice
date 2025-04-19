@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Api_Badrequest" xml:space="preserve">
+    <value>Datos de entrada no válidos</value>
+  </data>
+  <data name="Api_DateNotInSameYear" xml:space="preserve">
+    <value>La fecha de inicio y la fecha de finalización deben estar dentro del mismo año.</value>
+  </data>
+  <data name="Api_Get_RegisterQuestionnaireAnswer_Created_Response" xml:space="preserve">
+    <value>El formulario se registro exitosamente.</value>
+  </data>
+  <data name="Api_Get_Weight_ValidatedWeight_Response_failed" xml:space="preserve">
+    <value>El peso aun no fue tomado el dia de hoy.</value>
+  </data>
+  <data name="Api_Get_Weight_ValidatedWeight_Response_success" xml:space="preserve">
+    <value>El peso ya fue tomado el dia de hoy.</value>
+  </data>
+  <data name="Api_InvalidDateFormat" xml:space="preserve">
+    <value>El formato de la fecha no es válido. Por favor, usa el formato 'AAAA-MM-DD'.</value>
+  </data>
+  <data name="Api_PageNumber_Invalid" xml:space="preserve">
+    <value>El número de página debe ser mayor que cero.</value>
+  </data>
+  <data name="Api_PageSize_Invalid" xml:space="preserve">
+    <value>El tamaño de página debe ser mayor que cero.</value>
+  </data>
+  <data name="Api_QuestionareAnswers_successfully" xml:space="preserve">
+    <value>Respuestas de questionario obtenidas exitosamente.</value>
+  </data>
+  <data name="Api_Questionnaire_AnswerAlreadyExists" xml:space="preserve">
+    <value>Ya existe una respuesta para el cuestionario asociada con el ID de peso proporcionado.</value>
+  </data>
+  <data name="Api_Questionnaire_InvalidData" xml:space="preserve">
+    <value>Los datos del cuestionario son inválidos o están incompletos.</value>
+  </data>
+  <data name="Api_Questionnaire_InvalidQuestionIDs" xml:space="preserve">
+    <value>Uno o más identificadores de preguntas proporcionados no son válidos o no corresponden al cuestionario.</value>
+  </data>
+  <data name="Api_Questionnaire_InvalidQuestionnaireID" xml:space="preserve">
+    <value>El identificador del cuestionario proporcionado no es válido o no existe.</value>
+  </data>
+  <data name="Api_Questionnaire_MismatchQuestionCount" xml:space="preserve">
+    <value>La cantidad de preguntas proporcionadas no coincide con la cantidad esperada en el cuestionario.</value>
+  </data>
+  <data name="Api_Questionnaire_MismatchQuestionCountDuplicated" xml:space="preserve">
+    <value>Los identificadores de preguntas tiene uno o mas duplicado.</value>
+  </data>
+  <data name="Api_Servererror" xml:space="preserve">
+    <value>Ocurrio un error, comuniquese con el administrador.</value>
+  </data>
+  <data name="Api_StartDateGreaterThanEndDate" xml:space="preserve">
+    <value>La fecha de inicio no puede ser posterior a la fecha de finalización.</value>
+  </data>
+  <data name="Api_Weight_InvalidCreatedUser" xml:space="preserve">
+    <value>La fecha de creación del usuario no debe estar vacía.</value>
+  </data>
+  <data name="Api_Weight_InvalidUserId" xml:space="preserve">
+    <value>El usuario no debe estar vacio.</value>
+  </data>
+  <data name="Api_Weight_InvalidWeight" xml:space="preserve">
+    <value>El peso registrado no debe estar vacío.</value>
+  </data>
+  <data name="Api_Weight_InvalidWeight_NotFound" xml:space="preserve">
+    <value>El identificador del peso no existe.</value>
+  </data>
+  <data name="Api_Weight_InvalidWeight_null" xml:space="preserve">
+    <value>No se tomo formulario para ese peso y ese usuario.</value>
+  </data>
+  <data name="Api_Weight_NoPreviousRecords" xml:space="preserve">
+    <value>No se encontraron pesos, comuniquese con el administrador.</value>
+  </data>
+  <data name="Api_Weight_UserId_Invalid" xml:space="preserve">
+    <value>Identificador de usuario inválido. El identificador de usuario debe ser mayor que cero.</value>
+  </data>
+  <data name="Api_Weigths_paginated_successfully" xml:space="preserve">
+    <value>Pesos recuperados con éxito.</value>
+  </data>
+  <data name="Domain_Weight_IsEqual" xml:space="preserve">
+    <value>El peso se mantiene.</value>
+  </data>
+  <data name="Domain_Weight_IsSuperiorByOne" xml:space="preserve">
+    <value>El peso aumento 1 kilo.</value>
+  </data>
+  <data name="Domain_Weight_IsSuperiorByTwo" xml:space="preserve">
+    <value>El peso es igual o superior a 2 kilo.</value>
+  </data>
+  <data name="Domain_Weight_IsTakeToday" xml:space="preserve">
+    <value>El peso ya fue tomado el dia de hoy.</value>
+  </data>
+</root>

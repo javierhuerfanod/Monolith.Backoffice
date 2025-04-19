@@ -1,0 +1,60 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  - Development
+
+resources:
+  - repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '91d7d671-0456-4bfb-865c-253b71864561'
+  imageRepository: 'juegosseriosmonolithbackoffice'
+  containerRegistry: 'containerjuegoseriosjaveriana.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: Build
+    displayName: Build and push stage
+    jobs:
+      - job: Build
+        displayName: Build and push image
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and push an image to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(dockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+  - stage: Deploy
+    displayName: Deploy to Azure Web App
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - job: Deploy
+        displayName: Deploy Web App Container
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: AzureRmWebAppDeployment@4
+            displayName: Deploy to Azure Web App
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Service Connection Juegos Serios Javeriana'
+              appType: 'webAppContainer'
+              WebAppName: 'App-Juegos-Serios-Javeriana-Backoffice'
+              DockerNamespace: $(containerRegistry)
+              DockerRepository: $(imageRepository)
+              DockerImageTag: $(tag)

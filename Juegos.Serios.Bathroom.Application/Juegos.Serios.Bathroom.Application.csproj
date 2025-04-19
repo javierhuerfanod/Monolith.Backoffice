@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Juegos.Serios.Bathroom.Domain\Juegos.Serios.Bathroom.Domain.csproj" />
+    <ProjectReference Include="..\Juegos.Serios.RedisCache\Juegos.Serios.Shared.RedisCache.csproj" />
+    <ProjectReference Include="..\Juegos.Serios.Shared.Application\Juegos.Serios.Shared.Application.csproj" />
+    <ProjectReference Include="..\Juegos.Serios.Shared.AzureQueue\Juegos.Serios.Shared.AzureQueue.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Dtos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\BathroomHtml\AppBathroomMessages.Designer.cs">
+      <DependentUpon>AppBathroomMessages.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\BathroomHtml\AppBathroomMessages.resx">
+      <LastGenOutput>AppBathroomMessages.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
